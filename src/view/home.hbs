@@ -1,0 +1,25 @@
+{{> header }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h1>Spotie</h1>
+                <p>Web app in nodejs to display spotify data.</p>
+            </div>
+
+            <!-- Search Form -->
+            <form action="/search/" method="get">
+                <div class="input-group input-group-lg">
+                    <input type="text" name="q" placeholder="Artist name to search.." class="form-control" required />
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn">Search</button>
+                    </div>
+                </div>
+            </form>
+            <!-- /Search Form -->
+        </div>
+    </div>
+</div>
+
+{{> footer }}

@@ -1,0 +1,25 @@
+{{> header }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Resulsts for: {{ query }}</div>
+                <table class="table">
+                    <tbody>
+                        {{#each artists.items}}
+                            <tr>
+                                <td><img src="{{ this.images.2.url }}" alt=""/></td>
+                                <td>{{ this.name }}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{> footer }}
