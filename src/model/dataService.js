@@ -2,6 +2,7 @@
 
 const spotify = require('../data/SpotifyRepository')
 const Artist = require('./Artist')
+const Colection = require('./Colection')
 
 const methods = {}
 
@@ -18,13 +19,22 @@ methods.searchArtist = function(name, offset, cb) {
         }
 
         let artists = json.artists.items.map(function (item) {
-            return new Artist(item.name)
+            // Spotify images array have 3 ou 0 items
+            const image = item.images.length == 3 ? item.images[1].url : null
+
+            return new Artist(
+                item.id,
+                item.name,
+                image,
+                item.genres.slice(), // duplicate array
+                item.popularity,
+                item.type,
+                item.uri,
+                item.followers.total
+            )
         })
 
-        console.log(artists);
-        console.log(json.artists.items);
-
-        cb(null, json)
+        cb(null, new Colection(json.artists.offset, json.artists.limit, json.artists.total, artists))
     })
 }
 

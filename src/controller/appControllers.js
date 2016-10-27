@@ -3,6 +3,14 @@
 const viewService = require('../model/viewService')
 const dataService = require('../model/dataService')
 const utils = require('../Utils')
+const fs = require('fs')
+
+const contentType = {
+    html: "text/html",
+    json: "application/json",
+    css: "text/css"
+}
+
 const controllers = {}
 
 /**
@@ -11,9 +19,9 @@ const controllers = {}
  * @param response
  */
 controllers.home = function (request, response) {
-    response.writeHead(200, {'Content-Type': 'text/html'})
+    response.writeHead(200, {'Content-Type': contentType.html})
 
-    response.end(viewService.get('home', {title: "Homepage"}))
+    response.end(viewService.render('home', {title: "Homepage"}))
 }
 
 /**
@@ -22,20 +30,21 @@ controllers.home = function (request, response) {
  * @param response
  */
 controllers.search = function (request, response) {
-    response.writeHead(200, {'Content-Type': 'text/html'})
+    response.writeHead(200, {'Content-Type': contentType.html})
     const params = utils.getParameters(request.url)
     const offset = params.offset || 0
     const artist = params.q || request.url.split('/')[2]
 
-    if(!artist)
+    if (!artist)
         return errorResponse("No artist provided!", response)
 
-    dataService.searchArtist(artist, offset, (err, data) => {
-        if(err)
+    dataService.searchArtist(artist, offset, (err, collection) => {
+        if (err)
             return errorResponse(err, response)
 
-        data.query = artist
-        response.end(viewService.get('search', data))
+        collection.query = artist
+        collection.title = collection.total + " Results for " + artist
+        response.end(viewService.render('search', collection))
     })
 }
 
@@ -46,13 +55,30 @@ controllers.search = function (request, response) {
  */
 const specialControllers = {}
 
+/**
+ * Not found controller
+ * @param request
+ * @param response
+ */
 specialControllers.notFound = function (request, response) {
-    response.writeHead(404, {'Content-Type': 'text/html'})
-    response.end(viewService.get('404', {title: 'Page Not Found! :('}))
+    response.writeHead(404, {'Content-Type': contentType.html})
+    response.end(viewService.render('404', {title: 'Page Not Found! :('}))
 }
 
-specialControllers.error = function (request, response) {
-    errorResponse("Sorry! Something went wrong! Our fault..", response)
+/**
+ * CSS controller, just a hack before using express.js
+ * @param request
+ * @param response
+ */
+specialControllers.css = function (request, response) {
+    response.writeHead(200, {'Content-Type': contentType.css})
+
+    fs.readFile('./public/styles.css', (err, data) => {
+        if(err)
+            return errorResponse("Failed to obtain css", response)
+
+        response.end(data.toString())
+    })
 }
 
 /**
@@ -61,8 +87,8 @@ specialControllers.error = function (request, response) {
  * @param response
  */
 function errorResponse(message, response) {
-    response.writeHead(500, {'Content-Type': 'text/html'})
-    response.end(viewService.get('500', {title: 'Ooops! Error :(', message: message}))
+    response.writeHead(500, {'Content-Type': contentType.html})
+    response.end(viewService.render('500', {title: 'Ooops! Error :(', message: message}))
 }
 
 module.exports.controllers = controllers

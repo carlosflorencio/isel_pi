@@ -18,10 +18,9 @@ console.log('HTTP Server running on port ' + port)
  * @param resp
  */
 function processRequests(req, resp) {
-    const endPoint = getEndPoint(req.url)
-    const handler = getHandler(endPoint)
+    const handler = getHandler(req.url)
 
-    handler(req, resp);
+    handler(req, resp)
 }
 
 /*
@@ -44,12 +43,23 @@ function getEndPoint(uri) {
 
 /**
  * Get the right handler for each endPoint
- * @param endPoint
+ * @param url
  * @return {*}
  */
-function getHandler(endPoint) {
+function getHandler(url) {
+    const endPoint = getEndPoint(url)
+
+    if(isCSS(url)) // hack before using express
+        return handlers.special.css
+    
     if(handlers.controllers.hasOwnProperty(endPoint))
         return handlers.controllers[endPoint]
     else
         return handlers.special.notFound
+}
+
+function isCSS(url) {
+    const parts = url.split('/')
+
+    return parts[parts.length - 1] == 'styles.css'
 }

@@ -18,7 +18,7 @@ const views = {}
  * @param data
  * @return {string}
  */
-views.get = (viewName, data) => {
+views.render = (viewName, data) => {
     const page = fs.readFileSync(viewsDir + '/' + viewName +'.hbs').toString()
 
     return handlebars.compile(page)(data)

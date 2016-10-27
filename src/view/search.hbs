@@ -5,13 +5,25 @@
         <div class="col-md-12">
 
             <div class="panel panel-default">
-                <div class="panel-heading">Resulsts for: {{ query }}</div>
+                <div class="panel-heading">{{ total }} Results for: {{ query }}</div>
                 <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Followers</th>
+                            <th>Spotify</th>
+                            <th>Genres</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        {{#each artists.items}}
+                        {{#each items}}
                             <tr>
-                                <td><img src="{{ this.images.2.url }}" alt=""/></td>
+                                <td><img width="100" src="{{ this.getImageUrl }}" alt=""/></td>
                                 <td>{{ this.name }}</td>
+                                <td>{{ this.followers }}</td>
+                                <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
+                                <td>{{ this.getGenresString }}</td>
                             </tr>
                         {{/each}}
                     </tbody>
