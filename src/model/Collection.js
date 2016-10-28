@@ -9,7 +9,7 @@
  * @param items
  * @constructor
  */
-function Colection(offset, limit, total, items) {
+function Collection(offset, limit, total, items) {
     this.offset = offset
     this.limit = limit
     this.total = total
