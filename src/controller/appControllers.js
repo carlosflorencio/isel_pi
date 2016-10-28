@@ -29,7 +29,15 @@ controllers.search = function (request, callback) {
     if (!artist)
         return callback("No artist provided!")
 
+    dataService.searchArtist(artist, offset, (err, collection) => {
+        if (err)
+            return callback(err)
 
+        collection.query = artist
+        collection.title = collection.total + " Results for " + artist
+
+        callback(null, viewService.render('search', collection))
+    })
 
 }
 
