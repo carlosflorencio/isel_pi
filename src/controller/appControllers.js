@@ -1,9 +1,9 @@
 "use strict";
 
-const viewService = require('../model/viewService')
-const dataService = require('../model/dataService')
+const viewService = require('../model/service/viewService')
+const dataService = require('../model/service/dataService')
 const utils = require('../Utils')
-const cacheService = require('../model/cacheService')
+const cacheService = require('../model/service/cacheService')
 
 const controllers = {}
 

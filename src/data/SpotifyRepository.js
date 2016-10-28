@@ -3,7 +3,7 @@
 const https = require('https');
 const sprintf = require('sprintf')
 
-const JsonResponse = require('../model/JsonResponse')
+const JsonResponse = require('../model/entity/JsonResponse')
 
 const url = "https://api.spotify.com/v1"
 const api = {

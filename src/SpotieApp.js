@@ -3,7 +3,7 @@
 const port = process.argv[2] || 3000
 const http = require('http')
 const handlers = require('./controller/appControllers')
-const view = require('./model/viewService')
+const view = require('./model/service/viewService')
 const fs = require('fs')
 
 const contentType = {

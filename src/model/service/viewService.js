@@ -3,7 +3,7 @@
 const handlebars = require('handlebars')
 const fs = require('fs')
 
-const viewsDir = __dirname + '/../view'
+const viewsDir = __dirname + '/../../view'
 const headerTemplate = fs.readFileSync(viewsDir + '/partials/header.hbs').toString()
 const footerTemplate = fs.readFileSync(viewsDir + '/partials/footer.hbs').toString()
 

@@ -1,7 +1,7 @@
 "use strict";
 
-const Artist = require('./Artist')
-const Collection = require('./Colection')
+const Artist = require('./../entity/Artist')
+const Collection = require('../entity/Collection')
 
 /**
  * Maps json object to a collection of Artists
