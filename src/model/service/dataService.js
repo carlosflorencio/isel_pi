@@ -1,6 +1,6 @@
 "use strict";
 
-const spotify = require('../data/SpotifyRepository')
+const spotify = require('../../data/SpotifyRepository')
 const mapper = require('./mapperService')
 
 const methods = {}

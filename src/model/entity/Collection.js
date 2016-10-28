@@ -20,7 +20,7 @@ function Collection(offset, limit, total, items) {
  * Get how many pages we have
  * @return {*}
  */
-Colection.prototype.getTotalPages = function () {
+Collection.prototype.getTotalPages = function () {
     return Math.ceil(this.total / this.limit)
 }
 
@@ -28,7 +28,7 @@ Colection.prototype.getTotalPages = function () {
  * Get the currente page
  * @return {number}
  */
-Colection.prototype.getCurrentPage = function () {
+Collection.prototype.getCurrentPage = function () {
     return Math.ceil(this.offset / this.limit) + 1
 }
 
@@ -36,7 +36,7 @@ Colection.prototype.getCurrentPage = function () {
  * See if there is a next page to navigate
  * @return {boolean}
  */
-Colection.prototype.hasNext = function () {
+Collection.prototype.hasNext = function () {
     return this.getCurrentPage() < this.getTotalPages()
 }
 
@@ -44,8 +44,8 @@ Colection.prototype.hasNext = function () {
  * See if there is a previous page to navigate
  * @return {boolean}
  */
-Colection.prototype.hasPrevious = function () {
+Collection.prototype.hasPrevious = function () {
     return this.getCurrentPage() > 1
 }
 
-module.exports = Colection
+module.exports = Collection
