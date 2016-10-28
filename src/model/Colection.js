@@ -21,7 +21,7 @@ function Colection(offset, limit, total, items) {
  * @return {*}
  */
 Colection.prototype.getTotalPages = function () {
-    return Math.cel(this.total / this.limit)
+    return Math.ceil(this.total / this.limit)
 }
 
 /**

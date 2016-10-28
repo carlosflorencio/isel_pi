@@ -10,18 +10,28 @@ const footerTemplate = fs.readFileSync(viewsDir + '/partials/footer.hbs').toStri
 handlebars.registerPartial("header", headerTemplate)
 handlebars.registerPartial("footer", footerTemplate)
 
+/**
+ * Cache n1
+ * @type
+ */
+let memory = {}
+
 const views = {}
 
 /**
- * Get the view
+ * Get the view cached or not cached
  * @param viewName
  * @param data
  * @return {string}
  */
 views.render = (viewName, data) => {
-    const page = fs.readFileSync(viewsDir + '/' + viewName +'.hbs').toString()
+    if(memory[viewName])
+        return memory[viewName](data)
 
-    return handlebars.compile(page)(data)
+    const page = fs.readFileSync(viewsDir + '/' + viewName +'.hbs').toString()
+    memory[viewName] = handlebars.compile(page)
+
+    return memory[viewName](data)
 }
 
 module.exports = views

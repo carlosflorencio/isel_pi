@@ -31,6 +31,7 @@ controllers.home = function (request, response) {
  */
 controllers.search = function (request, response) {
     response.writeHead(200, {'Content-Type': contentType.html})
+    // HTTP Cache-Control:public, max-age=7200
     const params = utils.getParameters(request.url)
     const offset = params.offset || 0
     const artist = params.q || request.url.split('/')[2]
