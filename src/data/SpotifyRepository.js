@@ -3,6 +3,8 @@
 const https = require('https');
 const sprintf = require('sprintf')
 
+const JsonResponse = require('../model/JsonResponse')
+
 const url = "https://api.spotify.com/v1"
 const api = {
     searchArtist: url + "/search?type=artist&q=%s&offset=%s",
@@ -38,10 +40,20 @@ module.exports = spotify
  * @param callback (err, response)
  */
 function get(uri, callback) {
-    https.get(uri, (resp) => {
-        let res = ''
-        resp.on('error', callback)
-        resp.on('data', chunck => res += chunck.toString())
-        resp.on('end', () => callback(null, JSON.parse(res)))
-    })
+    let cache = false
+    if(cache){
+
+    } else {
+        https.get(uri, (resp) => {
+            let res = ''
+            resp.on('error', callback)
+            resp.on('data', chunk => res += chunk.toString())
+            resp.on('end', () => {
+                callback(null, new JsonResponse(
+                    resp.headers['cache-control'].split('=')[1],
+                    JSON.parse(res))
+                )
+            })
+        })
+    }
 }
