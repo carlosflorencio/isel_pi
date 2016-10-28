@@ -26,18 +26,19 @@ console.log('HTTP Server running on port ' + port)
  * @param resp
  */
 function processRequests(req, resp) {
+    console.log("Request for: " + req.url);
     const handler = getHandler(req.url)
+
+    if(isCSS(req.url)) // will be removed when using express.js
+        return setResponseCss(resp)
 
     if(!handler) {
         return setResponseNotFound(resp)
     }
 
-    if(isCSS(req.url)) // will be removed when using express.js
-        return setResponseCss(resp)
-
     handler(req, (err, view) => {
         if(err)
-            return setErrorResponse(resp)
+            return setErrorResponse(resp, err)
 
         resp.writeHead(200, {'Content-Type': contentType.html})
         resp.end(view)
