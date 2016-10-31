@@ -43,8 +43,11 @@ controllers.search = function (request, callback) {
 
 controllers.artists = function (request, callback) {
     const pathname = utils.getPathname(request.url)
-    const id = pathname.split('/')[2]       //TODO: improve this
+    const id = pathname.split('/')[2]
     const offset = 0
+
+    if(!id)
+        return callback("No artist id provided")
 
     cacheController.fetchArtist(id, offset, (err, view) => {
         if(err)
@@ -61,7 +64,6 @@ controllers.artists = function (request, callback) {
             //TODO: cache service
         }
     })
-
 }
 
 module.exports.controllers = controllers
