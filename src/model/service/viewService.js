@@ -6,9 +6,11 @@ const fs = require('fs')
 const viewsDir = __dirname + '/../../view'
 const headerTemplate = fs.readFileSync(viewsDir + '/partials/header.hbs').toString()
 const footerTemplate = fs.readFileSync(viewsDir + '/partials/footer.hbs').toString()
+const searchbarTemplate = fs.readFileSync(viewsDir + '/partials/searchbar.hbs').toString()
 
 handlebars.registerPartial("header", headerTemplate)
 handlebars.registerPartial("footer", footerTemplate)
+handlebars.registerPartial("searchbar", searchbarTemplate)
 
 /**
  * Cache n1
