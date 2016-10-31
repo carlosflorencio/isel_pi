@@ -20,4 +20,13 @@ methods.searchArtist = function(name, offset, cb) {
     })
 }
 
+methods.getArtist = function (id, offset, cb) {
+    spotify.getArtist(id, offset, (err, jsonResponse) => {
+        if(err || jsonResponse.json.error) {
+            return cb(err ? err : jsonResponse.json.error.message)
+        }
+        cb(null, mapper.artist(jsonResponse.json))
+    })
+}
+
 module.exports = methods

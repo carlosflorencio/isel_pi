@@ -19,8 +19,8 @@
                     <tbody>
                         {{#each items}}
                             <tr>
-                                <td><img width="100" src="{{ this.getImageUrl }}" alt=""/></td>
-                                <td>{{ this.name }}</td>
+                                <td><img width="100" src="{{ this.getSmallerImageUrl }}" alt=""/></td>
+                                <td><a href="/artists/{{this.id}}">{{ this.name }}</a></td>
                                 <td>{{ this.followers }}</td>
                                 <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
                                 <td>{{ this.getGenresString }}</td>

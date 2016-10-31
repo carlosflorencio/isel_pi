@@ -1,0 +1,31 @@
+{{> header }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 align='center'>{{this.name}}</h1>
+            <div align="center"><img src={{this.getBiggestImageUrl}} class="img-fluid" alt="Responsive image"></div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Spotify</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each items}}
+                    <tr>
+                        <td><img width="100" src="{{ this.getSmallerImageUrl }}" alt=""/></td>
+                        <td>{{ this.name }}</td>
+                        <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{{> footer }}

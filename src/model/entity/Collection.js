@@ -25,7 +25,7 @@ Collection.prototype.getTotalPages = function () {
 }
 
 /**
- * Get the currente page
+ * Get the current page
  * @return {number}
  */
 Collection.prototype.getCurrentPage = function () {

@@ -26,6 +26,11 @@ spotify.searchArtist = function (artist, offset, cb) {
     get(uri, cb)
 }
 
+spotify.getArtist = function (id, offset, cb) {
+    const uri = sprintf(api.artistInfo, encodeURIComponent(id), offset)
+    get(uri, cb)
+}
+
 module.exports = spotify
 
 /*

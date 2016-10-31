@@ -88,7 +88,7 @@ function setErrorResponse(response, errorMessage) {
  * @param response
  */
 function setResponseCss(response) {
-    fs.readFile('./public/styles.css', (err, data) => {
+    fs.readFile('../public/styles.css', (err, data) => {
         if(err)
             return setErrorResponse(response, "Failed to obtain css")
 

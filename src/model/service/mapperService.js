@@ -11,12 +11,11 @@ const Collection = require('../entity/Collection')
 function mapArtistsToCollection(json) {
     let artists = json.artists.items.map(function (item) {
         // Spotify images array have 3 ou 0 items
-        const image = item.images.length == 3 ? item.images[1].url : null
 
         return new Artist(
             item.id,
             item.name,
-            image,
+            item.images,
             item.genres.slice(), // duplicate array
             item.popularity,
             item.type,
@@ -33,7 +32,21 @@ function mapArtistsToCollection(json) {
  * @param json json object
  */
 function mapArtist(json){
+    return new Artist(
+        json.id,
+        json.name,
+        json.images,
+        json.genres,
+        json.popularity,
+        json.type,
+        json.uri,
+        json.followers.total
+    )
+}
 
+function getSmallerImage(images){
+    return images.length > 0 ? images[images.length-1] : null
 }
 
 module.exports.artistsToCollection = mapArtistsToCollection
+module.exports.artist = mapArtist
