@@ -48,4 +48,28 @@ Collection.prototype.hasPrevious = function () {
     return this.getCurrentPage() > 1
 }
 
+Collection.prototype.isFirst = function() {
+    return this.offset == 0
+}
+
+Collection.prototype.isLast = function() {
+    return this.offset+this.items.length == this.total
+}
+
+Collection.prototype.getPreviousPageOffset = function() {
+    return this.offset-this.limit
+}
+
+Collection.prototype.getNextPageOffset = function() {
+    return this.offset+this.limit
+}
+
+Collection.prototype.getFirstPageOffset = function() {
+    return 0
+}
+
+Collection.prototype.getLastPageOffset = function() {
+    return this.total-this.limit
+}
+
 module.exports = Collection

@@ -15,7 +15,6 @@
                             <th>Name</th>
                             <th>Followers</th>
                             <th>Spotify</th>
-                            <th>Genres</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,13 +24,19 @@
                                 <td><a href="/artists/{{this.id}}">{{ this.name }}</a></td>
                                 <td>{{ this.followers }}</td>
                                 <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
-                                <td>{{ this.getGenresString }}</td>
+
                             </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
 
+            <div class="clearfix">
+                <a class="btn-mine btn btn-primary pull-left {{#if this.isFirst}}disabled{{/if}}" href={{this.getFirstPage}}>First</a>
+                <a class="btn-mine btn btn-primary pull-left {{#unless this.hasPrevious}}disabled{{/unless}}" href={{this.getPreviousPage}}>Previous</a>
+                <a class="btn-mine btn btn-primary pull-right {{#if this.isLast}}disabled{{/if}}" href={{this.getLastPage}}>Last</a>
+                <a class="btn-mine btn btn-primary pull-right {{#unless this.hasNext}}disabled{{/unless}}" href={{this.getNextPage}}>Next</a>
+            </div>
         </div>
     </div>
 </div>
