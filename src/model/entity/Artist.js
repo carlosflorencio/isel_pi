@@ -24,14 +24,9 @@ function Artist(id, name, image, genres, popularity, type, uri, totalFollowers) 
 }
 
 /**
- * Avatar url
- * TODO: change this default avatar
+ * Convert the Genres array to a string representation
  * @return {*|string}
  */
-Artist.prototype.getImageUrl = function () {
-        return this.image || 'http://www.apsono.com/media/com_joomprofile/images/default.png'
-}
-
 Artist.prototype.getGenresString = function () {
     return this.genres.join(', ')
 }

@@ -13,9 +13,9 @@ const methods = {}
  */
 methods.searchArtist = function(name, offset, cb) {
     spotify.searchArtist(name, offset, (err, jsonResponse) => {
-        if(err || jsonResponse.json.error) {
+        if(err || jsonResponse.json.error)
             return cb(err ? err : jsonResponse.json.error.message)
-        }
+
         cb(null, mapper.artistsToCollection(jsonResponse.json))
     })
 }

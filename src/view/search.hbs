@@ -13,17 +13,15 @@
                             <th>Name</th>
                             <th>Followers</th>
                             <th>Spotify</th>
-                            <th>Genres</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each items}}
                             <tr>
-                                <td><img width="100" src="{{ this.getImageUrl }}" alt=""/></td>
-                                <td>{{ this.name }}</td>
+                                <td><img width="100" src="{{ this.image }}" alt=""/></td>
+                                <td>{{ limit this.name 30 }}</td>
                                 <td>{{ this.followers }}</td>
                                 <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
-                                <td>{{ this.getGenresString }}</td>
                             </tr>
                         {{/each}}
                     </tbody>

@@ -2,6 +2,7 @@
 
 const Artist = require('./../entity/Artist')
 const Collection = require('../entity/Collection')
+const config = require('../../config.json')
 
 /**
  * Maps json object to a collection of Artists
@@ -10,13 +11,11 @@ const Collection = require('../entity/Collection')
  */
 function mapArtistsToCollection(json) {
     let artists = json.artists.items.map(function (item) {
-        // Spotify images array have 3 ou 0 items
-        const image = item.images.length == 3 ? item.images[1].url : null
 
         return new Artist(
             item.id,
             item.name,
-            image,
+            getImageFromJsonArray(item.images, 'img/defaultAvatar.png'),
             item.genres.slice(), // duplicate array
             item.popularity,
             item.type,
@@ -34,6 +33,22 @@ function mapArtistsToCollection(json) {
  */
 function mapArtist(json){
 
+}
+
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
+function getImageFromJsonArray(images, imgDefault = null) {
+    const size = images.length
+    if(size == 0)
+        return config.base_url + ':' + config.port + '/' + imgDefault
+
+    // Get the image with 200px
+    let res = images.filter(img => img.width == 200)
+
+    return res.length == 1 ? res[0].url : images[0].url
 }
 
 module.exports.artistsToCollection = mapArtistsToCollection

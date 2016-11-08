@@ -1,15 +1,18 @@
 "use strict";
 
-const port = process.argv[2] || 3000
 const http = require('http')
 const handlers = require('./controller/appControllers')
 const view = require('./model/service/viewService')
 const fs = require('fs')
+const config = require('./config.json')
+const port = config.port
 
 const contentType = {
     html: "text/html",
     json: "application/json",
-    css: "text/css"
+    css: "text/css",
+    ico: "image/vnd.microsoft.icon",
+    png: "image/png"
 }
 
 /*
@@ -29,8 +32,8 @@ function processRequests(req, resp) {
     console.log("Request for: " + req.url);
     const handler = getHandler(req.url)
 
-    if(isCSS(req.url)) // will be removed when using express.js
-        return setResponseCss(resp)
+    if(isAsset(req.url)) // hack before express.js
+        return setAssetResponse(resp, req.url)
 
     if(!handler) {
         return setResponseNotFound(resp)
@@ -83,17 +86,19 @@ function setErrorResponse(response, errorMessage) {
 }
 
 /**
- * Helper to serve CSS
- * Will be removed when using express.js
+ * Helper to serve a file
  * @param response
+ * @param filepath
+ * @param mimetype
+ * @param bytesResponse
  */
-function setResponseCss(response) {
-    fs.readFile('./public/styles.css', (err, data) => {
+function setResponseFile(response, filepath, mimetype, bytesResponse = false) {
+    fs.readFile(filepath, (err, data) => {
         if(err)
-            return setErrorResponse(response, "Failed to obtain css")
+            return setErrorResponse(response, "Failed to load " + filepath)
 
-        response.writeHead(200, {'Content-Type': contentType.css})
-        response.end(data.toString())
+        response.writeHead(200, {'Content-Type': mimetype})
+        response.end(bytesResponse ? data : data.toString())
     })
 }
 
@@ -111,12 +116,37 @@ function getEndPoint(uri) {
 }
 
 /**
- * Helper to serve css to that path
- * @param url
+ * Test if the current uri is an asset path
+ * @param uri
  * @return {boolean}
  */
-function isCSS(url) {
-    const parts = url.split('/')
+function isAsset(uri) {
 
-    return parts[parts.length - 1] == 'styles.css'
+    const assetsPaths = ['/css/', '/img/', 'favicon.ico']
+
+    for(let i = 0; i < assetsPaths.length; i++) {
+        if(uri.indexOf(assetsPaths[i]) != -1)
+            return true
+    }
+
+    return false
+}
+
+/**
+ * Affect the response with the right asset content
+ * @param resp
+ * @param uri
+ */
+function setAssetResponse(resp, uri) {
+    const parts = uri.split('/')
+    const file = parts[parts.length - 1]
+
+    if(uri.indexOf('/css/') != -1)
+        return setResponseFile(resp, './public/css/' + file, contentType.css)
+
+    if(uri.indexOf('favicon.ico') != -1)
+        return setResponseFile(resp, './public/favicon.ico', contentType.ico, true)
+
+    // TODO: the mimetype of the image can be jpg, gif, png, etc.
+    return setResponseFile(resp, './public/img/' + file, contentType.png, true)
 }
