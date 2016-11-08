@@ -3,7 +3,7 @@
 const viewService = require('../model/service/viewService')
 const dataService = require('../model/service/dataService')
 const utils = require('../Utils')
-const cacheService = require('../model/service/cacheService')
+const cacheController = require('../controller/cacheController')
 
 const controllers = {}
 
@@ -41,24 +41,29 @@ controllers.search = function (request, callback) {
 
 }
 
-controllers.artist = function (request, callback) {
-    const id = 1
+controllers.artists = function (request, callback) {
+    const pathname = utils.getPathname(request.url)
+    const id = pathname.split('/')[2]
     const offset = 0
 
-    cacheService.fetchArtist(id, offset, (err, view) => {
+    if(!id)
+        return callback("No artist id provided")
+
+    cacheController.fetchArtist(id, offset, (err, view) => {
         if(err)
            return callback(err)
 
-        if(!view) {
-
-            // ir buscar os dados, e adicionar à cache
-
+        if(view == null) {
+            dataService.getArtist(id, offset, (err, data) => {
+                if(err){
+                    return callback(err)
+                }
+                callback(null, viewService.render('artist', data))
+            })
+        }else {
+            //TODO: cache service
         }
-
-
-        callback(null, view)
     })
-
 }
 
 module.exports.controllers = controllers

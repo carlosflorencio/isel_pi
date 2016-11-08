@@ -9,7 +9,7 @@ const url = "https://api.spotify.com/v1"
 const api = {
     searchArtist: url + "/search?type=artist&q=%s&offset=%s",
     artistInfo: url + "/artists/%s",
-    artistAlbuns: url + "/artists/%s/album",
+    artistAlbuns: url + "/artists/%s/albums",
     albumInfo: url + '/albums/%s'
 }
 
@@ -23,6 +23,16 @@ const spotify = {}
  */
 spotify.searchArtist = function (artist, offset, cb) {
     const uri = sprintf(api.searchArtist, encodeURIComponent(artist), offset)
+    get(uri, cb)
+}
+
+spotify.getArtist = function (id, offset, cb) {
+    const uri = sprintf(api.artistInfo, encodeURIComponent(id))
+    get(uri, cb)
+}
+
+spotify.getArtistAlbums = function (id, offset, cb) {
+    const uri = sprintf(api.artistAlbuns, encodeURIComponent(id))
     get(uri, cb)
 }
 

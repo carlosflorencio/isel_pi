@@ -2,17 +2,17 @@
 
 /**
  * Artist Entity
- * @param id
- * @param name
- * @param image
- * @param genres
- * @param popularity
- * @param type
+ * @param id    id of the artist
+ * @param name  name of the artist
+ * @param images images of the artist
+ * @param genres genres played by the artist
+ * @param popularity popularity of the artist
  * @param uri
  * @param totalFollowers
+ * @param albums Collection of albums
  * @constructor
  */
-function Artist(id, name, image, genres, popularity, type, uri, totalFollowers) {
+function Artist(id, name, images, genres, popularity, type, uri, totalFollowers, albums) {
     this.id = id
     this.name = name
     this.image = image
@@ -21,6 +21,7 @@ function Artist(id, name, image, genres, popularity, type, uri, totalFollowers) 
     this.type = type
     this.uri = uri
     this.followers = totalFollowers
+    this.albums = albums
 }
 
 /**
