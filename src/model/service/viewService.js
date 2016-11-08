@@ -8,9 +8,6 @@ const headerTemplate = fs.readFileSync(viewsDir + '/partials/header.hbs').toStri
 const footerTemplate = fs.readFileSync(viewsDir + '/partials/footer.hbs').toString()
 const searchbarTemplate = fs.readFileSync(viewsDir + '/partials/searchbar.hbs').toString()
 
-handlebars.registerPartial("header", headerTemplate)
-handlebars.registerPartial("footer", footerTemplate)
-handlebars.registerPartial("searchbar", searchbarTemplate)
 
 /**
  * Cache n1
@@ -43,9 +40,9 @@ module.exports = views
 | Handlebars configuration
 |--------------------------------------------------------------------------
 */
-
 handlebars.registerPartial("header", headerTemplate)
 handlebars.registerPartial("footer", footerTemplate)
+handlebars.registerPartial("searchbar", searchbarTemplate)
 
 handlebars.registerHelper('limit', function (str, limit) {
     if(str.length > limit) {

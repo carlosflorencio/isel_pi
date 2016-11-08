@@ -5,84 +5,117 @@ const Collection = require('../entity/Collection')
 const config = require('../../config.json')
 const Album = require('../entity/Album')
 
+// TODO: test this service
+
+const exports = {}
+
 /**
- * Maps json object to a collection of Artists
+ * Maps spotify search artists json object to a collection of Artists
  *
- * @param json json object
+ * @param json Artists Search Json
  */
-function mapArtistsToCollection(json) {
-    let artists = json.artists.items.map(function (item) {
+exports.mapArtistsToCollection = function(json) {
+    let artists = json.artists.items.map(artist => this.mapArtist(artist))
 
-        return new Artist(
-            item.id,
-            item.name,
-            getImageFromJsonArray(item.images, 'img/defaultAvatar.png'),
-            item.genres.slice(), // duplicate array
-            item.popularity,
-            item.type,
-            item.uri,
-            item.followers.total
-        )
-    })
-    return new Collection(json.artists.offset, json.artists.limit, json.artists.total, artists)
-}
-
-function mapAlbumsToCollection(json){
-    let albums = json.items.map(function (item) {
-        // Spotify images array have 3 ou 0 items
-
-        return new Album(
-            item.id,
-            item.name,
-            item.uri,
-            item.images,
-            item.type
-        )
-    })
-    return new Collection(json.offset, json.limit, json.total, albums)
+    return new Collection(
+        json.artists.offset,
+        json.artists.limit,
+        json.artists.total,
+        artists)
 }
 
 /**
- * Maps json object to an Artist
+ * Maps spotify albuns json object to a collection of Albuns
  *
- * @param json json object
+ * TODO: refactor this? is the same as mapArtistsToCollection
+ * @param albunsJson
+ * @return {Collection}
  */
-function mapArtist(artist, json){
-    if(json.items){
-        artist.albums = mapAlbumsToCollection(json)
-        return artist
-    }
+exports.mapAlbumsToCollection = function(albunsJson) {
+    let albums = albunsJson.items.map(album => this.mapAlbum(album))
 
-    artist.id = json.id
-    artist.name = json.name
-    artist.images = json.images
-    artist.genres = json.genres
-    artist.popularity = json.popularity
-    artist.type = json.type
-    artist.uri = json.uri
-    artist.followers = json.followers.total
+    return new Collection(albunsJson.offset,
+        albunsJson.limit,
+        albunsJson.total,
+        albums)
+}
+
+/**
+ * Maps the artist json and his albuns to an Artist Entity with a colection of
+ * albuns in the albuns property
+ * @param artistJson
+ * @param albunsJson
+ * @return {Artist}
+ */
+exports.mapArtistAndAlbuns = function(artistJson, albunsJson) {
+    let artist = this.mapArtist(artistJson)
+    artist.albums = this.mapAlbumsToCollection(albunsJson)
+
     return artist
 }
 
-function getSmallerImage(images){
-    return images.length > 0 ? images[images.length-1] : null
+/**
+ * Maps a json artist item to an Artist Entity without albuns
+ * @param jsonArtistItem
+ * @return {Artist}
+ */
+exports.mapArtist = function(jsonArtistItem) {
+    return new Artist(
+        jsonArtistItem.id,
+        jsonArtistItem.name,
+        getImageFromJsonArray(jsonArtistItem.images, 'img/defaultAvatar.png'),
+        jsonArtistItem.genres.slice(), // duplicate array
+        jsonArtistItem.popularity,
+        jsonArtistItem.type,
+        jsonArtistItem.uri,
+        jsonArtistItem.followers.total
+    )
+}
+
+/**
+ * Maps a json artist item to an Artist Entity without albuns
+ * @param jsonAlbumItem
+ * @return {Album}
+ */
+exports.mapAlbum = function(jsonAlbumItem) {
+    return new Album(
+        jsonAlbumItem.id,
+        jsonAlbumItem.name,
+        jsonAlbumItem.uri,
+        getImageFromJsonArray(jsonAlbumItem.images, 'img/defaultAvatar.png'),
+        jsonAlbumItem.type
+    )
 }
 
 /*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-*/
-function getImageFromJsonArray(images, imgDefault = null) {
+ |--------------------------------------------------------------------------
+ | Helpers
+ |--------------------------------------------------------------------------
+ */
+/**
+ * Gets the image of the wanted size from the images array
+ * Spotify images sizes: 64px, 200px, 300px, 640px, 1000px
+ *
+ * @param images
+ * @param preferenceSizesArray [200, 300] example, 300px as a fallback if there is no 200px image
+ * @param imgDefault
+ * @return {string}
+ */
+function getImageFromJsonArray(images, imgDefault = null,
+                               preferenceSizesArray = [200, 300, 640, 64, 1000]) {
     const size = images.length
-    if(size == 0)
+    if (size == 0)
         return config.base_url + ':' + config.port + '/' + imgDefault
 
-    // Get the image with 200px
-    let res = images.filter(img => img.width == 200)
+    // Find the image for each of the preferences sizes
+    for (let i = 0; i < preferenceSizesArray.length; i++) {
+        let img = images.find(img => img.width == preferenceSizesArray[i])
 
-    return res.length == 1 ? res[0].url : images[0].url
+        if (img) return img.url
+    }
+
+    // If none of the prefered sizes was found, lets return the first one
+    return images[0].url
 }
 
-module.exports.artistsToCollection = mapArtistsToCollection
-module.exports.artist = mapArtist
+module.exports = exports

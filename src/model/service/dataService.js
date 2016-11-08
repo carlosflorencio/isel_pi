@@ -6,6 +6,8 @@ const Artist = require('../entity/Artist')
 
 const methods = {}
 
+// TODO: test this service
+
 /**
  * Search Artist using spotify data
  * @param name
