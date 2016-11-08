@@ -7,14 +7,14 @@ const Album = require('../entity/Album')
 
 // TODO: test this service
 
-const exports = {}
+const methods = {}
 
 /**
  * Maps spotify search artists json object to a collection of Artists
  *
  * @param json Artists Search Json
  */
-exports.mapArtistsToCollection = function(json) {
+methods.mapArtistsToCollection = function(json) {
     let artists = json.artists.items.map(artist => this.mapArtist(artist))
 
     return new Collection(
@@ -31,7 +31,7 @@ exports.mapArtistsToCollection = function(json) {
  * @param albunsJson
  * @return {Collection}
  */
-exports.mapAlbumsToCollection = function(albunsJson) {
+methods.mapAlbumsToCollection = function(albunsJson) {
     let albums = albunsJson.items.map(album => this.mapAlbum(album))
 
     return new Collection(albunsJson.offset,
@@ -47,7 +47,7 @@ exports.mapAlbumsToCollection = function(albunsJson) {
  * @param albunsJson
  * @return {Artist}
  */
-exports.mapArtistAndAlbuns = function(artistJson, albunsJson) {
+methods.mapArtistAndAlbuns = function(artistJson, albunsJson) {
     let artist = this.mapArtist(artistJson)
     artist.albums = this.mapAlbumsToCollection(albunsJson)
 
@@ -59,7 +59,7 @@ exports.mapArtistAndAlbuns = function(artistJson, albunsJson) {
  * @param jsonArtistItem
  * @return {Artist}
  */
-exports.mapArtist = function(jsonArtistItem) {
+methods.mapArtist = function(jsonArtistItem) {
     return new Artist(
         jsonArtistItem.id,
         jsonArtistItem.name,
@@ -77,7 +77,7 @@ exports.mapArtist = function(jsonArtistItem) {
  * @param jsonAlbumItem
  * @return {Album}
  */
-exports.mapAlbum = function(jsonAlbumItem) {
+methods.mapAlbum = function(jsonAlbumItem) {
     return new Album(
         jsonAlbumItem.id,
         jsonAlbumItem.name,
@@ -118,4 +118,4 @@ function getImageFromJsonArray(images, imgDefault = null,
     return images[0].url
 }
 
-module.exports = exports
+module.exports = methods

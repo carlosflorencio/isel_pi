@@ -20,26 +20,59 @@
                     <tbody>
                         {{#each items}}
                             <tr>
-                                <td><img width="100" src="{{ this.image }}" alt=""/></td>
-                                <td><a href="/artists/{{this.id}}">{{ this.name }}</a></td>
-                                <td>{{ this.followers }}</td>
-                                <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
+                                <td>
+                                    <img width="100" src="{{ this.image }}" alt=""/>
+                                </td>
+                                <td>
+                                    <a href="/artists/{{this.id}}">
+                                        {{ limit this.name 30 }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ this.followers }}
+                                </td>
+                                <td>
+                                    <a href="{{ this.uri }}" class="btn btn-primary">
+                                        Open in Spotify
+                                    </a>
+                                </td>
                             </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
 
-            <div class="clearfix">
-                <a class="btn-mine btn btn-primary pull-left {{#if this.isFirst}}disabled{{/if}}"
-                   href={{this.getFirstPage}}>First</a>
-                <a class="btn-mine btn btn-primary pull-left {{#unless this.hasPrevious}}disabled{{/unless}}"
-                   href={{this.getPreviousPage}}>Previous</a>
-                <a class="btn-mine btn btn-primary pull-right {{#if this.isLast}}disabled{{/if}}"
-                   href={{this.getLastPage}}>Last</a>
-                <a class="btn-mine btn btn-primary pull-right {{#unless this.hasNext}}disabled{{/unless}}"
-                   href={{this.getNextPage}}>Next</a>
-            </div>
+            <!--<div class="clearfix">-->
+                <!--<a class="btn-mine btn btn-primary pull-left {{#if this.isFirst}}disabled{{/if}}"-->
+                   <!--href={{firstpage 'search/' this.query this }}>First</a>-->
+                <!--<a class="btn-mine btn btn-primary pull-left {{#unless this.hasPrevious}}disabled{{/unless}}"-->
+                   <!--href="{{previouspage '/search/' this.query this}}">Previous</a>-->
+                <!--<a class="btn-mine btn btn-primary pull-right {{#if this.isLast}}disabled{{/if}}"-->
+                   <!--href="{{lastpage '/search/' this.query this}}">Last</a>-->
+                <!--<a class="btn-mine btn btn-primary pull-right {{#unless this.hasNext}}disabled{{/unless}}"-->
+                   <!--href="{{nextpage '/search/' this.query this}}">Next</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav>
+                <ul class="pager">
+                    <li class="previous {{#if this.isFirst}}disabled{{/if}}">
+                        <a href="{{firstpage '/search/' this.query this }}">First</a>
+                    </li>
+                    <li class="previous {{#unless this.hasPrevious}}disabled{{/unless}}">
+                        <a href="{{previouspage '/search/' this.query this}}" class="ml10">&larr; Previous</a>
+                    </li>
+                    <li class="next {{#if this.isLast}}disabled{{/if}}">
+                        <a href="{{lastpage '/search/' this.query this}}">Last</a>
+                    </li>
+                    <li class="next {{#unless this.hasNext}}disabled{{/unless}}">
+                        <a href="{{nextpage '/search/' this.query this}}" class="mr10">Next &rarr;</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

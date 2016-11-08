@@ -7,7 +7,7 @@ const JsonResponse = require('../model/entity/JsonResponse')
 
 const url = "https://api.spotify.com/v1"
 const api = {
-    searchArtist: url + "/search?type=artist&q=%s&offset=%s",
+    searchArtist: url + "/search?type=artist&q=%s&offset=%s&limit=%s",
     artistInfo: url + "/artists/%s",
     artistAlbuns: url + "/artists/%s/albums",
     albumInfo: url + '/albums/%s'
@@ -19,10 +19,11 @@ const spotify = {}
  * Search for an artist or band
  * @param artist
  * @param offset
+ * @param limit
  * @param cb (response)
  */
-spotify.searchArtist = function (artist, offset, cb) {
-    const uri = sprintf(api.searchArtist, encodeURIComponent(artist), offset)
+spotify.searchArtist = function (artist, offset, limit, cb) {
+    const uri = sprintf(api.searchArtist, encodeURIComponent(artist), offset, limit)
     get(uri, cb)
 }
 

@@ -23,13 +23,14 @@ controllers.home = function (request, callback) {
  */
 controllers.search = function (request, callback) {
     const params = utils.getParameters(request.url)
-    const offset = params.offset || 0
-    const artist = params.q || request.url.split('/')[2]
+    const page = params.page || 1
+    const limit = params.limit || 10
+    const artist = params.q || utils.getPathname(request.url).split('/')[2]
 
     if (!artist)
         return callback("No artist provided!")
 
-    dataService.searchArtist(artist, offset, (err, collection) => {
+    dataService.searchArtist(artist, page, limit, (err, collection) => {
         if (err)
             return callback(err)
 

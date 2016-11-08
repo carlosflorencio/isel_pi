@@ -53,19 +53,25 @@ Collection.prototype.isFirst = function() {
 }
 
 Collection.prototype.isLast = function() {
-    return this.offset+this.items.length == this.total
+    return this.offset + this.limit >= this.total
 }
 
-Collection.prototype.getPreviousPageOffset = function() {
-    return this.offset-this.limit
+Collection.prototype.getPreviousPageNumber = function() {
+    const curr = this.getCurrentPage()
+
+    return curr > 1 ? curr - 1 : 1
 }
 
-Collection.prototype.getNextPageOffset = function() {
-    return this.offset+this.limit
+Collection.prototype.getNextPageNumber = function() {
+    const curr = this.getCurrentPage()
+    const total = this.getTotalPages()
+    const next = curr + 1
+
+    return next <= total ? next : curr
 }
 
-Collection.prototype.getFirstPageOffset = function() {
-    return 0
+Collection.prototype.getFirstPageNumber = function() {
+    return 1
 }
 
 Collection.prototype.getLastPageOffset = function() {

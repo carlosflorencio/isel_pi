@@ -30,6 +30,24 @@ body {
 .search-bar{
     margin-bottom: 10px;
 }
+
 /* ==========================================================================
-   Search Page
+   Override bootstrap styles
    ========================================================================== */
+.pager .disabled > a,
+.pager .disabled > a:hover,
+.pager .disabled > a:focus,
+.pager .disabled > span {
+    background-color: #9c9c9c;
+}
+
+/* ==========================================================================
+   Utils
+   ========================================================================== */
+.mr10 {
+    margin-right: 10px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}

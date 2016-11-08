@@ -4,6 +4,7 @@ const http = require('http')
 const handlers = require('./controller/appControllers')
 const view = require('./model/service/viewService')
 const fs = require('fs')
+const utils = require('./Utils')
 const config = require('./config.json')
 const port = config.port
 
@@ -109,7 +110,7 @@ function setResponseFile(response, filepath, mimetype, bytesResponse = false) {
  * @return {string}
  */
 function getEndPoint(uri) {
-    const parts = uri.split('/')
+    const parts = utils.getPathname(uri).split('/')
 
     // / -> ['', ''], /search/ola -> ['', 'search', 'ola']
     return parts[1] == '' ? 'home' : parts[1]
