@@ -48,34 +48,45 @@ Collection.prototype.hasPrevious = function () {
     return this.getCurrentPage() > 1
 }
 
+/**
+ * See if the collection is in the first page
+ * @return {boolean}
+ */
 Collection.prototype.isFirst = function() {
     return this.offset == 0
 }
 
+/**
+ * See if the collection is in the last page
+ * @return {boolean}
+ */
 Collection.prototype.isLast = function() {
     return this.offset + this.limit >= this.total
 }
 
+
+/**
+ * Get the previous page number
+ * If the current page is the first page, 1 is returned
+ * @return {number}
+ */
 Collection.prototype.getPreviousPageNumber = function() {
     const curr = this.getCurrentPage()
 
     return curr > 1 ? curr - 1 : 1
 }
 
+/**
+ * Get the next page number
+ * If there are no more pages, the current page is returner
+ * @return {number}
+ */
 Collection.prototype.getNextPageNumber = function() {
     const curr = this.getCurrentPage()
     const total = this.getTotalPages()
     const next = curr + 1
 
     return next <= total ? next : curr
-}
-
-Collection.prototype.getFirstPageNumber = function() {
-    return 1
-}
-
-Collection.prototype.getLastPageOffset = function() {
-    return this.total-this.limit
 }
 
 module.exports = Collection

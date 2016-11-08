@@ -17,7 +17,12 @@ controllers.home = function (request, callback) {
 }
 
 /**
- * Artist search
+ * Artist search controller
+ * Receives the Artist from the querystring parameter q or in the path
+ * ex: /artist or /?q=artist
+ * Also looks for pagination parameteres page and limit
+ * ex: /artist?page=2&limit=10
+ *
  * @param request
  * @param callback (err, viewString)
  */

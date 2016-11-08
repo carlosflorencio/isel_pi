@@ -37,13 +37,18 @@ module.exports = views
 
 /*
 |--------------------------------------------------------------------------
-| Handlebars configuration
+| Handlebars Configuration
 |--------------------------------------------------------------------------
 */
 handlebars.registerPartial("header", headerTemplate)
 handlebars.registerPartial("footer", footerTemplate)
 handlebars.registerPartial("searchbar", searchbarTemplate)
 
+/**
+ * Limit the string by size, usefull to display large strings in a page
+ * Appends ... in the end
+ * ex: str = "hello" {{limit str 2}} -> "he..."
+ */
 handlebars.registerHelper('limit', function (str, limit) {
     if(str.length > limit) {
         let nstr = str.substring(0, limit)
@@ -53,7 +58,12 @@ handlebars.registerHelper('limit', function (str, limit) {
     return new handlebars.SafeString(str);
 });
 
-let disabledLink = 'javascript:void(0)'
+/*
+|--------------------------------------------------------------------------
+| Handlerbars Pagination helpers
+|--------------------------------------------------------------------------
+*/
+let disabledLink = 'javascript:void(0)' // prevents the action when clicking in the anchor
 
 handlebars.registerHelper('firstpage', function (path, query, collection) {
     let link = disabledLink
