@@ -29,10 +29,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    {{ this.followers }}
+                                    <span class="label label-success">{{ this.followers }}</span>
                                 </td>
                                 <td>
-                                    <a href="{{ this.uri }}" class="btn btn-primary">
+                                    <a href="{{ this.uri }}" class="btn btn-primary btn-sm">
                                         Open in Spotify
                                     </a>
                                 </td>
@@ -42,19 +42,10 @@
                 </table>
             </div>
 
-            <!--<div class="clearfix">-->
-                <!--<a class="btn-mine btn btn-primary pull-left {{#if this.isFirst}}disabled{{/if}}"-->
-                   <!--href={{firstpage 'search/' this.query this }}>First</a>-->
-                <!--<a class="btn-mine btn btn-primary pull-left {{#unless this.hasPrevious}}disabled{{/unless}}"-->
-                   <!--href="{{previouspage '/search/' this.query this}}">Previous</a>-->
-                <!--<a class="btn-mine btn btn-primary pull-right {{#if this.isLast}}disabled{{/if}}"-->
-                   <!--href="{{lastpage '/search/' this.query this}}">Last</a>-->
-                <!--<a class="btn-mine btn btn-primary pull-right {{#unless this.hasNext}}disabled{{/unless}}"-->
-                   <!--href="{{nextpage '/search/' this.query this}}">Next</a>-->
-            <!--</div>-->
         </div>
     </div>
 
+    <!-- Pagination -->
     <div class="row">
         <div class="col-md-12">
             <nav>
@@ -75,6 +66,7 @@
             </nav>
         </div>
     </div>
+    <!-- /Pagination -->
 </div>
 
 {{> footer }}

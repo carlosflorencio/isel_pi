@@ -25,7 +25,7 @@ controllers.search = function (request, callback) {
     const params = utils.getParameters(request.url)
     const page = params.page || 1
     const limit = params.limit || 10
-    const artist = params.q || utils.getPathname(request.url).split('/')[2]
+    const artist = params.q || decodeURIComponent(utils.getPathname(request.url).split('/')[2])
 
     if (!artist)
         return callback("No artist provided!")
