@@ -4,10 +4,8 @@
     <div class="row">
         <div class="col-md-12">
 
-            {{> searchbar}}
-
             <div class="panel panel-default">
-                <div class="panel-heading">{{ total }} Results for: {{ query }}</div>
+                <div class="panel-heading">{{ collection.total }} Results for: {{ query }}</div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -18,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each items}}
+                        {{#each collection.items}}
                             <tr>
                                 <td>
                                     <img width="100" src="{{ this.image }}" alt=""/>
@@ -46,26 +44,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="row">
-        <div class="col-md-12">
-            <nav>
-                <ul class="pager">
-                    <li class="previous {{#if this.isFirst}}disabled{{/if}}">
-                        <a href="{{firstpage '/search/' this.query this }}">First</a>
-                    </li>
-                    <li class="previous {{#unless this.hasPrevious}}disabled{{/unless}}">
-                        <a href="{{previouspage '/search/' this.query this}}" class="ml10">&larr; Previous</a>
-                    </li>
-                    <li class="next {{#if this.isLast}}disabled{{/if}}">
-                        <a href="{{lastpage '/search/' this.query this}}">Last</a>
-                    </li>
-                    <li class="next {{#unless this.hasNext}}disabled{{/unless}}">
-                        <a href="{{nextpage '/search/' this.query this}}" class="mr10">Next &rarr;</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    {{>paginate path='/search/' query=query collection=collection }}
     <!-- /Pagination -->
 </div>
 

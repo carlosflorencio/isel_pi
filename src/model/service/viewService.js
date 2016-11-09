@@ -7,6 +7,7 @@ const viewsDir = __dirname + '/../../view'
 const headerTemplate = fs.readFileSync(viewsDir + '/partials/header.hbs').toString()
 const footerTemplate = fs.readFileSync(viewsDir + '/partials/footer.hbs').toString()
 const searchbarTemplate = fs.readFileSync(viewsDir + '/partials/searchbar.hbs').toString()
+const paginationTemplate = fs.readFileSync(viewsDir + '/partials/paginate.hbs').toString()
 
 
 /**
@@ -43,6 +44,7 @@ module.exports = views
 handlebars.registerPartial("header", headerTemplate)
 handlebars.registerPartial("footer", footerTemplate)
 handlebars.registerPartial("searchbar", searchbarTemplate)
+handlebars.registerPartial("paginate", paginationTemplate)
 
 /**
  * Limit the string by size, usefull to display large strings in a page

@@ -39,36 +39,45 @@ controllers.search = function (request, callback) {
         if (err)
             return callback(err)
 
-        collection.query = artist
-        collection.title = collection.total + " Results for " + artist
+        const data = {
+            title: collection.total + " Results for " + artist,
+            query: artist,
+            collection: collection
+        }
 
-        callback(null, viewService.render('search', collection))
+        callback(null, viewService.render('search', data))
     })
 
 }
 
+/**
+ * Artists Controller
+ * Shows all the artist info and his albums paginated
+ * @param request
+ * @param callback
+ * @return {*}
+ */
 controllers.artists = function (request, callback) {
-    const pathname = utils.getPathname(request.url)
-    const id = pathname.split('/')[2]
-    const offset = 0
+    const params = utils.getParameters(request.url)
+    const page = params.page || 1
+    const limit = params.limit || 10
+    const id = decodeURIComponent(utils.getPathname(request.url).split('/')[2])
 
-    if(!id)
+    if (!id)
         return callback("No artist id provided")
 
-    cacheController.fetchArtist(id, offset, (err, view) => {
-        if(err)
-           return callback(err)
+    // TODO: replace this with cacheController
+    dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
+        if (err)
+            return callback(err)
 
-        if(view == null) {
-            dataService.getArtist(id, offset, (err, data) => {
-                if(err){
-                    return callback(err)
-                }
-                callback(null, viewService.render('artist', data))
-            })
-        }else {
-            //TODO: cache service
+        const data = {
+            title: artist.name,
+            artist: artist,
+            id: id
         }
+
+        callback(null, viewService.render('artist', data));
     })
 }
 

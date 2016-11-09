@@ -14,6 +14,10 @@ function Collection(offset, limit, total, items) {
     this.limit = limit
     this.total = total
     this.items = items
+
+    this.isFirst = function() {
+        return this.offset == 0
+    }
 }
 
 /**
@@ -52,9 +56,9 @@ Collection.prototype.hasPrevious = function () {
  * See if the collection is in the first page
  * @return {boolean}
  */
-Collection.prototype.isFirst = function() {
-    return this.offset == 0
-}
+//Collection.prototype.isFirst = function() {
+//    return this.offset == 0
+//}
 
 /**
  * See if the collection is in the last page

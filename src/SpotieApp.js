@@ -31,18 +31,18 @@ console.log('HTTP Server running on port ' + port)
  */
 function processRequests(req, resp) {
     console.log("Request for: " + req.url);
+    //TODO: Parse the request to a new custom Request
     const handler = getHandler(req.url)
 
-    if(isAsset(req.url)) // hack before express.js
+    // hack before express.js
+    if(isAsset(req.url))
         return setAssetResponse(resp, req.url)
 
-    if(!handler) {
+    if(!handler)
         return setResponseNotFound(resp)
-    }
 
     handler(req, (err, view) => {
-        if(err)
-            return setErrorResponse(resp, err)
+        if(err) return setErrorResponse(resp, err)
 
         resp.writeHead(200, {'Content-Type': contentType.html})
         resp.end(view)

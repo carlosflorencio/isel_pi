@@ -3,9 +3,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            {{> searchbar}}
-            <h1 align='center'>{{this.name}}</h1>
-            <div align="center"><img src={{this.getBiggestImageUrl}} class="img-fluid" alt="Responsive image"></div>
+            <h1 align='center'>{{ artist.name }}</h1>
+
+            <img src="{{ artist.image }}" class="img-responsive" alt="Responsive image"></div>
+
             <table class="table">
                 <thead>
                 <tr>
@@ -15,18 +16,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#each albums.items}}
+                {{#each artist.albums.items}}
                     <tr>
-                        <td><img width="100" src="{{ this.getSmallerImageUrl }}" alt=""/></td>
+                        <td>
+                            <img width="100" src="{{ this.image }}" alt=""/>
+                        </td>
                         <td>{{ this.name }}</td>
-                        <td><a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a></td>
+                        <td>
+                            <a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a>
+                        </td>
                     </tr>
                 {{/each}}
                 </tbody>
             </table>
-
-        </div>
     </div>
+
+    <!-- Pagination -->
+    {{>paginate path='/artists/' query=id collection=artist.albums }}
+    <!-- /Pagination -->
 </div>
 
 {{> footer }}

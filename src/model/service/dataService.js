@@ -2,7 +2,6 @@
 
 const spotify = require('../../data/SpotifyRepository')
 const mapper = require('./mapperService')
-const Artist = require('../entity/Artist')
 
 const methods = {}
 
@@ -16,35 +15,48 @@ const methods = {}
  * @param cb
  */
 methods.searchArtist = function(name, page, limit, cb) {
-    spotify.searchArtist(name, getOffset(page, limit), limit, (err, jsonResponse) => {
-        if(err || jsonResponse.json.error)
-            return cb(err ? err : jsonResponse.json.error.message)
+    spotify.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
+        if(err || spotifyJsonResponse.json.error)
+            return cb(err ? err : spotifyJsonResponse.json.error.message)
 
-        cb(null, mapper.mapArtistsToCollection(jsonResponse.json))
+        cb(null, mapper.mapArtistsToCollection(spotifyJsonResponse.json))
     })
 }
 
-methods.getArtist = function (id, offset, cb) {
-    //var count = 0
-    //var artist = new Artist()
-    //
-    //spotify.getArtistAlbums(id, offset, (err, jsonResponse) => {
-    //    if(err || jsonResponse.json.error) {
-    //        return cb(err ? err : jsonResponse.json.error.message)
-    //    }
-    //    mapper.mapArtistAndAlbuns(artist, jsonResponse.json)
-    //    if(++count == 2)
-    //        cb(null, artist)
-    //})
-    //
-    //spotify.getArtist(id, offset, (err, jsonResponse) => {
-    //    if(err || jsonResponse.json.error) {
-    //        return cb(err ? err : jsonResponse.json.error.message)
-    //    }
-    //    mapper.mapArtist(artist, jsonResponse.json)
-    //    if(++count == 2)
-    //        cb(null, artist)
-    //})
+/**
+ * Get Artist and his Albums
+ * TODO: use ES6 promises!
+ * @param id
+ * @param page
+ * @param limit
+ * @param cb
+ */
+methods.getArtistInfoWithAlbums = function (id, page, limit, cb) {
+    let count = 0, artist = null, albums = null
+
+    spotify.getArtist(id, (err, spotifyJsonResponse) => {
+        if(err || spotifyJsonResponse.json.error)
+            return cb(err ? err : spotifyJsonResponse.json.error.message)
+
+        artist = mapper.mapArtist(spotifyJsonResponse.json)
+
+        if(++count == 2) {
+            artist.albums = albums
+            cb(null, artist)
+        }
+    })
+
+    spotify.getArtistAlbums(id, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
+        if(err || spotifyJsonResponse.json.error)
+            return cb(err ? err : spotifyJsonResponse.json.error.message)
+
+        albums = mapper.mapAlbumsToCollection(spotifyJsonResponse.json)
+
+        if(++count == 2) {
+            artist.albums = albums
+            cb(null, artist)
+        }
+    })
 }
 
 /*
@@ -52,6 +64,13 @@ methods.getArtist = function (id, offset, cb) {
 | Utils
 |--------------------------------------------------------------------------
 */
+/**
+ * Convert a page number and limit items to an offset
+ * Spotify API uses an offset integer
+ * @param page
+ * @param limit
+ * @return {number}
+ */
 function getOffset(page, limit) {
     if(page < 1) page = 1
     if(limit < 1) limit = 1
