@@ -2,21 +2,29 @@
 
 <div class="container">
 
+    <h1>Artist</h1>
+
    <!-- Artist info -->
     <div class="row">
         <div class="col-md-12">
             <div class="well clearfix">
-                <img src="{{ artist.image }}" class="img-responsive pull-left" alt="Responsive image">
-                <ul class="pull-left no-list-style">
-                    <li><h2>{{ artist.name }}</h2></li>
-                    <li><h3><strong>Followers:</strong> {{ artist.followers }}</h3></li>
-                    <li><h3><strong>Genres:</strong> {{#with artist }}{{ getGenresString }}{{/with}}</h3></li>
-                    <li>
-                        <a href="{{ artist.uri }}" class="btn btn-primary btn-bg">
-                            Open in Spotify
-                        </a>
-                    </li>
-                </ul>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ artist.image }}" class="img-responsive" alt="Responsive image">
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="no-list-style">
+                            <li><h2>{{ artist.name }}</h2></li>
+                            <li><h3><strong>Followers:</strong> {{ artist.followers }}</h3></li>
+                            <li><h3><strong>Genres:</strong> {{#with artist }}{{ getGenresString }}{{/with}}</h3></li>
+                            <li>
+                                <a href="{{ artist.uri }}" class="btn btn-primary btn-bg mt10">
+                                    Open in Spotify
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

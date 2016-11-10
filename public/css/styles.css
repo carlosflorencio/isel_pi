@@ -52,20 +52,30 @@ body {
     margin-left: 10px;
 }
 
+.mt10 {
+    margin-top: 10px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
 .no-list-style {
     list-style: none;
 }
 
-/* Search Page
+/* Page styles
    ========================================================================== */
 .search-item {
     height: 100px;
     line-height: 100px;
 }
 
-/* Artist Page
-   ========================================================================== */
 .album-item {
     height: 60px;
     line-height: 60px;
+}
+
+.list-width {
+    max-width: 400px;
 }
