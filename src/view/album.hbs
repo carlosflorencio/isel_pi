@@ -1,0 +1,57 @@
+{{> header }}
+
+<div class="container">
+
+   <!-- Album info -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well clearfix">
+                <img src="{{ album.image }}" class="img-responsive pull-left" alt="Responsive image">
+                <ul class="pull-left no-list-style">
+                    <li><h2>{{ album.name }}</h2></li>
+                    <li><h3>{{ album.label }}</h3></li>
+                    <li><h3><strong>Release Date:</strong> {{ album.release_date }}</h3></li>
+                    <li>
+                        <a href="{{ album.uri }}" class="btn btn-primary btn-bg">
+                            Open in Spotify
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+   <!-- /Album info -->
+
+    <!-- Album tracks -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Tracks ({{ album.tracks.total }} total)</div>
+
+                <ul class="list-group">
+                    {{#each album.tracks.items}}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 album-item">
+                                    {{#with this }}{{ getDuration }}{{/with}}
+                                </div>
+                                <div class="col-xs-8 album-item">
+                                    {{ limit this.name 40 }}
+                                </div>
+                                <div class="col-xs-2 album-item">
+                                    <a href="{{ this.previewUrl }}" class="btn btn-primary btn-sm" target="_blank">
+                                        Preview
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /Album tracks -->
+
+</div>
+
+{{> footer }}

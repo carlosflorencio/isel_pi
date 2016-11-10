@@ -4,6 +4,7 @@ const Artist = require('./../entity/Artist')
 const Collection = require('../entity/Collection')
 const config = require('../../config.json')
 const Album = require('../entity/Album')
+const Track = require('../entity/Track')
 
 // TODO: test this service
 
@@ -73,7 +74,7 @@ methods.mapArtist = function(jsonArtistItem) {
 }
 
 /**
- * Maps a json artist item to an Artist Entity without albuns
+ * Maps a json album info to an Album Entity, with or without tracks
  * @param jsonAlbumItem
  * @return {Album}
  */
@@ -83,7 +84,43 @@ methods.mapAlbum = function(jsonAlbumItem) {
         jsonAlbumItem.name,
         jsonAlbumItem.uri,
         getImageFromJsonArray(jsonAlbumItem.images, 'img/defaultAvatar.png'),
-        jsonAlbumItem.type
+        jsonAlbumItem.type,
+        jsonAlbumItem.label,
+        jsonAlbumItem.release_date,
+        this.mapTracksToCollection(jsonAlbumItem.tracks)
+    )
+}
+
+/**
+ * Maps a json tracks array to a Collection of tracks
+ * @param jsonTraks
+ * @return {*}
+ */
+methods.mapTracksToCollection = function (jsonTraks) {
+    if(!jsonTraks) return null
+
+    let tracks = jsonTraks.items.map(track => this.mapTrack(track))
+
+    return new Collection(jsonTraks.offset,
+        jsonTraks.limit,
+        jsonTraks.total,
+        tracks)
+}
+
+/**
+ * Create a Track entity from a jsonTrack
+ * @param jsonTrackItem
+ * @return {Track}
+ */
+methods.mapTrack = function(jsonTrackItem) {
+    return new Track(
+        jsonTrackItem.id,
+        jsonTrackItem.name,
+        jsonTrackItem.disk_number,
+        jsonTrackItem.duration_ms,
+        jsonTrackItem.preview_url,
+        jsonTrackItem.track_number,
+        jsonTrackItem.uri
     )
 }
 

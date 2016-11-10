@@ -6,38 +6,27 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">{{ collection.total }} Results for: {{ query }}</div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Followers</th>
-                            <th>Spotify</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each collection.items}}
-                            <tr>
-                                <td>
-                                    <img width="100" src="{{ this.image }}" alt=""/>
-                                </td>
-                                <td>
-                                    <a href="/artists/{{this.id}}">
+                <ul class="list-group">
+                    {{#each collection.items}}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-3 search-item">
+                                    <img width="100" src="{{ this.image }}" class="img-responsive" alt=""/>
+                                </div>
+                                <div class="col-xs-6 search-item">
+                                    <a href="/artists/{{ this.id }}">
                                         {{ limit this.name 30 }}
                                     </a>
-                                </td>
-                                <td>
-                                    <span class="label label-success">{{ this.followers }}</span>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-xs-3 search-item">
                                     <a href="{{ this.uri }}" class="btn btn-primary btn-sm">
                                         Open in Spotify
                                     </a>
-                                </td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
             </div>
 
         </div>

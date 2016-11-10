@@ -1,35 +1,58 @@
 {{> header }}
 
 <div class="container">
+
+   <!-- Artist info -->
     <div class="row">
         <div class="col-md-12">
-            <h1 align='center'>{{ artist.name }}</h1>
-
-            <img src="{{ artist.image }}" class="img-responsive" alt="Responsive image"></div>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Spotify</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each artist.albums.items}}
-                    <tr>
-                        <td>
-                            <img width="100" src="{{ this.image }}" alt=""/>
-                        </td>
-                        <td>{{ this.name }}</td>
-                        <td>
-                            <a href="{{ this.uri }}" class="btn btn-primary">Open in Spotify</a>
-                        </td>
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table>
+            <div class="well clearfix">
+                <img src="{{ artist.image }}" class="img-responsive pull-left" alt="Responsive image">
+                <ul class="pull-left no-list-style">
+                    <li><h2>{{ artist.name }}</h2></li>
+                    <li><h3><strong>Followers:</strong> {{ artist.followers }}</h3></li>
+                    <li><h3><strong>Genres:</strong> {{#with artist }}{{ getGenresString }}{{/with}}</h3></li>
+                    <li>
+                        <a href="{{ artist.uri }}" class="btn btn-primary btn-bg">
+                            Open in Spotify
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+   <!-- /Artist info -->
+
+    <!-- Artist Albums -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Albums ({{ artist.albums.total }} total)</div>
+
+                <ul class="list-group">
+                    {{#each artist.albums.items}}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-3 album-item">
+                                    <img width="60" src="{{ this.image }}" class="img-responsive" alt=""/>
+                                </div>
+                                <div class="col-xs-6 album-item">
+                                    <a href="/album/{{ this.id }}">
+                                        {{ limit this.name 40 }}
+                                    </a>
+                                </div>
+                                <div class="col-xs-3 album-item">
+                                    <a href="{{ this.uri }}" class="btn btn-primary btn-xs">
+                                        Open in Spotify
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /Artist Albums -->
 
     <!-- Pagination -->
     {{>paginate path='/artists/' query=id collection=artist.albums }}

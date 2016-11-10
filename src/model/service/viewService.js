@@ -10,28 +10,27 @@ const searchbarTemplate = fs.readFileSync(viewsDir + '/partials/searchbar.hbs').
 const paginationTemplate = fs.readFileSync(viewsDir + '/partials/paginate.hbs').toString()
 
 
-/**
- * Cache n1
- * @type
- */
-let memory = {}
+const cachedViews = {}
 
 const views = {}
 
 /**
- * Get the view cached or not cached
+ * Get the view
+ * The first time is loaded from disk
+ * After that will be saved in memory
+ *
  * @param viewName
  * @param data
  * @return {string}
  */
 views.render = (viewName, data) => {
-    if (memory[viewName])
-        return memory[viewName](data)
+    if (cachedViews[viewName])
+        return cachedViews[viewName](data)
 
     const page = fs.readFileSync(viewsDir + '/' + viewName + '.hbs').toString()
-    memory[viewName] = handlebars.compile(page)
+    cachedViews[viewName] = handlebars.compile(page)
 
-    return memory[viewName](data)
+    return cachedViews[viewName](data)
 }
 
 module.exports = views

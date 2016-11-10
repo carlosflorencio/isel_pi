@@ -53,6 +53,7 @@ controllers.search = function (request, callback) {
 /**
  * Artists Controller
  * Shows all the artist info and his albums paginated
+ * USES CACHE!
  * @param request
  * @param callback
  * @return {*}
@@ -60,13 +61,39 @@ controllers.search = function (request, callback) {
 controllers.artists = function (request, callback) {
     const params = utils.getParameters(request.url)
     const page = params.page || 1
-    const limit = params.limit || 10
+    const limit = params.limit || 5
     const id = decodeURIComponent(utils.getPathname(request.url).split('/')[2])
 
     if (!id)
         return callback("No artist id provided")
 
     cacheController.getArtistInfoWithAlbums(id, page, limit, callback)
+}
+
+/**
+ * Album Controller
+ * Shows the album info with tracks (not paginated! The first 50)
+ * @param request
+ * @param callback
+ * @return {*}
+ */
+controllers.album = function (request, callback) {
+    const id = decodeURIComponent(utils.getPathname(request.url).split('/')[2])
+
+    if (!id)
+        return callback("No album id provided")
+
+    dataService.albumInfo(id, (err, album) => {
+        if (err)
+            return callback(err)
+
+        const data = {
+            title: album.name,
+            album: album
+        }
+
+        callback(null, viewService.render('album', data))
+    })
 }
 
 module.exports.controllers = controllers

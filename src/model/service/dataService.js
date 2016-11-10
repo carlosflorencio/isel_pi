@@ -66,6 +66,23 @@ dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
     })
 }
 
+/**
+ * Get an album info with tracks
+ * @param id
+ * @param cb
+ */
+dataService.albumInfo = function(id, cb) {
+    spotify.getAlbumInfo(id, (err, spotifyJsonResponse) => {
+        if(err || spotifyJsonResponse.json.error)
+            return cb(err ? err : spotifyJsonResponse.json.error.message)
+
+        const album = mapper.mapAlbum(spotifyJsonResponse.json)
+        album.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+
+        cb(null, album)
+    })
+}
+
 /*
 |--------------------------------------------------------------------------
 | Utils

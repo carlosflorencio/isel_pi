@@ -51,6 +51,17 @@ spotify.getArtistAlbums = function (id, offset, limit, cb) {
     httpsGetJson(uri, cb)
 }
 
+/**
+ * SPOTIFY Get Album Info
+ * Paginated
+ * @param id
+ * @param cb
+ */
+spotify.getAlbumInfo = function (id, cb) {
+    const uri = sprintf(api.albumInfo, encodeURIComponent(id))
+    httpsGetJson(uri, cb)
+}
+
 module.exports = spotify
 
 /*
