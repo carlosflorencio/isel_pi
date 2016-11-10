@@ -66,19 +66,7 @@ controllers.artists = function (request, callback) {
     if (!id)
         return callback("No artist id provided")
 
-    // TODO: replace this with cacheController
-    dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
-        if (err)
-            return callback(err)
-
-        const data = {
-            title: artist.name,
-            artist: artist,
-            id: id
-        }
-
-        callback(null, viewService.render('artist', data));
-    })
+    cacheController.getArtistInfoWithAlbums(id, page, limit, callback)
 }
 
 module.exports.controllers = controllers

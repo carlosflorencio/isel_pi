@@ -3,7 +3,7 @@
 const spotify = require('../../data/SpotifyRepository')
 const mapper = require('./mapperService')
 
-const methods = {}
+const dataService = {}
 
 // TODO: test this service
 
@@ -14,12 +14,15 @@ const methods = {}
  * @param limit
  * @param cb
  */
-methods.searchArtist = function(name, page, limit, cb) {
+dataService.searchArtist = function(name, page, limit, cb) {
     spotify.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
         if(err || spotifyJsonResponse.json.error)
             return cb(err ? err : spotifyJsonResponse.json.error.message)
 
-        cb(null, mapper.mapArtistsToCollection(spotifyJsonResponse.json))
+        const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
+        collection.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+
+        cb(null, collection)
     })
 }
 
@@ -31,7 +34,7 @@ methods.searchArtist = function(name, page, limit, cb) {
  * @param limit
  * @param cb
  */
-methods.getArtistInfoWithAlbums = function (id, page, limit, cb) {
+dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
     let count = 0, artist = null, albums = null
 
     spotify.getArtist(id, (err, spotifyJsonResponse) => {
@@ -39,6 +42,7 @@ methods.getArtistInfoWithAlbums = function (id, page, limit, cb) {
             return cb(err ? err : spotifyJsonResponse.json.error.message)
 
         artist = mapper.mapArtist(spotifyJsonResponse.json)
+        artist.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
 
         if(++count == 2) {
             artist.albums = albums
@@ -54,6 +58,9 @@ methods.getArtistInfoWithAlbums = function (id, page, limit, cb) {
 
         if(++count == 2) {
             artist.albums = albums
+            if(spotifyJsonResponse.lifetime < artist.expire ) // TODO: remove this hack
+                artist.expire = spotifyJsonResponse.lifetime
+
             cb(null, artist)
         }
     })
@@ -79,4 +86,4 @@ function getOffset(page, limit) {
     return --page * limit
 }
 
-module.exports = methods
+module.exports = dataService
