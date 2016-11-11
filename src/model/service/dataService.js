@@ -8,7 +8,8 @@ const dataService = {}
 // TODO: test this service
 
 /**
- * Search Artist using spotify data
+ * Search Artist using Spotify data
+ *
  * @param name
  * @param page
  * @param limit
@@ -28,7 +29,7 @@ dataService.searchArtist = function(name, page, limit, cb) {
 
 /**
  * Get Artist and his Albums
- * TODO: use ES6 promises!
+ *
  * @param id
  * @param page
  * @param limit
@@ -75,6 +76,7 @@ dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
 
 /**
  * Get an album info with tracks
+ *
  * @param id
  * @param cb
  */
@@ -98,6 +100,7 @@ dataService.albumInfo = function(id, cb) {
 /**
  * Convert a page number and limit items to an offset
  * Spotify API uses an offset integer
+ *
  * @param page
  * @param limit
  * @return {number}

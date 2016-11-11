@@ -2,13 +2,12 @@
 
 const viewService = require('../model/service/viewService')
 const dataService = require('../model/service/dataService')
-const utils = require('../Utils')
-const cacheController = require('../controller/cacheController')
 
 const controllers = {}
 
 /**
  * Home controller
+ *
  * @param request
  * @param callback (err, viewString)
  */
@@ -18,19 +17,18 @@ controllers.home = function (request, callback) {
 
 /**
  * Artist search controller
- * Receives the Artist from the querystring parameter q or in the path
+ * Receives the Artist from the query string parameter q or in the path
  * ex: /artist or /?q=artist
- * Also looks for pagination parameteres page and limit
+ * Also looks for pagination parameters page and limit
  * ex: /artist?page=2&limit=10
  *
  * @param request
  * @param callback (err, viewString)
  */
 controllers.search = function (request, callback) {
-    const params = utils.getParameters(request.url)
-    const page = params.page || 1
-    const limit = params.limit || 10
-    const artist = params.q || decodeURIComponent(utils.getPathname(request.url).split('/')[2])
+    const page = request.query.page || 1
+    const limit = request.query.limit || 10
+    const artist = request.query.q || request.params.q
 
     if (!artist)
         return callback("No artist provided!") // TODO: all errors should be new Error
@@ -54,31 +52,32 @@ controllers.search = function (request, callback) {
  * Artists Controller
  * Shows all the artist info and his albums paginated
  * USES CACHE!
+ *
  * @param request
  * @param callback
  * @return {*}
  */
 controllers.artists = function (request, callback) {
-    const params = utils.getParameters(request.url)
-    const page = params.page || 1
-    const limit = params.limit || 5
-    const id = decodeURIComponent(utils.getPathname(request.url).split('/')[2])
+    const page = request.query.page || 1
+    const limit = request.query.limit || 10
+    const id = request.query.q || request.params.q
 
     if (!id)
         return callback("No artist id provided")
 
-    cacheController.getArtistInfoWithAlbums(id, page, limit, callback)
+    dataService.getArtistInfoWithAlbums(id, page, limit, callback)
 }
 
 /**
  * Album Controller
  * Shows the album info with tracks (not paginated! The first 50)
+ *
  * @param request
  * @param callback
  * @return {*}
  */
 controllers.album = function (request, callback) {
-    const id = decodeURIComponent(utils.getPathname(request.url).split('/')[2])
+    const id = request.query.q || request.params.q
 
     if (!id)
         return callback("No album id provided")

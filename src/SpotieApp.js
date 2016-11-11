@@ -1,17 +1,17 @@
 "use strict";
 
 const http = require('http')
+const url = require('url')
 
-//const handlers = require('./controller/cacheController')
-const handlers = require('./controller/appControllers') //TODO: mudar para cacheController
+const handlers = require('./controller/cacheController')
+//const handlers = require('./controller/appControllers') //TODO: mudar para cacheController
+
+const RequestMiddleware = require('./data/entity/RequestMiddleware')
 
 const view = require('./model/service/viewService')
 const fs = require('fs')
-const utils = require('./Utils')
 const config = require('./config.json')
 const port = config.port
-
-const assetsFolder = __dirname + '/../public'
 
 const contentType = {
     html: "text/html",
@@ -31,13 +31,17 @@ console.log('HTTP Server running on port ' + port)
 
 /**
  * Entry Point
+ *
  * @param req
  * @param resp
  */
 function processRequests(req, resp) {
-    console.log("Request for: " + req.url);
-    //TODO: Parse the request to a new custom Request
-    const handler = getHandler(req.url)
+    console.log("Request for: " + req.url)
+
+    const parsed = url.parse(req.url, true)
+    const requestMiddleware = new RequestMiddleware(parsed.pathname, parsed.query)
+
+    const handler = getHandler(requestMiddleware.pathname)
 
     // hack before express.js
     if(isAsset(req.url))
@@ -46,7 +50,7 @@ function processRequests(req, resp) {
     if(!handler)
         return setResponseNotFound(resp)
 
-    handler(req, (err, view) => { // TODO: parse args to call controller, new RequestMidleware
+    handler(requestMiddleware, (err, view) => {
         if(err) return setErrorResponse(resp, err)
 
         resp.writeHead(200, {'Content-Type': contentType.html})
@@ -61,11 +65,12 @@ function processRequests(req, resp) {
 */
 /**
  * Get the right handler for each endPoint
- * @param url
+ *
+ * @param pathname path of a request
  * @return {*}
  */
-function getHandler(url) {
-    const endPoint = getEndPoint(url)
+function getHandler(pathname) {
+    const endPoint = getEndPoint(pathname)
 
     return handlers.controllers[endPoint]
 }
@@ -73,6 +78,7 @@ function getHandler(url) {
 /**
  * Affect the response object with
  * the not found view and 404 http code
+ *
  * @param response
  */
 function setResponseNotFound(response) {
@@ -83,6 +89,7 @@ function setResponseNotFound(response) {
 /**
  * Affect the response object with
  * the error view and 500 http code
+ *
  * @param response
  * @param errorMessage
  */
@@ -93,6 +100,7 @@ function setErrorResponse(response, errorMessage) {
 
 /**
  * Helper to serve a file
+ *
  * @param response
  * @param filepath
  * @param mimetype
@@ -111,11 +119,12 @@ function setResponseFile(response, filepath, mimetype, bytesResponse = false) {
 /**
  * Gets the endpoint from an uri
  * If / returns home
- * @param uri
+ *
+ * @param pathname path of a request
  * @return {string}
  */
-function getEndPoint(uri) {
-    const parts = utils.getPathname(uri).split('/')
+function getEndPoint(pathname) {
+    const parts = pathname.split('/')
 
     // / -> ['', ''], /search/ola -> ['', 'search', 'ola']
     return parts[1] == '' ? 'home' : parts[1]
@@ -123,6 +132,7 @@ function getEndPoint(uri) {
 
 /**
  * Test if the current uri is an asset path
+ *
  * @param uri
  * @return {boolean}
  */
@@ -139,10 +149,13 @@ function isAsset(uri) {
 
 /**
  * Affect the response with the right asset content
+ *
  * @param resp
  * @param uri
  */
 function setAssetResponse(resp, uri) {
+    const assetsFolder = __dirname + '/../public'
+
     const parts = uri.split('/')
     const file = parts[parts.length - 1]
 
@@ -153,5 +166,5 @@ function setAssetResponse(resp, uri) {
         return setResponseFile(resp, assetsFolder + '/favicon.ico', contentType.ico, true)
 
     // TODO: the mimetype of the image can be jpg, gif, png, etc.
-    return setResponseFile(resp, assetsPath + '/img/' + file, contentType.png, true)
+    return setResponseFile(resp, assetsFolder + '/img/' + file, contentType.png, true)
 }

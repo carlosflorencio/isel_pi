@@ -16,6 +16,7 @@ const cache = {}
  * Cache logic
  * Tries to find the view in memory cache (n1)
  * If not in memory the disk is used
+ *
  * @param name
  * @param cb (err, view)
  */
@@ -39,6 +40,7 @@ cache.getCachedView = function(name, cb) {
 /**
  * Add a view to cache
  * Added in memory cache and disk
+ *
  * @param name
  * @param view string
  * @param expire seconds
@@ -53,6 +55,7 @@ cache.addCachedView = function(name, view, expire) {
 /**
  * Tests to see if the cacheObject is valid or not (expired)
  * and calls the callback with the correct response
+ *
  * @param name
  * @param cacheObject
  * @param cb
@@ -71,6 +74,7 @@ function parseCacheObject(name, cacheObject, cb) {
 /**
  * Remove from cache the view
  * Deletes from memory and disk
+ *
  * @param name
  */
 function deleteFromCache(name) {
@@ -84,6 +88,7 @@ function deleteFromCache(name) {
 
 /**
  * Loads the Cached Object from disk
+ *
  * @param name
  * @param cb (result) result can false or the view string
  */
@@ -99,6 +104,7 @@ function loadFromDisk(name, cb) {
 /**
  * Calls the callback and sends the error saying the view
  * is not in cache
+ *
  * @param callback
  */
 function viewIsNotInCache(callback) {
@@ -107,6 +113,7 @@ function viewIsNotInCache(callback) {
 
 /**
  * Constructs the cache view path
+ *
  * @param name
  * @return {string}
  */
@@ -120,6 +127,7 @@ function getCachePath(name) {
 */
 /**
  * Cache object for each view
+ *
  * @param view
  * @param expireTime in seconds
  * @constructor
@@ -131,8 +139,8 @@ function CacheObject(view, expireTime) {
 
 /**
  * Compares the object expire time with the actual time
- * Returns true if the object is expired
- * @return {boolean}
+ *
+ * @return {boolean} true if the object is expired
  */
 CacheObject.prototype.isExpired = function () {
     return this.expire < getActualSeconds()
@@ -140,6 +148,7 @@ CacheObject.prototype.isExpired = function () {
 
 /**
  * Converts this object to a json string
+ *
  * Usefull to save the object on the disk
  */
 CacheObject.prototype.toJson = function() {
@@ -148,6 +157,7 @@ CacheObject.prototype.toJson = function() {
 
 /**
  * Creates a new object from a json string
+ *
  * @param json
  * @return {CacheObject}
  */
@@ -158,6 +168,7 @@ CacheObject.fromJson = function(json) {
 
 /**
  * Gets the actual seconds from 1 jan 1970
+ *
  * @return {number}
  */
 function getActualSeconds() {
