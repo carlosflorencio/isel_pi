@@ -1,12 +1,17 @@
 "use strict";
 
 const http = require('http')
+
+//const handlers = require('./controller/cacheController')
 const handlers = require('./controller/appControllers') //TODO: mudar para cacheController
+
 const view = require('./model/service/viewService')
 const fs = require('fs')
 const utils = require('./Utils')
 const config = require('./config.json')
 const port = config.port
+
+const assetsFolder = __dirname + '/../public'
 
 const contentType = {
     html: "text/html",
@@ -122,7 +127,6 @@ function getEndPoint(uri) {
  * @return {boolean}
  */
 function isAsset(uri) {
-
     const assetsPaths = ['/css/', '/img/', 'favicon.ico']
 
     for(let i = 0; i < assetsPaths.length; i++) {
@@ -143,11 +147,11 @@ function setAssetResponse(resp, uri) {
     const file = parts[parts.length - 1]
 
     if(uri.indexOf('/css/') != -1)
-        return setResponseFile(resp, './public/css/' + file, contentType.css)
+        return setResponseFile(resp, assetsFolder + '/css/' + file, contentType.css)
 
     if(uri.indexOf('favicon.ico') != -1)
-        return setResponseFile(resp, './public/favicon.ico', contentType.ico, true)
+        return setResponseFile(resp, assetsFolder + '/favicon.ico', contentType.ico, true)
 
     // TODO: the mimetype of the image can be jpg, gif, png, etc.
-    return setResponseFile(resp, './public/img/' + file, contentType.png, true)
+    return setResponseFile(resp, assetsPath + '/img/' + file, contentType.png, true)
 }
