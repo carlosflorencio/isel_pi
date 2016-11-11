@@ -1,7 +1,7 @@
 "use strict";
 
 const http = require('http')
-const handlers = require('./controller/appControllers')
+const handlers = require('./controller/appControllers') //TODO: mudar para cacheController
 const view = require('./model/service/viewService')
 const fs = require('fs')
 const utils = require('./Utils')
@@ -41,7 +41,7 @@ function processRequests(req, resp) {
     if(!handler)
         return setResponseNotFound(resp)
 
-    handler(req, (err, view) => {
+    handler(req, (err, view) => { // TODO: parse args to call controller, new RequestMidleware
         if(err) return setErrorResponse(resp, err)
 
         resp.writeHead(200, {'Content-Type': contentType.html})

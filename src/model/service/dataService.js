@@ -36,6 +36,13 @@ dataService.searchArtist = function(name, page, limit, cb) {
  */
 dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
     let count = 0, artist = null, albums = null
+    //TODO: change this to paralel get
+
+    //spotify.getArtistInfo(id, page, limit, (err, arrayResponses) => {
+    //    arrayResponses[0] -> ArtistJson (SpotifyResponse)
+    //    arrayResponses[1] -> ArtistAlbums (SpotifyResponse)
+    // mapper
+    //})
 
     spotify.getArtist(id, (err, spotifyJsonResponse) => {
         if(err || spotifyJsonResponse.json.error)

@@ -88,3 +88,5 @@ function httpsGetJson(uri, callback) {
         })
     })
 }
+
+// TODO: httpsGetParalelJson([uris], callback) err, [jsonReponse]

@@ -20,6 +20,7 @@ controller.getArtistInfoWithAlbums = function(id, page, limit, cb)  {
 
     cacheService.getCachedView(cacheViewName, (err, view) => {
         if(err) { // We dont have a view in cache
+            //TODO: appController.artist();
             dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
                 if (err)
                     return cb(err)
@@ -33,7 +34,7 @@ controller.getArtistInfoWithAlbums = function(id, page, limit, cb)  {
                 const renderedView = viewService.render('artist', data)
                 cacheService.addCachedView(cacheViewName, renderedView, artist.expire)
 
-               cb(null, renderedView);
+                cb(null, renderedView);
             })
         } else {
             cb(null, view) // Cached view!

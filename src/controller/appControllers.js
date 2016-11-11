@@ -33,7 +33,7 @@ controllers.search = function (request, callback) {
     const artist = params.q || decodeURIComponent(utils.getPathname(request.url).split('/')[2])
 
     if (!artist)
-        return callback("No artist provided!")
+        return callback("No artist provided!") // TODO: all errors should be new Error
 
     dataService.searchArtist(artist, page, limit, (err, collection) => {
         if (err)

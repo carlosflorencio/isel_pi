@@ -2,6 +2,8 @@
 
 const fs = require('fs')
 
+// TODO: test cache service and CacheObject
+
 // Cache n1 - Memory
 const memory = {}
 
