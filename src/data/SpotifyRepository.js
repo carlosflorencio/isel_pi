@@ -9,7 +9,7 @@ const url = "https://api.spotify.com/v1"
 const api = {
     searchArtist: url + "/search?type=artist&q=%s&offset=%s&limit=%s",
     artistInfo: url + "/artists/%s",
-    artistAlbuns: url + "/artists/%s/albums?offset=%s&limit=%s",
+    artistAlbums: url + "/artists/%s/albums?offset=%s&limit=%s",
     albumInfo: url + '/albums/%s'
 }
 
@@ -18,6 +18,7 @@ const spotify = {}
 /**
  * SPOTIFY Search for an artist or band
  * Paginated
+ *
  * @param artist
  * @param offset
  * @param limit
@@ -30,30 +31,39 @@ spotify.searchArtist = function (artist, offset, limit, cb) {
 
 /**
  * SPOTIFY Get artist info
+ *
  * @param id
+ * @param offset
+ * @param limit
  * @param cb
  */
-spotify.getArtist = function (id, cb) {
-    const uri = sprintf(api.artistInfo, encodeURIComponent(id))
-    httpsGetJson(uri, cb)
+spotify.getArtist = function (id, offset, limit, cb) {
+    const uris = [
+        sprintf(api.artistInfo, encodeURIComponent(id)),
+        sprintf(api.artistAlbums, encodeURIComponent(id), offset, limit)
+    ]
+
+    httpGetParallelJson(uris, cb)
 }
 
 /**
  * SPOTIFY Get Artist albums list
  * Paginated
+ *
  * @param id
  * @param offset
  * @param limit
  * @param cb
  */
 spotify.getArtistAlbums = function (id, offset, limit, cb) {
-    const uri = sprintf(api.artistAlbuns, encodeURIComponent(id), offset, limit)
+    const uri = sprintf(api.artistAlbums, encodeURIComponent(id), offset, limit)
     httpsGetJson(uri, cb)
 }
 
 /**
  * SPOTIFY Get Album Info
  * Paginated
+ *
  * @param id
  * @param cb
  */
@@ -72,6 +82,7 @@ module.exports = spotify
 /**
  * Http get request to the provided uri
  * The response sent to the callback is a json object
+ *
  * @param uri
  * @param callback (err, SpotifyJsonResponse)
  */
@@ -81,12 +92,45 @@ function httpsGetJson(uri, callback) {
         resp.on('error', callback)
         resp.on('data', chunk => res += chunk.toString())
         resp.on('end', () => {
-            callback(null, new SpotifyJsonResponse(
+            const jsonResponse = new SpotifyJsonResponse(
+                resp.req.path,
                 res,
                 resp.headers['cache-control'].split('=')[1]
-            ))
+            )
+
+            if(jsonResponse.json.error){
+                return callback(jsonResponse.json.error)
+            }
+            callback(null, jsonResponse)
         })
     })
 }
 
-// TODO: httpsGetParalelJson([uris], callback) err, [jsonReponse]
+/**
+ * Get several requests from the array of uris
+ * The response sent to the callback is an array of json object
+ *
+ * @param uris array of uris
+ * @param order array of the order of the data to be retrieved ex:[artist, album]
+ * @param callback (err, [data])
+ */
+function httpGetParallelJson(uris, callback){
+    let count = 0, arr = []
+    uris.forEach((uri) => {
+        httpsGetJson(uri, (err, data) => {
+            if(err){
+                return callback(err)
+            }
+
+            for (let i =0; i<uris.length; i++){
+                if(uris[i].endsWith(data.id)){
+                    arr[i] = data
+                    break;
+                }
+            }
+            if(++count == uris.length){
+                callback(null, arr)
+            }
+        })
+    })
+}

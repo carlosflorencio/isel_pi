@@ -1,10 +1,12 @@
 "use strict";
 
 const cacheService = require('../model/service/cacheService')
-const dataService = require('../model/service/dataService')
-const viewService = require('../model/service/viewService')
 
 const appController = require('./appControllers')
+
+//TODO: remove dependencies
+const viewService = require('../model/service/viewService')
+const dataService = require('../model/service/dataService')
 
 const controllers = {}
 
@@ -40,48 +42,59 @@ controllers.search = function (request, callback) {
  * Artists cache controller
  * Shows all the artist info and his albums paginated
  *
- * @param request
- * @param callback
- * @return {*}
- */
-controllers.artists = function (request, callback) {
-    getArtistInfoWithAlbums(
-        request.query.q || request.params.q,
-        request.query.page || 1,
-        request.query.limit || 10,
-        callback)
-}
-
-/**
- * Album cache controller
- * Shows the album info with tracks (not paginated! The first 50)
- *
- * Cache not implemented. Redirects to appController
- *
- * @param request
- * @param callback
- * @return {*}
- */
-controllers.album = function (request, callback) {
-    return appController.controllers.album(request, callback)
-}
-
-/**
  * Gets the artist info view
  * Looks for it in the cache
- * If not in cache we will fetch the data from internet
+ * If not in cache it will fetch the data from the internet
  *
- * @param id
- * @param page
- * @param limit
- * @param cb
+ * @param request
+ * @param callback
+ * @return {*}
  */
-function getArtistInfoWithAlbums(id, page, limit, cb)  {
+// controllers.artists = function (request, callback) {
+//     const page = request.query.page || 1
+//     const limit = request.query.limit || 10
+//     const id = request.query.q || request.params.artist
+//
+//     const cacheViewName = id + '_' + page + '_' + limit || 10
+//
+//     cacheService.getCachedView(cacheViewName, (err, view) => {
+//         if(err) { // We dont have a view in cache
+//
+//             appController.controllers.artists(request, (err, renderedView) => {
+//                 if (err)
+//                     return callback(err)
+//
+//                 cacheService.addCachedView(cacheViewName, renderedView, 0/*artist.expire*/)
+//
+//                 callback(null, renderedView);
+//             })
+//         } else {
+//             callback(null, view) // Cached view!
+//         }
+//     })
+// }
+
+/**
+ * Artists cache controller
+ * Shows all the artist info and his albums paginated
+ *
+ * Gets the artist info view
+ * Looks for it in the cache
+ * If not in cache it will fetch the data from the internet
+ *
+ * @param request
+ * @param cb
+ * @return {*}
+ */
+controllers.artists = function (request, cb) {
+    const page = request.query.page || 1
+    const limit = request.query.limit || 10
+    const id = request.query.q || request.params.artist
+
     const cacheViewName = id + '_' + page + '_' + limit
 
     cacheService.getCachedView(cacheViewName, (err, view) => {
         if(err) { // We dont have a view in cache
-            //TODO: appController.artist();
             dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
                 if (err)
                     return cb(err)
@@ -101,6 +114,20 @@ function getArtistInfoWithAlbums(id, page, limit, cb)  {
             cb(null, view) // Cached view!
         }
     })
+}
+
+/**
+ * Album cache controller
+ * Shows the album info with tracks (not paginated! The first 50)
+ *
+ * Cache not implemented. Redirects to appController
+ *
+ * @param request
+ * @param callback
+ * @return {*}
+ */
+controllers.album = function (request, callback) {
+    return appController.controllers.album(request, callback)
 }
 
 

@@ -17,8 +17,8 @@ const dataService = {}
  */
 dataService.searchArtist = function(name, page, limit, cb) {
     spotify.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
-        if(err || spotifyJsonResponse.json.error)
-            return cb(err ? err : spotifyJsonResponse.json.error.message)
+        if(err)
+            return cb(err)
 
         const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
         collection.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
@@ -36,41 +36,17 @@ dataService.searchArtist = function(name, page, limit, cb) {
  * @param cb
  */
 dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
-    let count = 0, artist = null, albums = null
-    //TODO: change this to paralel get
-
-    //spotify.getArtistInfo(id, page, limit, (err, arrayResponses) => {
-    //    arrayResponses[0] -> ArtistJson (SpotifyResponse)
-    //    arrayResponses[1] -> ArtistAlbums (SpotifyResponse)
-    // mapper
-    //})
-
-    spotify.getArtist(id, (err, spotifyJsonResponse) => {
-        if(err || spotifyJsonResponse.json.error)
-            return cb(err ? err : spotifyJsonResponse.json.error.message)
-
-        artist = mapper.mapArtist(spotifyJsonResponse.json)
-        artist.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
-
-        if(++count == 2) {
-            artist.albums = albums
-            cb(null, artist)
+    spotify.getArtist(id, page, limit, (err, arrayResponses) => {
+        if(err){
+            return cb(err)
         }
-    })
 
-    spotify.getArtistAlbums(id, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
-        if(err || spotifyJsonResponse.json.error)
-            return cb(err ? err : spotifyJsonResponse.json.error.message)
+        const artist = mapper.mapArtistAndAlbuns(arrayResponses[0].json, arrayResponses[1].json)
 
-        albums = mapper.mapAlbumsToCollection(spotifyJsonResponse.json)
+        artist.expire = arrayResponses[0].lifetime < arrayResponses[1].lifetime ?
+            arrayResponses[0].lifetime : arrayResponses[1].lifetime
 
-        if(++count == 2) {
-            artist.albums = albums
-            if(spotifyJsonResponse.lifetime < artist.expire ) // TODO: remove this hack
-                artist.expire = spotifyJsonResponse.lifetime
-
-            cb(null, artist)
-        }
+        cb(null, artist)
     })
 }
 
@@ -82,8 +58,8 @@ dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
  */
 dataService.albumInfo = function(id, cb) {
     spotify.getAlbumInfo(id, (err, spotifyJsonResponse) => {
-        if(err || spotifyJsonResponse.json.error)
-            return cb(err ? err : spotifyJsonResponse.json.error.message)
+        if(err)
+            return cb(err)
 
         const album = mapper.mapAlbum(spotifyJsonResponse.json)
         album.expire = spotifyJsonResponse.lifetime // TODO: remove this hack

@@ -38,8 +38,7 @@ console.log('HTTP Server running on port ' + port)
 function processRequests(req, resp) {
     console.log("Request for: " + req.url)
 
-    const parsed = url.parse(req.url, true)
-    const requestMiddleware = new RequestMiddleware(parsed.pathname, parsed.query)
+    const requestMiddleware = new RequestMiddleware(url.parse(req.url, true))
 
     const handler = getHandler(requestMiddleware.pathname)
 

@@ -3,14 +3,18 @@
 /**
  * Request Entity based on Express request.
  *
- * @param pathname  pathname of request
- * @param query     query object {key=value, ...}
+ * @param uri url object
  * @constructor
  */
-function RequestMiddleware(pathname, query){
-    this.pathname = pathname
-    this.query = query
-    this.params = {q: decodeURIComponent(pathname.split('/')[2])}
+function RequestMiddleware(uri){
+    this.pathname = uri.pathname
+    this.query = uri.query
+
+    const g = decodeURIComponent(this.pathname.split('/')[2])
+    this.params = {
+        id: g,
+        artist: g
+    }
 }
 
 module.exports = RequestMiddleware
