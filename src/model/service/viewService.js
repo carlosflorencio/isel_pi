@@ -21,16 +21,21 @@ const views = {}
  *
  * @param viewName
  * @param data
+ * @param cb
  * @return {string}
  */
-views.render = (viewName, data) => {
+views.render = (viewName, data, cb) => {
     if (cachedViews[viewName])
-        return cachedViews[viewName](data)
+        return cb(null, cachedViews[viewName](data))
 
-    const page = fs.readFileSync(viewsDir + '/' + viewName + '.hbs').toString()
-    cachedViews[viewName] = handlebars.compile(page)
+    fs.readFile(viewsDir + '/' + viewName + '.hbs', (err, page) => {
+        if(err){
+            return cb(err)
+        }
 
-    return cachedViews[viewName](data)
+        cachedViews[viewName] = handlebars.compile(page.toString())
+        cb(null, cachedViews[viewName](data))
+    })
 }
 
 module.exports = views

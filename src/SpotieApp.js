@@ -82,6 +82,7 @@ function getHandler(pathname) {
  */
 function setResponseNotFound(response) {
     response.writeHead(404, {'Content-Type': contentType.html})
+    //TODO: change to async
     response.end(view.render('404', {title: 'Page Not Found! :('}))
 }
 
@@ -94,6 +95,7 @@ function setResponseNotFound(response) {
  */
 function setErrorResponse(response, errorMessage) {
     response.writeHead(500, {'Content-Type': contentType.html})
+    //TODO: change to async
     response.end(view.render('500', {title: 'Ooops! Error :(', message: errorMessage}))
 }
 

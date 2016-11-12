@@ -47,48 +47,12 @@ controllers.search = function (request, callback) {
  * If not in cache it will fetch the data from the internet
  *
  * @param request
- * @param callback
- * @return {*}
- */
-// controllers.artists = function (request, callback) {
-//     const page = request.query.page || 1
-//     const limit = request.query.limit || 10
-//     const id = request.query.q || request.params.artist
-//
-//     const cacheViewName = id + '_' + page + '_' + limit || 10
-//
-//     cacheService.getCachedView(cacheViewName, (err, view) => {
-//         if(err) { // We dont have a view in cache
-//
-//             appController.controllers.artists(request, (err, renderedView) => {
-//                 if (err)
-//                     return callback(err)
-//
-//                 cacheService.addCachedView(cacheViewName, renderedView, 0/*artist.expire*/)
-//
-//                 callback(null, renderedView);
-//             })
-//         } else {
-//             callback(null, view) // Cached view!
-//         }
-//     })
-// }
-
-/**
- * Artists cache controller
- * Shows all the artist info and his albums paginated
- *
- * Gets the artist info view
- * Looks for it in the cache
- * If not in cache it will fetch the data from the internet
- *
- * @param request
  * @param cb
  * @return {*}
  */
 controllers.artists = function (request, cb) {
     const page = request.query.page || 1
-    const limit = request.query.limit || 10
+    const limit = request.query.limit || 5
     const id = request.query.q || request.params.artist
 
     const cacheViewName = id + '_' + page + '_' + limit
@@ -105,10 +69,14 @@ controllers.artists = function (request, cb) {
                     id: id
                 }
 
-                const renderedView = viewService.render('artist', data)
-                cacheService.addCachedView(cacheViewName, renderedView, artist.expire)
+                viewService.render('artist', data, (err, view) => {
+                    if(err){
+                        return cb(err)
+                    }
 
-                cb(null, renderedView);
+                    cacheService.addCachedView(cacheViewName, view, artist.expire)
+                    cb(null, view);
+                })
             })
         } else {
             cb(null, view) // Cached view!

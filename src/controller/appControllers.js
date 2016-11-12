@@ -12,7 +12,7 @@ const controllers = {}
  * @param callback (err, viewString)
  */
 controllers.home = function (request, callback) {
-    callback(null, viewService.render('home', {title: "Homepage"}))
+    viewService.render('home', {title: 'Homepage'}, callback)
 }
 
 /**
@@ -43,7 +43,7 @@ controllers.search = function (request, callback) {
             collection: collection
         }
 
-        callback(null, viewService.render('search', data))
+        viewService.render('search', data, callback)
     })
 }
 
@@ -73,7 +73,7 @@ controllers.artists = function (request, callback) {
             artist: artist,
             id: artist.id
         }
-        callback(null, viewService.render('artist', data));
+        viewService.render('artist', data, callback)
     })
 }
 
@@ -99,8 +99,7 @@ controllers.album = function (request, callback) {
             title: album.name,
             album: album
         }
-
-        callback(null, viewService.render('album', data))
+        viewService.render('album', data, callback)
     })
 }
 
