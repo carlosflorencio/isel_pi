@@ -58,6 +58,13 @@ describe('Data Service', function() {
                 done()
             })
         })
+
+        it('Should have lifetime 800(albums lifetime) instead of 7200(artist lifetime)', function (done) {
+            dataService.getArtistInfoWithAlbums('', 0, 5, (err, data) => {
+                assert.equal(800, data.expire)
+                done()
+            })
+        })
     })
     describe('#albumInfo()', function() {
         it('Should not return error', function(done) {

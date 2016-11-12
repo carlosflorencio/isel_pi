@@ -13,10 +13,11 @@ repo.searchArtist = function (artist, offset, limit, cb) {
         if(err){
             return cb(err)
         }
+        const json = JSON.parse(data)
         const jsonResponse = new SpotifyJsonResponse(
             null,   //TODO
-            data,
-            null    //TODO
+            JSON.stringify(json.data),
+            json.lifetime
         )
 
         cb(null, jsonResponse)
@@ -29,20 +30,22 @@ repo.getArtist = function (id, offset, limit, cb) {
         if(err){
             return cb(err)
         }
+        const json = JSON.parse(data)
         arr[0] = new SpotifyJsonResponse(
-            null,   //TODO
-            data,
-            null    //TODO
+            null,
+            JSON.stringify(json.data),
+            json.lifetime
         )
 
         fs.readFile(filePath+'AlbumsPinkFloyd.json', (err, data) => {
             if(err){
                 return cb(err)
             }
+            const json = JSON.parse(data)
             arr[1] = new SpotifyJsonResponse(
                 null,   //TODO
-                data,
-                null    //TODO
+                JSON.stringify(json.data),
+                json.lifetime
             )
 
             cb(null, arr)
@@ -55,10 +58,11 @@ repo.getAlbumInfo = function (id, cb) {
         if(err){
             return cb(err)
         }
+        const json = JSON.parse(data)
         const jsonResponse = new SpotifyJsonResponse(
             null,   //TODO
-            data,
-            null    //TODO
+            JSON.stringify(json.data),
+            json.lifetime
         )
 
         cb(null, jsonResponse)
