@@ -29,15 +29,15 @@ methods.mapArtistsToCollection = function(json) {
  * Maps spotify albuns json object to a collection of Albuns
  *
  * TODO: refactor this? is the same as mapArtistsToCollection
- * @param albunsJson
+ * @param albumsJson
  * @return {Collection}
  */
-methods.mapAlbumsToCollection = function(albunsJson) {
-    let albums = albunsJson.items.map(album => this.mapAlbum(album))
+methods.mapAlbumsToCollection = function(albumsJson) {
+    let albums = albumsJson.items.map(album => this.mapAlbum(album))
 
-    return new Collection(albunsJson.offset,
-        albunsJson.limit,
-        albunsJson.total,
+    return new Collection(albumsJson.offset,
+        albumsJson.limit,
+        albumsJson.total,
         albums)
 }
 
@@ -45,12 +45,12 @@ methods.mapAlbumsToCollection = function(albunsJson) {
  * Maps the artist json and his albuns to an Artist Entity with a colection of
  * albuns in the albuns property
  * @param artistJson
- * @param albunsJson
+ * @param albumsJson
  * @return {Artist}
  */
-methods.mapArtistAndAlbuns = function(artistJson, albunsJson) {
+methods.mapArtistAndAlbums = function(artistJson, albumsJson) {
     let artist = this.mapArtist(artistJson)
-    artist.albums = this.mapAlbumsToCollection(albunsJson)
+    artist.albums = this.mapAlbumsToCollection(albumsJson)
 
     return artist
 }
@@ -96,14 +96,14 @@ methods.mapAlbum = function(jsonAlbumItem) {
  * @param jsonTraks
  * @return {*}
  */
-methods.mapTracksToCollection = function (jsonTraks) {
-    if(!jsonTraks) return null
+methods.mapTracksToCollection = function (jsonTracks) {
+    if(!jsonTracks) return null
 
-    let tracks = jsonTraks.items.map(track => this.mapTrack(track))
+    let tracks = jsonTracks.items.map(track => this.mapTrack(track))
 
-    return new Collection(jsonTraks.offset,
-        jsonTraks.limit,
-        jsonTraks.total,
+    return new Collection(jsonTracks.offset,
+        jsonTracks.limit,
+        jsonTracks.total,
         tracks)
 }
 

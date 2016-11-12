@@ -58,7 +58,7 @@ controllers.search = function (request, callback) {
  */
 controllers.artists = function (request, callback) {
     const page = request.query.page || 1
-    const limit = request.query.limit || 10
+    const limit = request.query.limit || 5
     const id = request.query.q || request.params.artist
 
     if (!id)

@@ -36,12 +36,12 @@ dataService.searchArtist = function(name, page, limit, cb) {
  * @param cb
  */
 dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
-    spotify.getArtist(id, page, limit, (err, arrayResponses) => {
+    spotify.getArtist(id, getOffset(page, limit), limit, (err, arrayResponses) => {
         if(err){
             return cb(err)
         }
 
-        const artist = mapper.mapArtistAndAlbuns(arrayResponses[0].json, arrayResponses[1].json)
+        const artist = mapper.mapArtistAndAlbums(arrayResponses[0].json, arrayResponses[1].json)
 
         artist.expire = arrayResponses[0].lifetime < arrayResponses[1].lifetime ?
             arrayResponses[0].lifetime : arrayResponses[1].lifetime
