@@ -31,7 +31,7 @@ controllers.search = function (request, callback) {
     const artist = request.query.q || request.params.id
 
     if (!artist)
-        return callback(new Error("No artist provided!")) // TODO: all errors should be new Error
+        return callback(new Error("No artist provided!"))
 
     dataService.searchArtist(artist, page, limit, (err, collection) => {
         if (err)
@@ -62,7 +62,7 @@ controllers.artists = function (request, callback) {
     const id = request.query.q || request.params.artist
 
     if (!id)
-        return callback("No artist id provided")
+        return callback(new Error("No artist id provided"))
 
     dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
         if (err)
@@ -89,7 +89,7 @@ controllers.album = function (request, callback) {
     const id = request.query.q || request.params.id
 
     if (!id)
-        return callback("No album id provided")
+        return callback(new Error("No album id provided"))
 
     dataService.albumInfo(id, (err, album) => {
         if (err)
