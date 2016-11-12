@@ -47,20 +47,6 @@ spotify.getArtist = function (id, offset, limit, cb) {
 }
 
 /**
- * SPOTIFY Get Artist albums list
- * Paginated
- *
- * @param id
- * @param offset
- * @param limit
- * @param cb
- */
-spotify.getArtistAlbums = function (id, offset, limit, cb) {
-    const uri = sprintf(api.artistAlbums, encodeURIComponent(id), offset, limit)
-    httpsGetJson(uri, cb)
-}
-
-/**
  * SPOTIFY Get Album Info
  * Paginated
  *

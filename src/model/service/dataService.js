@@ -3,7 +3,7 @@
 const mapper = require('./mapperService')
 
 /**
- * Data Service is used to help retrieve data from a repository and map it into an model entity
+ * Data Service is used to help retrieve data from a repository and map it into a model entity
  * @param repo repository of the data
  */
 const dataService = function DataService(repo){
