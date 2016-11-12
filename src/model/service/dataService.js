@@ -1,71 +1,74 @@
 "use strict";
 
-const spotify = require('../../data/SpotifyRepository')
 const mapper = require('./mapperService')
 
-const dataService = {}
-
-// TODO: test this service
-
 /**
- * Search Artist using Spotify data
- *
- * @param name
- * @param page
- * @param limit
- * @param cb
+ * Data Service is used to help retrieve data from a repository and map it into an model entity
+ * @param repo repository of the data
  */
-dataService.searchArtist = function(name, page, limit, cb) {
-    spotify.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
-        if(err)
-            return cb(err)
+const dataService = function DataService(repo){
 
-        const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
-        collection.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+    /**
+     * Search Artist using Spotify data
+     *
+     * @param name
+     * @param page
+     * @param limit
+     * @param cb
+     */
+    this.searchArtist = function(name, page, limit, cb) {
+        repo.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
+            if(err)
+                return cb(err)
 
-        cb(null, collection)
-    })
-}
+            const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
+            collection.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
 
-/**
- * Get Artist and his Albums
- *
- * @param id
- * @param page
- * @param limit
- * @param cb
- */
-dataService.getArtistInfoWithAlbums = function (id, page, limit, cb) {
-    spotify.getArtist(id, getOffset(page, limit), limit, (err, arrayResponses) => {
-        if(err){
-            return cb(err)
-        }
+            cb(null, collection)
+        })
+    }
 
-        const artist = mapper.mapArtistAndAlbums(arrayResponses[0].json, arrayResponses[1].json)
+    /**
+     * Get Artist and his Albums
+     *
+     * @param id
+     * @param page
+     * @param limit
+     * @param cb
+     */
+    this.getArtistInfoWithAlbums = function (id, page, limit, cb) {
+        repo.getArtist(id, getOffset(page, limit), limit, (err, arrayResponses) => {
+            if(err){
+                return cb(err)
+            }
 
-        artist.expire = arrayResponses[0].lifetime < arrayResponses[1].lifetime ?
-            arrayResponses[0].lifetime : arrayResponses[1].lifetime
+            const artist = mapper.mapArtistAndAlbums(arrayResponses[0].json, arrayResponses[1].json)
 
-        cb(null, artist)
-    })
-}
+            artist.expire = arrayResponses[0].lifetime < arrayResponses[1].lifetime ?
+                arrayResponses[0].lifetime : arrayResponses[1].lifetime
 
-/**
- * Get an album info with tracks
- *
- * @param id
- * @param cb
- */
-dataService.albumInfo = function(id, cb) {
-    spotify.getAlbumInfo(id, (err, spotifyJsonResponse) => {
-        if(err)
-            return cb(err)
+            cb(null, artist)
+        })
+    }
 
-        const album = mapper.mapAlbum(spotifyJsonResponse.json)
-        album.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+    /**
+     * Get an album info with tracks
+     *
+     * @param id
+     * @param cb
+     */
+    this.albumInfo = function(id, cb) {
+        repo.getAlbumInfo(id, (err, spotifyJsonResponse) => {
+            if(err)
+                return cb(err)
 
-        cb(null, album)
-    })
+            const album = mapper.mapAlbum(spotifyJsonResponse.json)
+            album.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+
+            cb(null, album)
+        })
+    }
+
 }
 
 /*

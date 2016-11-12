@@ -6,7 +6,8 @@ const appController = require('./appControllers')
 
 //TODO: remove dependencies
 const viewService = require('../model/service/viewService')
-const dataService = require('../model/service/dataService')
+const DataService = require('../model/service/dataService')
+const dataService = new DataService(require('../data/SpotifyRepository'))
 
 const controllers = {}
 
