@@ -49,7 +49,11 @@ cache.addCachedView = function(name, view, expire) {
     const cachedObject = new CacheObject(view, getActualSeconds() + expire)
 
     memory[name] = cachedObject // memory n1
-    fs.writeFileSync(getCachePath(name), cachedObject.toJson()) // disk n2
+
+    fs.writeFile(getCachePath(name), cachedObject.toJson(), (err) => {
+        if(err)
+            console.log(err.message)
+    }) // disk n2
 }
 
 /**
