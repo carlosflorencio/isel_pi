@@ -22,7 +22,7 @@ const dataService = function DataService(repo){
                 return cb(err)
 
             const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
-            collection.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+            collection.expire = spotifyJsonResponse.lifetime
 
             cb(null, collection)
         })
@@ -63,7 +63,7 @@ const dataService = function DataService(repo){
                 return cb(err)
 
             const album = mapper.mapAlbum(spotifyJsonResponse.json)
-            album.expire = spotifyJsonResponse.lifetime // TODO: remove this hack
+            album.expire = spotifyJsonResponse.lifetime
 
             cb(null, album)
         })

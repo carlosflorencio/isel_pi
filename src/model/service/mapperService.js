@@ -28,7 +28,6 @@ methods.mapArtistsToCollection = function(json) {
 /**
  * Maps spotify albuns json object to a collection of Albuns
  *
- * TODO: refactor this? is the same as mapArtistsToCollection
  * @param albumsJson
  * @return {Collection}
  */
@@ -93,7 +92,7 @@ methods.mapAlbum = function(jsonAlbumItem) {
 
 /**
  * Maps a json tracks array to a Collection of tracks
- * @param jsonTraks
+ * @param jsonTracks
  * @return {*}
  */
 methods.mapTracksToCollection = function (jsonTracks) {
