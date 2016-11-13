@@ -4,7 +4,6 @@ const cacheService = require('../model/service/cacheService')
 
 const appController = require('./appControllers')
 
-//TODO: remove dependencies
 const viewService = require('../model/service/viewService')
 const DataService = require('../model/service/dataService')
 const dataService = new DataService(require('../data/SpotifyRepository'))
@@ -55,6 +54,9 @@ controllers.artists = function (request, cb) {
     const page = request.query.page || 1
     const limit = request.query.limit || 5
     const id = request.query.q || request.params.artist
+
+    if (!id)
+        return cb(new Error("No artist id provided"))
 
     const cacheViewName = id + '_' + page + '_' + limit
 

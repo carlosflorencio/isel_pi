@@ -62,6 +62,14 @@ function processRequests(req, resp) {
 | Utils
 |--------------------------------------------------------------------------
 */
+const regexRoutes = [
+    /^\/$/g,
+    /^\/search\/?$/g,
+    /^\/search\/[a-z]*\/?$/g,
+    /^\/artists\/[0-z]*\/?$/g,
+    /^\/album\/[0-z]*\/?$/g
+]
+
 /**
  * Get the right handler for each endPoint
  *
@@ -69,9 +77,12 @@ function processRequests(req, resp) {
  * @return {*}
  */
 function getHandler(pathname) {
-    const endPoint = getEndPoint(pathname)
-
-    return handlers.controllers[endPoint]
+    for (let i = 0; i<regexRoutes.length; i++){
+        if(pathname.match(regexRoutes[i])){
+            const endPoint = getEndPoint(pathname)
+            return handlers.controllers[endPoint]
+        }
+    }
 }
 
 /**
