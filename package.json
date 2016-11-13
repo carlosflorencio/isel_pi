@@ -4,7 +4,8 @@
   "description": "Trabalho de PI",
   "main": "src/SpotieApp.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node ./src/SpotieApp.js"
   },
   "keywords": [
     "spotie"
