@@ -51,7 +51,7 @@ cache.addCachedView = function(name, view, expire) {
     memory[name] = cachedObject // memory n1
 
     fs.writeFile(getCachePath(name), cachedObject.toJson(), (err) => {
-        if(err)     // Error not relevant to the well functioning of the app
+        if(err)  // Error not relevant to the well functioning of the app
             console.log(err.message)
     }) // disk n2
 }
@@ -112,7 +112,7 @@ function loadFromDisk(name, cb) {
  * @param callback
  */
 function viewIsNotInCache(callback) {
-    callback("View is not in cache.")
+    callback(new Error("View is not in cache."))
 }
 
 /**
