@@ -6,7 +6,7 @@ const url = require('url')
 const handlers = require('./controller/cacheController')
 //const handlers = require('./controller/appControllers')
 
-const RequestMiddleware = require('./data/entity/RequestMiddleware')
+const RequestMiddleware = require('./model/entity/RequestMiddleware')
 
 const view = require('./model/service/viewService')
 const fs = require('fs')

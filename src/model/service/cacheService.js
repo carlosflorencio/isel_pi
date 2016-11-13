@@ -2,12 +2,10 @@
 
 const fs = require('fs')
 
-// TODO: test cache service and CacheObject
-
 // Cache n1 - Memory
 const memory = {}
 
-const CACHE_DIR = './cache/'
+const CACHE_DIR = __dirname + '/../../../cache/'
 const CACHE_EXT = '.txt'
 
 const cache = {}
