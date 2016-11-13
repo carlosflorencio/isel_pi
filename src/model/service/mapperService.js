@@ -6,14 +6,13 @@ const config = require('../../config.json')
 const Album = require('../entity/Album')
 const Track = require('../entity/Track')
 
-// TODO: test this service
-
 const methods = {}
 
 /**
  * Maps spotify search artists json object to a collection of Artists
  *
  * @param json Artists Search Json
+ * @return {Collection} Collection of Artists
  */
 methods.mapArtistsToCollection = function(json) {
     let artists = json.artists.items.map(artist => this.mapArtist(artist))
@@ -26,10 +25,10 @@ methods.mapArtistsToCollection = function(json) {
 }
 
 /**
- * Maps spotify albuns json object to a collection of Albuns
+ * Maps spotify albums json object to a collection of Albums
  *
  * @param albumsJson
- * @return {Collection}
+ * @return {Collection} Collection of Albums
  */
 methods.mapAlbumsToCollection = function(albumsJson) {
     let albums = albumsJson.items.map(album => this.mapAlbum(album))
@@ -41,11 +40,12 @@ methods.mapAlbumsToCollection = function(albumsJson) {
 }
 
 /**
- * Maps the artist json and his albuns to an Artist Entity with a colection of
- * albuns in the albuns property
+ * Maps the artist json and his albums to an Artist Entity with a collection of
+ * albums in the albums property
+ *
  * @param artistJson
  * @param albumsJson
- * @return {Artist}
+ * @return {Artist} Artist with a Collection of Albums
  */
 methods.mapArtistAndAlbums = function(artistJson, albumsJson) {
     let artist = this.mapArtist(artistJson)
@@ -55,9 +55,9 @@ methods.mapArtistAndAlbums = function(artistJson, albumsJson) {
 }
 
 /**
- * Maps a json artist item to an Artist Entity without albuns
+ * Maps a json artist item to an Artist Entity without albums
  * @param jsonArtistItem
- * @return {Artist}
+ * @return {Artist} Artist
  */
 methods.mapArtist = function(jsonArtistItem) {
     return new Artist(
@@ -74,8 +74,9 @@ methods.mapArtist = function(jsonArtistItem) {
 
 /**
  * Maps a json album info to an Album Entity, with or without tracks
+ *
  * @param jsonAlbumItem
- * @return {Album}
+ * @return {Album} Album
  */
 methods.mapAlbum = function(jsonAlbumItem) {
     return new Album(
@@ -92,8 +93,9 @@ methods.mapAlbum = function(jsonAlbumItem) {
 
 /**
  * Maps a json tracks array to a Collection of tracks
+ *
  * @param jsonTracks
- * @return {*}
+ * @return {Collection} Collection of Tracks
  */
 methods.mapTracksToCollection = function (jsonTracks) {
     if(!jsonTracks) return null
@@ -108,8 +110,9 @@ methods.mapTracksToCollection = function (jsonTracks) {
 
 /**
  * Create a Track entity from a jsonTrack
+ *
  * @param jsonTrackItem
- * @return {Track}
+ * @return {Track} Track
  */
 methods.mapTrack = function(jsonTrackItem) {
     return new Track(

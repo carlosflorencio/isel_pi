@@ -4,7 +4,7 @@ const http = require('http')
 const url = require('url')
 
 const handlers = require('./controller/cacheController')
-//const handlers = require('./controller/appControllers') //TODO: mudar para cacheController
+//const handlers = require('./controller/appControllers')
 
 const RequestMiddleware = require('./data/entity/RequestMiddleware')
 
