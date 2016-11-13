@@ -51,7 +51,6 @@ controllers.search = function (request, callback) {
 /**
  * Artists Controller
  * Shows all the artist info and his albums paginated
- * USES CACHE!
  *
  * @param request
  * @param callback

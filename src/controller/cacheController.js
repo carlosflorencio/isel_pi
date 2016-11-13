@@ -60,7 +60,7 @@ controllers.artists = function (request, cb) {
 
     const cacheViewName = id + '_' + page + '_' + limit
 
-    cacheService.getCachedView(cacheViewName, (err, view) => {
+    cacheService.getCachedView(cacheViewName, (err, cachedView) => {
         if(err) { // We dont have a view in cache
             dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
                 if (err)
@@ -72,17 +72,16 @@ controllers.artists = function (request, cb) {
                     id: id
                 }
 
-                viewService.render('artist', data, (err, view) => {
-                    if(err){
+                viewService.render('artist', data, (err, renderedView) => {
+                    if(err)
                         return cb(err)
-                    }
 
-                    cacheService.addCachedView(cacheViewName, view, artist.expire)
-                    cb(null, view);
+                    cacheService.addCachedView(cacheViewName, renderedView, artist.expire)
+                    cb(null, renderedView);
                 })
             })
         } else {
-            cb(null, view) // Cached view!
+            cb(null, cachedView) // Cached view!
         }
     })
 }

@@ -31,11 +31,12 @@ spotify.searchArtist = function (artist, offset, limit, cb) {
 
 /**
  * SPOTIFY Get artist info
+ * Albums paginated
  *
  * @param id
  * @param offset
  * @param limit
- * @param cb
+ * @param cb (err, [data])
  */
 spotify.getArtist = function (id, offset, limit, cb) {
     const uris = [
