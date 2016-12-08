@@ -1,22 +1,32 @@
 "use strict";
 
 const fs = require('fs')
+const path = require('path')
+
+const INFINITE = 'infinite'
 
 /**
  * Cache Service
  * This cache has two levels: memory and disk fallback
- * Also has expiration for the values
+ * Works for all type of values
+ * Also has expiration for the values if provided
+ * Warning: complexity inside
  *
+ * TODO: clear cache method
+ * TODO: add a routine to clear expired cache files after some tome
+ * TODO: add option to only use memory cache?
+ * TODO: export this to a standalone package to npm with the cache middleware helper
  *
  * @param cacheDir Directory to save the cached values in disk
+ * @param fileExt ex: 'json'(default), 'txt'
  * @constructor
  */
-function Cache(cacheDir) {
+function Cache(cacheDir, fileExt = 'json') {
     // Cache n1 - Memory
-    this.memory = {}
+    this._memory = {}
 
-    this.cacheDir = cacheDir
-    this.cacheExt = '.json'
+    this._cacheDir = cacheDir
+    this._cacheExt = '.' + fileExt
 }
 
 /**
@@ -30,67 +40,93 @@ function Cache(cacheDir) {
  * @param cb (err, value)
  */
 Cache.prototype.get = function(key, cb) {
-    const cacheObject = this.memory[key]
+    const cacheObject = this._memory[key]
 
     if(cacheObject) { // The value is in memory
         if(cacheObject.isExpired()) {
-            this.deleteFromCache(key)
-            return this.viewIsNotInCache(cb)
+            delete this._memory[key] // remove from memory
+
+            // delete the file if it exists (async)
+            this.deleteFile(key)
+
+            return this.valueIsNotInCache(cb)
         }
 
         return cb(null, cacheObject.value)
     }
 
-    // Lets try using the disk
+    // not in memory, lets try using the disk
     this.loadFromDisk(key, (cacheObject) => {
         if(cacheObject) { // Exists in disk!
             if(cacheObject.isExpired()) { // EXPIRED! remove from disk
-                fs.unlink(this.getCachePath(key))
-                return this.viewIsNotInCache(cb)
+               this.deleteFile(key)  // delete the file (async)
+                return this.valueIsNotInCache(cb)
             }
 
-            cachedObject.timeout = setTimeout(() => { // add timeout again
-                this.deleteFromCache(key)
-            }, cachedObject.expire - Date.now());
+            if(cacheObject.expire != INFINITE) {
+                cacheObject.timeout = setTimeout(() => { // add timeout again
+                    this.delete(key)
+                }, cacheObject.expire - Date.now()); // align the timout
+            }
 
-            this.memory[key] = cachedObject //add to memory again
-            return cb(null, cacheObject.view)
+            this._memory[key] = cacheObject //add to memory again
+            return cb(null, cacheObject.value)
         }
 
-        return this.viewIsNotInCache(cb) // not in disk
+        return this.valueIsNotInCache(cb) // not in disk
     })
 }
 
 /**
  * Add a value to cache
  * Value is added in memory cache and in disk
+ * Expiration can be provided, is optional
  * When expired, is removed from the memory & disk (setTimeout is used)
+ *
+ * If no callback was passed, the value is return
+ * otherwise the callback is called with finished writing to the disk
+ *
+ * TODO: validate key for a valid filename and expire for valid time
  *
  * @param key
  * @param value
- * @param expire miliseconds
+ * @param expire OPTIONAL: miliseconds
+ * @param cb OPTIONAL: (error|null) Called when finished writing the file in disk
+ * error: writing failed, null: writing succeded
  */
-Cache.prototype.put = function(key, value, expire) {
-    const oldRecord = this.memory[key];
+Cache.prototype.put = function(key, value, expire = INFINITE, cb = null) {
+    const oldRecord = this._memory[key];
     if (oldRecord) { // clear old value timeout
-        clearTimeout(oldRecord.timeout);
+        if(oldRecord.expire != INFINITE)
+            clearTimeout(oldRecord.timeout);
     }
 
-    const cachedObject = new CacheObject(view, Date.now() + expire)
+    const cachedObject = new CacheObject(value, expire != INFINITE ? Date.now() + expire : INFINITE)
 
-    cachedObject.timeout = setTimeout(() => { // remove from cache after expires
-        this.deleteFromCache(key)
-    }, expire);
+    if(expire != INFINITE) {
+        cachedObject.timeout = setTimeout(() => { // remove from cache after expire time
+            this.delete(key)
+        }, expire);
+    }
 
-    this.memory[key] = cachedObject // memory n1
+    this._memory[key] = cachedObject // memory n1
 
-    fs.writeFile(this.getCachePath(key), cachedObject.toJson(), (err) => { // disk cache
-        if(err)  // Error not relevant to the well functioning of the app
-            console.log(err.message)
+    fs.writeFile(this.getCachePath(key), cachedObject.toJson(), (err) => {
+        if(err) {
+            if(cb) return cb(err)
+
+            // not important for the runtime of the app, the value is in memory
+            console.log('Failed to write in cache: ' + err.message);
+            return
+        }
+
+        if(cb) return cb(null) // success
     })
 
-    return value
+    if(!cb)
+        return value
 }
+
 
 /**
  * Remove value from cache
@@ -98,18 +134,24 @@ Cache.prototype.put = function(key, value, expire) {
  *
  * @param key
  */
-Cache.prototype.deleteFromCache = function(key) {
-    delete this.memory[key] // remove from memory
+Cache.prototype.delete = function(key) {
+    const cachedObject = this._memory[key]
 
-    // Delete the file if it exists (async)
-    fs.unlink(this.getCachePath(key))
+    if(cachedObject) { // clear timeout
+        if(cachedObject.expire != INFINITE)
+            clearTimeout(cachedObject.timeout)
+    }
+    
+    delete this._memory[key] // remove from memory
+
+    this.deleteFile(key) // async
 }
 
 /**
  * Loads the Cached Object from disk
  *
  * @param key
- * @param cb (result) result can false or the view string
+ * @param cb (result) result can be false or the cachedObject
  */
 Cache.prototype.loadFromDisk = function(key, cb) {
     fs.readFile(this.getCachePath(key), (err, data) => {
@@ -127,18 +169,31 @@ Cache.prototype.loadFromDisk = function(key, cb) {
  *
  * @param callback
  */
-Cache.prototype.viewIsNotInCache = function(callback) {
+Cache.prototype.valueIsNotInCache = function(callback) {
     callback(new Error("Value is not in cache."))
 }
 
 /**
- * Constructs the cache view path
+ * Constructs the cache dir path
  *
  * @param name
  * @return {string}
  */
 Cache.prototype.getCachePath = function(name) {
-    return this.cacheDir + name + this.cacheExt
+    return path.join(this._cacheDir, name + this._cacheExt)
+}
+
+/**
+ * Delete file async
+ *
+ * @param key
+ */
+Cache.prototype.deleteFile = function (key) {
+    // delete the file if it exists (async)
+    fs.unlink(this.getCachePath(key), (err) => {
+        if(err) // no problem if file does not exist
+            return console.log("Failed to delete file: " + err.message);
+    })
 }
 
 /*
@@ -164,6 +219,8 @@ function CacheObject(value, expireTime) {
  * @return {boolean} true if the object is expired
  */
 CacheObject.prototype.isExpired = function () {
+    if(this.expire == INFINITE) return false
+
     return this.expire < Date.now()
 }
 
@@ -184,7 +241,8 @@ CacheObject.prototype.toJson = function() {
  */
 CacheObject.fromJson = function(json) {
     const data = JSON.parse(json); // Parsing the json string
-    return new CacheObject(data.value, parseInt(data.expire));
+    return new CacheObject(data.value, data.expire == INFINITE ? INFINITE : parseInt(data.expire));
 };
 
 module.exports = Cache
+module.exports.INFINITE = INFINITE

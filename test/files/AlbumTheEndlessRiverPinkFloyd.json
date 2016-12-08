@@ -1,0 +1,1386 @@
+{
+  "data": {
+    "album_type": "album",
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+        },
+        "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+        "id": "0k17h0D3J5VfsdmQ1iZtE9",
+        "name": "Pink Floyd",
+        "type": "artist",
+        "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+      }
+    ],
+    "available_markets": [
+      "AD",
+      "AT",
+      "BE",
+      "BG",
+      "CH",
+      "CY",
+      "CZ",
+      "DE",
+      "DK",
+      "EE",
+      "ES",
+      "FI",
+      "FR",
+      "GB",
+      "GR",
+      "HU",
+      "IE",
+      "IS",
+      "IT",
+      "LI",
+      "LT",
+      "LU",
+      "LV",
+      "MC",
+      "MT",
+      "NL",
+      "NO",
+      "PL",
+      "PT",
+      "SE",
+      "SK",
+      "TR"
+    ],
+    "copyrights": [
+      {
+        "text": "2014 Pink Floyd (1987) Ltd under exclusive licence to Parlophone Records Ltd, a Warner Music Group Company",
+        "type": "C"
+      },
+      {
+        "text": "2014 Pink Floyd (1987) Ltd under exclusive licence to Parlophone Records Ltd, a Warner Music Group Company",
+        "type": "P"
+      }
+    ],
+    "external_ids": {
+      "upc": "825646202546"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/album/0fXAlQ9wTG2glNJvZEkBZc"
+    },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/albums/0fXAlQ9wTG2glNJvZEkBZc",
+    "id": "0fXAlQ9wTG2glNJvZEkBZc",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/e967961e987317a29a014abd0c2339766179c34a",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/0d4597dcaff96fd0c8cad3819b7e0c12dda043ff",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/0e8b00f8c0054bde141c5f7eed8348f5b512963d",
+        "width": 64
+      }
+    ],
+    "label": "Parlophone UK",
+    "name": "The Endless River",
+    "popularity": 63,
+    "release_date": "1987",
+    "release_date_precision": "year",
+    "tracks": {
+      "href": "https://api.spotify.com/v1/albums/0fXAlQ9wTG2glNJvZEkBZc/tracks?offset=0&limit=50",
+      "items": [
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 264600,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/489fYYMIvUjY3KwKR4Wox0"
+          },
+          "href": "https://api.spotify.com/v1/tracks/489fYYMIvUjY3KwKR4Wox0",
+          "id": "489fYYMIvUjY3KwKR4Wox0",
+          "name": "Side 1, Pt. 1: Things Left Unsaid",
+          "preview_url": "https://p.scdn.co/mp3-preview/eafcd532d27ea8e3a73b5aa6ac7b2bbb5091a568",
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:489fYYMIvUjY3KwKR4Wox0"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 381426,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/0Xt3Zjaj9sTCGMO2B2Sd6F"
+          },
+          "href": "https://api.spotify.com/v1/tracks/0Xt3Zjaj9sTCGMO2B2Sd6F",
+          "id": "0Xt3Zjaj9sTCGMO2B2Sd6F",
+          "name": "Side 1, Pt. 2: It's What We Do",
+          "preview_url": "https://p.scdn.co/mp3-preview/e3706f8e403667791705e6a4038b80e9a9585c06",
+          "track_number": 2,
+          "type": "track",
+          "uri": "spotify:track:0Xt3Zjaj9sTCGMO2B2Sd6F"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 110200,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/4mw37gOyNWx6uUflS92dAx"
+          },
+          "href": "https://api.spotify.com/v1/tracks/4mw37gOyNWx6uUflS92dAx",
+          "id": "4mw37gOyNWx6uUflS92dAx",
+          "name": "Side 1, Pt. 3: Ebb And Flow",
+          "preview_url": "https://p.scdn.co/mp3-preview/47f771ab2e17f7f73c444cfb5b239dabde6c6848",
+          "track_number": 3,
+          "type": "track",
+          "uri": "spotify:track:4mw37gOyNWx6uUflS92dAx"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 289493,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/0fskIL9GglXEAhfC3einhM"
+          },
+          "href": "https://api.spotify.com/v1/tracks/0fskIL9GglXEAhfC3einhM",
+          "id": "0fskIL9GglXEAhfC3einhM",
+          "name": "Side 2, Pt. 1: Sum",
+          "preview_url": "https://p.scdn.co/mp3-preview/25a105951af94a0815cfff6bc4f3cb9f2c3c4369",
+          "track_number": 4,
+          "type": "track",
+          "uri": "spotify:track:0fskIL9GglXEAhfC3einhM"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 157760,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/7Gh8hEucRqPvu0MEP9LLQe"
+          },
+          "href": "https://api.spotify.com/v1/tracks/7Gh8hEucRqPvu0MEP9LLQe",
+          "id": "7Gh8hEucRqPvu0MEP9LLQe",
+          "name": "Side 2, Pt. 2: Skins",
+          "preview_url": "https://p.scdn.co/mp3-preview/80b71034bbd01b3d5994ba26ee79b994be3807dc",
+          "track_number": 5,
+          "type": "track",
+          "uri": "spotify:track:7Gh8hEucRqPvu0MEP9LLQe"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 66573,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/6St7hjIG2njuG5Zck8vK4Q"
+          },
+          "href": "https://api.spotify.com/v1/tracks/6St7hjIG2njuG5Zck8vK4Q",
+          "id": "6St7hjIG2njuG5Zck8vK4Q",
+          "name": "Side 2, Pt. 3: Unsung",
+          "preview_url": "https://p.scdn.co/mp3-preview/b7da0abba6497563898a0771022999cc606db799",
+          "track_number": 6,
+          "type": "track",
+          "uri": "spotify:track:6St7hjIG2njuG5Zck8vK4Q"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 195426,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/6KI0minDpZm87KpbUczmMK"
+          },
+          "href": "https://api.spotify.com/v1/tracks/6KI0minDpZm87KpbUczmMK",
+          "id": "6KI0minDpZm87KpbUczmMK",
+          "name": "Side 2, Pt. 4: Anisina",
+          "preview_url": "https://p.scdn.co/mp3-preview/f441726263b8c0ab712eb39f7d5cbcd25f0e07d4",
+          "track_number": 7,
+          "type": "track",
+          "uri": "spotify:track:6KI0minDpZm87KpbUczmMK"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 103680,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/2p72sMKnbuBzszSZ6N4cGy"
+          },
+          "href": "https://api.spotify.com/v1/tracks/2p72sMKnbuBzszSZ6N4cGy",
+          "id": "2p72sMKnbuBzszSZ6N4cGy",
+          "name": "Side 3, Pt. 1: The Lost Art Of Conversation",
+          "preview_url": "https://p.scdn.co/mp3-preview/47496da7b1e19f6b812c2f0f42d4d7557728063e",
+          "track_number": 8,
+          "type": "track",
+          "uri": "spotify:track:2p72sMKnbuBzszSZ6N4cGy"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 102213,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/6fbq5apfzotsswgUqFIImP"
+          },
+          "href": "https://api.spotify.com/v1/tracks/6fbq5apfzotsswgUqFIImP",
+          "id": "6fbq5apfzotsswgUqFIImP",
+          "name": "Side 3, Pt. 2: On Noodle Street",
+          "preview_url": "https://p.scdn.co/mp3-preview/a89aab9ef9e2e3091b3587165b4609acb0c78e68",
+          "track_number": 9,
+          "type": "track",
+          "uri": "spotify:track:6fbq5apfzotsswgUqFIImP"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 102293,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/7xg2tTPvFfFqddaQTLZqKK"
+          },
+          "href": "https://api.spotify.com/v1/tracks/7xg2tTPvFfFqddaQTLZqKK",
+          "id": "7xg2tTPvFfFqddaQTLZqKK",
+          "name": "Side 3, Pt. 3: Night Light",
+          "preview_url": "https://p.scdn.co/mp3-preview/478ec065de8b9f12969346b6e47b76f5cad84004",
+          "track_number": 10,
+          "type": "track",
+          "uri": "spotify:track:7xg2tTPvFfFqddaQTLZqKK"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 116720,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/0b6NTTgJgwxIkQmfWir5Mx"
+          },
+          "href": "https://api.spotify.com/v1/tracks/0b6NTTgJgwxIkQmfWir5Mx",
+          "id": "0b6NTTgJgwxIkQmfWir5Mx",
+          "name": "Side 3, Pt. 4: Allons-y (1)",
+          "preview_url": "https://p.scdn.co/mp3-preview/b14e4f7f502b28fcfb3cf06a4e9ab18a3bf2c2fe",
+          "track_number": 11,
+          "type": "track",
+          "uri": "spotify:track:0b6NTTgJgwxIkQmfWir5Mx"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 95213,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/69QYTNSlwfvdd1SC8VAwzh"
+          },
+          "href": "https://api.spotify.com/v1/tracks/69QYTNSlwfvdd1SC8VAwzh",
+          "id": "69QYTNSlwfvdd1SC8VAwzh",
+          "name": "Side 3, Pt. 5: Autumn '68",
+          "preview_url": "https://p.scdn.co/mp3-preview/d3eca67de33529d8034e95e894c416d15262d2e6",
+          "track_number": 12,
+          "type": "track",
+          "uri": "spotify:track:69QYTNSlwfvdd1SC8VAwzh"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 95093,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/695ITyBr58Tjm6e6jMAnkO"
+          },
+          "href": "https://api.spotify.com/v1/tracks/695ITyBr58Tjm6e6jMAnkO",
+          "id": "695ITyBr58Tjm6e6jMAnkO",
+          "name": "Side 3, Pt. 6: Allons-y (2)",
+          "preview_url": "https://p.scdn.co/mp3-preview/960ed84404c8464b57355685a5c95e97e349948e",
+          "track_number": 13,
+          "type": "track",
+          "uri": "spotify:track:695ITyBr58Tjm6e6jMAnkO"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 205613,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/6GYRhhYSFv5eeqDkjOFN8c"
+          },
+          "href": "https://api.spotify.com/v1/tracks/6GYRhhYSFv5eeqDkjOFN8c",
+          "id": "6GYRhhYSFv5eeqDkjOFN8c",
+          "name": "Side 3, Pt. 7: Talkin' Hawkin'",
+          "preview_url": "https://p.scdn.co/mp3-preview/603834acba7bd436b210c975d17d9cb465fc1fcf",
+          "track_number": 14,
+          "type": "track",
+          "uri": "spotify:track:6GYRhhYSFv5eeqDkjOFN8c"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 218746,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/1lPNYqcPgfTK1ssrELo4Ju"
+          },
+          "href": "https://api.spotify.com/v1/tracks/1lPNYqcPgfTK1ssrELo4Ju",
+          "id": "1lPNYqcPgfTK1ssrELo4Ju",
+          "name": "Side 4, Pt. 1: Calling",
+          "preview_url": "https://p.scdn.co/mp3-preview/53c54d74dbb47b5761f4ba90f05ca12ac96508fa",
+          "track_number": 15,
+          "type": "track",
+          "uri": "spotify:track:1lPNYqcPgfTK1ssrELo4Ju"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 111853,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/4oTBUWvWn9kQJlGThefIw1"
+          },
+          "href": "https://api.spotify.com/v1/tracks/4oTBUWvWn9kQJlGThefIw1",
+          "id": "4oTBUWvWn9kQJlGThefIw1",
+          "name": "Side 4, Pt. 2: Eyes To Pearls",
+          "preview_url": "https://p.scdn.co/mp3-preview/edd1499fe2bb3814869626a1c2654fdc38097011",
+          "track_number": 16,
+          "type": "track",
+          "uri": "spotify:track:4oTBUWvWn9kQJlGThefIw1"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 166880,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/2XuEwFDgRfY74MlYZ4yTx8"
+          },
+          "href": "https://api.spotify.com/v1/tracks/2XuEwFDgRfY74MlYZ4yTx8",
+          "id": "2XuEwFDgRfY74MlYZ4yTx8",
+          "name": "Side 4, Pt. 3: Surfacing",
+          "preview_url": "https://p.scdn.co/mp3-preview/eb6cc4b285d9cc621712715bef2662604e107aed",
+          "track_number": 17,
+          "type": "track",
+          "uri": "spotify:track:2XuEwFDgRfY74MlYZ4yTx8"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 392573,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/6FOHrTobTT0YXQtQFT4zjk"
+          },
+          "href": "https://api.spotify.com/v1/tracks/6FOHrTobTT0YXQtQFT4zjk",
+          "id": "6FOHrTobTT0YXQtQFT4zjk",
+          "name": "Side 4, Pt. 4: Louder Than Words",
+          "preview_url": "https://p.scdn.co/mp3-preview/f112052c6b7dc6ad033094701d7baa54de7b8293",
+          "track_number": 18,
+          "type": "track",
+          "uri": "spotify:track:6FOHrTobTT0YXQtQFT4zjk"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 147946,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/7jaijXcT0IpWT27DtOpJr8"
+          },
+          "href": "https://api.spotify.com/v1/tracks/7jaijXcT0IpWT27DtOpJr8",
+          "id": "7jaijXcT0IpWT27DtOpJr8",
+          "name": "TBS9",
+          "preview_url": "https://p.scdn.co/mp3-preview/b9328dd35fa0445f93575989ab58ac87b15cfca7",
+          "track_number": 19,
+          "type": "track",
+          "uri": "spotify:track:7jaijXcT0IpWT27DtOpJr8"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 251053,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/1ecYeQwrr5HcohvvlnObBk"
+          },
+          "href": "https://api.spotify.com/v1/tracks/1ecYeQwrr5HcohvvlnObBk",
+          "id": "1ecYeQwrr5HcohvvlnObBk",
+          "name": "TBS14",
+          "preview_url": "https://p.scdn.co/mp3-preview/25f8703c931f9a8d0800f3b6e303cd4db32fe074",
+          "track_number": 20,
+          "type": "track",
+          "uri": "spotify:track:1ecYeQwrr5HcohvvlnObBk"
+        },
+        {
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"
+              },
+              "href": "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+              "id": "0k17h0D3J5VfsdmQ1iZtE9",
+              "name": "Pink Floyd",
+              "type": "artist",
+              "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+            }
+          ],
+          "available_markets": [
+            "AD",
+            "AT",
+            "BE",
+            "BG",
+            "CH",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "EE",
+            "ES",
+            "FI",
+            "FR",
+            "GB",
+            "GR",
+            "HU",
+            "IE",
+            "IS",
+            "IT",
+            "LI",
+            "LT",
+            "LU",
+            "LV",
+            "MC",
+            "MT",
+            "NL",
+            "NO",
+            "PL",
+            "PT",
+            "SE",
+            "SK",
+            "TR"
+          ],
+          "disc_number": 1,
+          "duration_ms": 330733,
+          "explicit": false,
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/16KX9LfZCjRPdX84PX1XF9"
+          },
+          "href": "https://api.spotify.com/v1/tracks/16KX9LfZCjRPdX84PX1XF9",
+          "id": "16KX9LfZCjRPdX84PX1XF9",
+          "name": "Nervana",
+          "preview_url": "https://p.scdn.co/mp3-preview/ce96de9bd1b6b0a0794a6167258fc9d7ea04a416",
+          "track_number": 21,
+          "type": "track",
+          "uri": "spotify:track:16KX9LfZCjRPdX84PX1XF9"
+        }
+      ],
+      "limit": 50,
+      "next": null,
+      "offset": 0,
+      "previous": null,
+      "total": 21
+    },
+    "type": "album",
+    "uri": "spotify:album:0fXAlQ9wTG2glNJvZEkBZc"
+  },
+  "lifetime": 7200
+}

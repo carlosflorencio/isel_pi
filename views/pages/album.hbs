@@ -1,0 +1,61 @@
+<h1>Album</h1>
+
+<!-- Album info -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="well clearfix">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ album.image }}" class="img-responsive" alt="Responsive image">
+                </div>
+                <div class="col-md-8">
+                    <ul class="no-list-style">
+                        <li><h2>{{ album.name }}</h2></li>
+                        <li><h3>{{ album.label }}</h3></li>
+                        <li><h3><strong>Release Date:</strong> {{ album.release_date }}</h3></li>
+                        <li>
+                            <a href="{{ album.uri }}" class="btn btn-primary btn-bg mt10">
+                                Open in Spotify
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Album info -->
+
+<!-- Album tracks -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Tracks ({{ album.tracks.total }} total)</div>
+
+            <ul class="list-group">
+                {{#each album.tracks.items}}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 album-item">
+                                {{#with this }}{{ getDuration }}{{/with}}
+                            </div>
+                            <div class="col-xs-8 album-item">
+                                {{ limit this.name 40 }}
+                            </div>
+                            <div class="col-xs-2 album-item">
+                                <a href="{{ this.previewUrl }}" class="btn btn-primary btn-sm" target="_blank">
+                                    Preview
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Album tracks -->
+
+<!-- Pagination -->
+{{>paginate path='/albums/' query=album.id collection=album.tracks }}
+<!-- /Pagination -->

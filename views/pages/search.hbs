@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ collection.total }} Results for: {{ query }}</div>
+            <div class="panel-body">
+                <div class="row auto-clear">
+                    {{#each collection.items}}
+                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                            <div class="thumbnail">
+                                <img width="200" src="{{ this.image }}" class="img-responsive" alt=""/>
+                                <div class="caption text-center">
+                                    <h4>
+                                        <a href="/artists/{{ this.id }}">
+                                        {{ limit this.name 30 }}
+                                    </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Pagination -->
+{{>paginate path='/search/' query=query collection=collection }}
+<!-- /Pagination -->
