@@ -7,16 +7,22 @@
                 <div class="row auto-clear">
                     {{#each collection.items}}
                         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-                            <div class="thumbnail">
-                                <img width="200" src="{{ this.image }}" class="img-responsive" alt=""/>
-                                <div class="caption text-center">
-                                    <h4>
-                                        <a href="/artists/{{ this.id }}">
-                                        {{ limit this.name 30 }}
-                                    </a>
-                                    </h4>
+                            <a href="/artists/{{ this.id }}">
+                                <div class="thumbnail">
+                                    <img width="200" src="{{ this.image }}" class="img-responsive" alt=""/>
+                                    <div class="caption text-center">
+                                        <h4>
+
+                                            {{ limit this.name 30 }}
+
+                                        </h4>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
+                        </div>
+                    {{else}}
+                        <div class="col-md-12">
+                            No results..
                         </div>
                     {{/each}}
                 </div>

@@ -29,7 +29,6 @@ function cacheMiddlware (seconds = 7200, type = 'html') {
             res.type(type)
 
             if(err) { // no cached value, lets continue
-                console.log('No cache value for: ' + key);
                 res.sendResponse = res.send // save original send method
                 res.send = (body) => { // the next middleware will call this method
                     const time = parseInt(res.locals.expire) || seconds
@@ -40,7 +39,6 @@ function cacheMiddlware (seconds = 7200, type = 'html') {
                 return next() // proceed to the next middlware
             }
 
-            console.log('Sending cached response for key: ' + key);
             // we have a cached value, lets send the response and return
             return res.send(value)
         })
