@@ -2,13 +2,13 @@
 
 var assert = require('assert')
 
-const DataService = require('../src/model/service/dataService')
+const DataService = require('../model/service/spotifyService')
 const dataService = new DataService(require('./MockRepository'))
 
-const Artist = require('../src/model/entity/Artist')
-const Collection = require('../src/model/entity/Collection')
-const Album = require('../src/model/entity/Album')
-const Track = require('../src/model/entity/Track')
+const Artist = require('../model/entity/Artist')
+const Collection = require('../model/entity/Collection')
+const Album = require('../model/entity/Album')
+const Track = require('../model/entity/Track')
 
 describe('Data Service', function() {
     describe('#searchArtist()', function() {

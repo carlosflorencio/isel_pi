@@ -32,14 +32,13 @@
                     <a href="/">Home</a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right" action="/search/" method="get">
-                <div class="input-group input-group-md">
-                    <input type="text" name="q" placeholder="Artist name to search.." class="form-control" required/>
-                    <div class="input-group-btn">
-                        <button type="submit" class="btn">Search</button>
-                    </div>
-                </div>
-            </form>
+
+            {{#if user}}
+                {{> logged }}
+            {{else}}
+                {{> guest }}
+            {{/if}}
+
         </div>
     </div>
 </nav>

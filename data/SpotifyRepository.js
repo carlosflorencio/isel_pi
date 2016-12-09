@@ -1,12 +1,12 @@
 "use strict";
 
-const https = require('https');
 const sprintf = require('sprintf')
+const httpsUtil = require('./httpsUtil')
 const SpotifyJsonResponse = require('../model/entity/SpotifyJsonResponse')
 
 /**
  * Spotify Repository
- * All requests to spotify api are made here
+ * Gets info from spotify
  */
 const spotify = {}
 const url = "https://api.spotify.com/v1"
@@ -29,7 +29,7 @@ const api = {
  */
 spotify.searchArtist = function (artist, offset, limit, cb) {
     const uri = sprintf(api.searchArtist, encodeURIComponent(artist), offset, limit)
-    httpsGetJson(uri, cb)
+    httpsUtil.httpsGetJson(uri, cb)
 }
 
 /**
@@ -49,7 +49,7 @@ spotify.getArtist = function (id, offset, limit, cb) {
         sprintf(api.artistAlbums, encodeURIComponent(id), offset, limit)
     ]
 
-    httpGetParallelJson(uris, cb) //cb is called when both requests are done
+    httpsUtil.httpsGetParallelJson(uris, cb) //cb is called when both requests are done
 }
 
 /**
@@ -61,7 +61,7 @@ spotify.getArtist = function (id, offset, limit, cb) {
  */
 spotify.getAlbumInfo = function (id, cb) {
     const uri = sprintf(api.albumInfo, encodeURIComponent(id))
-    httpsGetJson(uri, cb)
+    httpsUtil.httpsGetJson(uri, cb)
 }
 
 /**
@@ -75,7 +75,7 @@ spotify.getAlbumInfo = function (id, cb) {
  */
 spotify.getAlbumTracks = function (id, offset, limit, cb) {
     const uri = sprintf(api.albumTracks, encodeURIComponent(id), offset, limit)
-    httpsGetJson(uri, cb)
+    httpsUtil.httpsGetJson(uri, cb)
 }
 
 /**
@@ -93,71 +93,8 @@ spotify.getAlbumTracksParalelWithAlbumInfo = function (id, offset, limit, cb) {
         sprintf(api.albumTracks, encodeURIComponent(id), offset, limit)
     ]
 
-    httpGetParallelJson(uris, cb) //cb is called when both requests are done
+    httpsUtil.httpsGetParallelJson(uris, cb) //cb is called when both requests are done
 }
+
 
 module.exports = spotify
-
-/*
- |--------------------------------------------------------------------------
- | Utils
- |--------------------------------------------------------------------------
- */
-/**
- * Http get request to the provided uri
- * The response sent to the callback is a json object
- *
- * @param uri
- * @param callback (error, SpotifyJsonResponse)
- */
-function httpsGetJson(uri, callback) {
-    https.get(uri, (resp) => {
-        let res = ''
-        resp.on('error', callback)
-        resp.on('data', chunk => res += chunk.toString())
-        resp.on('end', () => {
-            const jsonResponse = new SpotifyJsonResponse(
-                resp.req.path,
-                res,
-                resp.headers['cache-control'].split('=')[1]
-            )
-
-            if(jsonResponse.json.error){
-                return callback(jsonResponse.json.error)
-            }
-            callback(null, jsonResponse)
-        })
-    })
-}
-
-/**
- * Get several requests from the array of uris
- * The response sent to the callback is an array of json object
- *
- * TODO: use promises here!
- *
- * @param uris array of uris
- * @param callback (err, [data])
- */
-function httpGetParallelJson(uris, callback) {
-    let count = 0, arr = []
-    uris.forEach((uri) => {
-        httpsGetJson(uri, (err, data) => {
-            if (err) {
-                return callback(err)
-            }
-
-            // add the response in the same order as requested
-            for (let i = 0; i < uris.length; i++) {
-                if (uris[i].endsWith(data.id)) {
-                    arr[i] = data
-                    break;
-                }
-            }
-
-            if (++count == uris.length) {
-                callback(null, arr)
-            }
-        })
-    })
-}

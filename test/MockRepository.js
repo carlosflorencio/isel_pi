@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-const SpotifyJsonResponse = require('../src/model/entity/SpotifyJsonResponse')
+const SpotifyJsonResponse = require('../model/entity/SpotifyJsonResponse')
 
 const filePath = __dirname + '/files/'
 

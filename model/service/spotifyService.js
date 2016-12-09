@@ -1,6 +1,6 @@
 "use strict";
 
-const mapper = require('./mapperService')
+const mapper = require('./spotifyMapperService')
 
 /**
  * Data Service is used to help retrieve data from a repository and map it into a model entity

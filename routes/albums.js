@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const spotifyRepo = require('../data/SpotifyRepository')
-const DataService = require('../model/service/dataService')
-const cacheMiddleware = require('../model/middleware/cache')
+const DataService = require('../model/service/spotifyService')
 
 const dataService = new DataService(spotifyRepo)
 

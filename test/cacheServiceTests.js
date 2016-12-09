@@ -7,7 +7,7 @@ const CacheService = require('../model/service/cacheService')
 
 describe('Cache Service', function() {
     let cache = null
-    const cacheDir = path.join(__dirname,  '../cache')
+    const cacheDir = path.join(__dirname,  '../storage/cache')
 
     beforeEach(function() { // runs before each test
        cache = new CacheService(cacheDir)
@@ -115,10 +115,8 @@ describe('Cache Service', function() {
                 cache.put('key' + i, 'value' + i, 1000)
             }
 
-            console.log(Object.keys(cache._memory).length);
-
             setTimeout(() => {
-                console.log(Object.keys(cache._memory).length);
+                assert.equal(Object.keys(cache._memory).length, 0)
                 done()
             }, 1500)
         })

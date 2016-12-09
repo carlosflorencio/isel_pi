@@ -3,7 +3,7 @@ const path = require('path')
 const debug = require('debug')('cacheMiddlware');
 
 // Static for all routes, make it local for each router?
-const cache = new CacheService(path.join(__dirname, '../../cache'))
+const cache = new CacheService(path.join(__dirname, '../../storage/cache'))
 
 /**
  * Cache middleware
@@ -32,7 +32,6 @@ function cacheMiddlware (seconds = 7200, type = 'html') {
                 res.sendResponse = res.send // save original send method
                 res.send = (body) => { // the next middleware will call this method
                     const time = parseInt(res.locals.expire) || seconds
-                    console.log('Saving for ' + time + ' seconds');
                     cache.put(key, body, time * 1000); // add to cache the new body
                     res.sendResponse(body) // call the original send method
                 }

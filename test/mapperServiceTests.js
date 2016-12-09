@@ -3,10 +3,10 @@
 const assert = require('assert')
 const fs = require('fs')
 
-const Artist = require('../src/model/entity/Artist')
-const Collection = require('../src/model/entity/Collection')
-const Album = require('../src/model/entity/Album')
-const Track = require('../src/model/entity/Track')
+const Artist = require('../model/entity/Artist')
+const Collection = require('../model/entity/Collection')
+const Album = require('../model/entity/Album')
+const Track = require('../model/entity/Track')
 
 const path = __dirname + "/files/"
 
@@ -17,7 +17,7 @@ const jsonTrack = jsonTracks.items[0]
 const jsonArtist = JSON.parse(fs.readFileSync(path + 'ArtistPinkFloyd.json')).data
 const jsonArtists = JSON.parse(fs.readFileSync(path + 'SearchPinkFloyd.json')).data
 
-const mapperService = require('../src/model/service/mapperService')
+const mapperService = require('../model/service/spotifyMapperService')
 
 describe('Mapper Service', function() {
 
