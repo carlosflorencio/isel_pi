@@ -80,6 +80,16 @@ body {
     max-width: 400px;
 }
 
+.text-middle {
+    vertical-align: middle !important;
+}
+
+/* Playlists
+   ========================================================================== */
+.delete-playlist {
+    margin-top: 16px;
+}
+
 /* Grid search cleafix for each row
    ========================================================================== */
 @media (min-width:1200px){

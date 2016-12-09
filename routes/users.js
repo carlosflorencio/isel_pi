@@ -30,7 +30,7 @@ router.post('/login', function (req, res, next) {
         if (err) return next(err)
 
         if (!user)  {
-            req.session.message = 'Wrong credentials!'
+            req.flash('Wrong credentials!', 'danger')
             res.redirect('back')
             return
         }
@@ -67,7 +67,7 @@ router.get('/register', guest(), function (req, res, next) {
 router.post('/register', function (req, res, next) {
 
     if(!req.body.name || !req.body.email || !req.body.password) {
-        req.session.message = 'You need to fill all the data!'
+        req.flash('You need to fill all the data!', 'danger')
         res.redirect('back')
         return
     }
@@ -76,7 +76,7 @@ router.post('/register', function (req, res, next) {
         if(err) return next(err)
 
         if(user) {
-            req.session.message = 'That email is already registered!'
+            req.flash('That email is already registered!', 'danger')
             res.redirect('back')
             return
         }

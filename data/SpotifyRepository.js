@@ -2,6 +2,7 @@
 
 const sprintf = require('sprintf')
 const httpsUtil = require('./httpsUtil')
+const config = require('../config')
 const SpotifyJsonResponse = require('../model/entity/SpotifyJsonResponse')
 
 /**
@@ -9,13 +10,14 @@ const SpotifyJsonResponse = require('../model/entity/SpotifyJsonResponse')
  * Gets info from spotify
  */
 const spotify = {}
-const url = "https://api.spotify.com/v1"
+const url = config.spotify_url
 const api = {
     searchArtist: url + "/search?type=artist&q=%s&offset=%s&limit=%s",
     artistInfo: url + "/artists/%s",
     artistAlbums: url + "/artists/%s/albums?offset=%s&limit=%s",
     albumInfo: url + '/albums/%s',
-    albumTracks: url + '/albums/%s/tracks?offset=%s&limit=%s'
+    albumTracks: url + '/albums/%s/tracks?offset=%s&limit=%s',
+    tracks: url + '/tracks?ids=%s'
 }
 
 /**
@@ -94,6 +96,18 @@ spotify.getAlbumTracksParalelWithAlbumInfo = function (id, offset, limit, cb) {
     ]
 
     httpsUtil.httpsGetParallelJson(uris, cb) //cb is called when both requests are done
+}
+
+/**
+ * Get mutiple tracks by id
+ *
+ * @param idsArray
+ * @param cb
+ */
+spotify.getTracks = function (idsArray, cb) {
+    const uri = sprintf(api.tracks, encodeURIComponent(idsArray.join(",")))
+
+    httpsUtil.httpsGetJson(uri, cb)
 }
 
 

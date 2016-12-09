@@ -90,6 +90,23 @@ function DataService(repo) {
             cb(null, album)
         })
     }
+
+    /**
+     * Get tracks from an array of ids
+     *
+     * @param idsArray
+     * @param cb
+     */
+    this.getTracks = function (idsArray, cb) {
+        repo.getTracks(idsArray, (err, spotifyJsonResponse) => {
+            if (err) return cb(err)
+
+            const tracks = spotifyJsonResponse.json.tracks.map(t => mapper.mapTrack(t))
+            tracks.expire = spotifyJsonResponse.lifetime
+
+            cb(null, tracks)
+        })
+    }
 }
 
 /*

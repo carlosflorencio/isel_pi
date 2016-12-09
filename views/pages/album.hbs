@@ -39,8 +39,26 @@
                             <div class="col-xs-2 album-item">
                                 {{#with this }}{{ getDuration }}{{/with}}
                             </div>
-                            <div class="col-xs-8 album-item">
+                            <div class="col-xs-4 album-item">
                                 {{ limit this.name 40 }}
+                            </div>
+                            <div class="col-xs-4 album-item text-right">
+                                {{#if ../user}}
+                                    <form action="/playlist/add-track" class="form-inline">
+                                        <input type="hidden" name="track" value="{{ this.id }}"/>
+                                        <div class="form-group">
+                                            <select name="playlist" class="form-control input-sm">
+                                                <option value="">Add to playlist</option>
+                                                {{#each ../user.playlists}}
+                                                    <option value="{{this.id}}">{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-sm btn-success">Add</button>
+                                        </div>
+                                    </form>
+                                {{/if}}
                             </div>
                             <div class="col-xs-2 album-item">
                                 <a href="{{ this.previewUrl }}" class="btn btn-primary btn-sm" target="_blank">

@@ -82,7 +82,7 @@ methods.mapAlbum = function(jsonAlbumItem) {
         jsonAlbumItem.id,
         jsonAlbumItem.name,
         jsonAlbumItem.uri,
-        getImageFromJsonArray(jsonAlbumItem.images, '/img/defaultAvatar.png'),
+        getImageFromJsonArray(jsonAlbumItem.images, '/img/music_default.jpg'),
         jsonAlbumItem.type,
         jsonAlbumItem.label,
         jsonAlbumItem.release_date,
@@ -114,6 +114,12 @@ methods.mapTracksToCollection = function (jsonTracks) {
  * @return {Track} Track
  */
 methods.mapTrack = function(jsonTrackItem) {
+
+    let album = null
+    if(jsonTrackItem.album) {
+        album = this.mapAlbum(jsonTrackItem.album)
+    }
+
     return new Track(
         jsonTrackItem.id,
         jsonTrackItem.name,
@@ -121,7 +127,8 @@ methods.mapTrack = function(jsonTrackItem) {
         jsonTrackItem.duration_ms,
         jsonTrackItem.preview_url,
         jsonTrackItem.track_number,
-        jsonTrackItem.uri
+        jsonTrackItem.uri,
+        album
     )
 }
 

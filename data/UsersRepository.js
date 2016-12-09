@@ -2,13 +2,14 @@
 
 const request = require('superagent')
 const sprintf = require('sprintf')
+const config  = require('../config')
 
 /**
  * Users Repository
  * Gets user info from chouchdb
  */
 const user = {}
-const url = "http://localhost:5984/users"
+const url = config.couchdb_url + "/users/"
 
 
 /**
@@ -18,7 +19,7 @@ const url = "http://localhost:5984/users"
  * @param callback (err, user) if no user was found, user is false
  */
 user.findById = function (id, callback) {
-    request.get(url + '/' + id)
+    request.get(url + id)
         .end((err, res) => {
             if (err) return callback(err)
 
@@ -37,7 +38,7 @@ user.findById = function (id, callback) {
  * @param callback (err, user) if no user was found, user is false
  */
 user.findByEmail = function (email, callback) {
-    request.post(url + '/_find')
+    request.post(url + '_find')
         .send({
             "selector": {
                 "email": email,
@@ -55,7 +56,7 @@ user.findByEmail = function (email, callback) {
  * @param callback (err, user) if no user was found, user is false
  */
 user.find = function (email, password, callback) {
-    request.post(url + '/_find').send({
+    request.post(url + '_find').send({
         "selector": {
             "email": email,
             "password": password
@@ -75,7 +76,7 @@ user.find = function (email, password, callback) {
  * @param callback (err, json)
  */
 user.create = function (email, password, name, callback) {
-    request.post(url + '/').send({
+    request.post(url).send({
         "email": email,
         "password": password,
         "name": name

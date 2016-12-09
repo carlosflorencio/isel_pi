@@ -1,4 +1,4 @@
-const CacheService = require('../service/cacheService')
+const CacheService = require('../model/service/cacheService')
 const path = require('path')
 const debug = require('debug')('cacheMiddlware');
 
@@ -23,6 +23,13 @@ const cache = new CacheService(path.join(__dirname, '../../storage/cache'))
  */
 function cacheMiddlware (seconds = 7200, type = 'html') {
     return (req, res, next) => {
+
+        // we dont want to cache the view if we have a user
+        if(req.isAuthenticated()) {
+            return next()
+        }
+
+
         let key = obtainKeyForRequest(req)
 
         cache.get(key, (err, value) => {

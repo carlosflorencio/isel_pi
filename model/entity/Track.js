@@ -9,9 +9,10 @@
  * @param previewUrl
  * @param track_number
  * @param uri
+ * @param albumInfo usefull for the tracks requests
  * @constructor
  */
-function Track(id, name, disk, duration, previewUrl, track_number, uri) {
+function Track(id, name, disk, duration, previewUrl, track_number, uri, albumInfo = null) {
     this.id = id
     this.name = name
     this.disk = disk
@@ -19,6 +20,7 @@ function Track(id, name, disk, duration, previewUrl, track_number, uri) {
     this.previewUrl = previewUrl
     this.track_number = track_number
     this.uri = uri
+    this.album = albumInfo
 }
 
 /**

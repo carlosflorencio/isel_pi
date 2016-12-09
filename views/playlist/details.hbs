@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Playlist: {{ playlist.name }}</h3>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="/playlists/{{ playlist.id }}/remove/{{ this.id }}" class="btn btn-default btn-sm delete-playlist"
+                       title="Delete">Delete Playlist
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ tracks.length }} Tracks
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Album</th>
+                    <th class="text-center">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{#each tracks }}
+                    <tr>
+                        <td>
+                            <img src="{{ this.album.image }}" alt="{{this.album.name}}" width="70"/>
+                        </td>
+                        <td class="text-middle">{{ limit this.name 40 }}</td>
+                        <td class="text-middle">
+                            {{#with this }}{{ getDuration }}{{/with}}
+                        </td>
+                        <td class="text-middle">{{ limit this.album.name 40 }}</td>
+                        <td class="text-center text-middle">
+                            <a href="/playlists/{{ ../playlist.id }}/remove/{{ this.id }}" class="btn btn-danger btn-xs"
+                               title="Delete">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
