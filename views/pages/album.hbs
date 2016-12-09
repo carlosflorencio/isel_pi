@@ -44,10 +44,10 @@
                             </div>
                             <div class="col-xs-4 album-item text-right">
                                 {{#if ../user}}
-                                    <form action="/playlist/add-track" class="form-inline">
+                                    <form action="/playlists/add" method="post" class="form-inline">
                                         <input type="hidden" name="track" value="{{ this.id }}"/>
                                         <div class="form-group">
-                                            <select name="playlist" class="form-control input-sm">
+                                            <select name="playlist" class="form-control input-sm" required>
                                                 <option value="">Add to playlist</option>
                                                 {{#each ../user.playlists}}
                                                     <option value="{{this.id}}">{{this.name}}</option>

@@ -6,8 +6,11 @@
                     <h3>Playlist: {{ playlist.name }}</h3>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="/playlists/{{ playlist.id }}/remove/{{ this.id }}" class="btn btn-default btn-sm delete-playlist"
-                       title="Delete">Delete Playlist
+                    <a href="/playlists/{{ playlist.id }}/edit" class="btn btn-warning btn-sm delete-playlist"
+                       title="Edit">Edit
+                    </a>
+                    <a href="/playlists/{{ playlist.id }}/delete" class="btn btn-danger btn-sm delete-playlist"
+                       title="Delete">Delete
                     </a>
                 </div>
             </div>
@@ -50,6 +53,10 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">No tracks yet.. Add some..</td>
                     </tr>
                 {{/each}}
                 </tbody>

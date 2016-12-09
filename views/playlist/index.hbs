@@ -14,7 +14,7 @@
             <div class="panel-heading clearfix">
                 {{ user.playlists.length }} Playlists
 
-                <a href="/" class="btn btn-success pull-right btn-xs">Crete new playlist</a>
+                <a href="/playlists/create" class="btn btn-success pull-right btn-xs">Crete new playlist</a>
             </div>
             <table class="table table-bordered table-striped">
                 <thead>
@@ -29,16 +29,16 @@
                 {{#each user.playlists}}
                     <tr>
                         <td>
-                            <a href="/playlists/{{ this.id }}">
+                            <a href="/playlists/details/{{ this.id }}">
                                 {{ this.name }}
                             </a>
                         </td>
                         <td>{{ this.tracks.length }}</td>
                         <td class="text-right">
-                            <a href="/playlists/edit/{{ this.id }}" class="btn btn-info btn-xs" title="Edit">
+                            <a href="/playlists/{{ this.id }}/edit" class="btn btn-info btn-xs" title="Edit">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <a href="/playlists/delete/{{ this.id }}" class="btn btn-danger btn-xs" title="Delete">
+                            <a href="/playlists/{{ this.id }}/delete" class="btn btn-danger btn-xs" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>

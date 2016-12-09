@@ -23,6 +23,5 @@ module.exports = function (req, res, next) {
         delete req.session.message
     }
 
-
     next()
 }
