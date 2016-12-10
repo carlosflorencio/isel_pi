@@ -13,10 +13,10 @@ const userInfoMiddleware = require('./middleware/userInfoMiddleware')
 const app = express()
 
 /*
- |--------------------------------------------------------------------------
- | Routes
- |--------------------------------------------------------------------------
- */
+|--------------------------------------------------------------------------
+| Load our custom Routes
+|--------------------------------------------------------------------------
+*/
 const index = require('./routes/index')
 const artists = require('./routes/artists')
 const albums = require('./routes/albums')
@@ -32,7 +32,7 @@ const playlists = require('./routes/playlists')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 hbs.localsAsTemplateData(app)
-viewService(hbs)
+viewService(hbs) // configure hbs
 
 
 /*
@@ -45,10 +45,10 @@ app.use(logger('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
-    store: new SessionFileStore({
+    store: new SessionFileStore({ // sessions are stored in the filesystem
         path: path.join(__dirname, 'storage/sessions')
     }),
-    secret: 'spotie app secret',
+    secret: 'spotie app secret', // make a more secure secret
     resave: true,
     saveUninitialized: false
 }));

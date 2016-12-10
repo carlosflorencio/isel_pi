@@ -31,6 +31,7 @@ function DataService(repo) {
 
     /**
      * Find a user by email & password
+     * Hashes the password
      *
      * @param email
      * @param password
@@ -42,6 +43,7 @@ function DataService(repo) {
 
     /**
      * Create and store a new user
+     * Hashes the password
      *
      * @param email
      * @param password

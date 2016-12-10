@@ -29,7 +29,6 @@ function cacheMiddlware (seconds = 7200, type = 'html') {
             return next()
         }
 
-
         let key = obtainKeyForRequest(req)
 
         cache.get(key, (err, value) => {

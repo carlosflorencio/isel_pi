@@ -4,6 +4,8 @@
  * Pass user info to the response, if authenticated
  * Middleware
  *
+ * Also add support for flash messages
+ *
  * @param req
  * @param res
  * @param next
@@ -17,10 +19,9 @@ module.exports = function (req, res, next) {
         req.session.message = {message: message, type: type}
     }
 
-    // user defined
     if (req.session.message) {
         res.locals.message = req.session.message
-        delete req.session.message
+        delete req.session.message // the message is only valid for one request
     }
 
     next()

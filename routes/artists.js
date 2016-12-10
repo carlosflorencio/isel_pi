@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const spotifyRepo = require('../data/SpotifyRepository')
-const DataService = require('../model/service/spotifyService')
+const Factory = require('../model/service/serviceFactory')
 const cacheMiddleware = require('../middleware/cache')
 
-const dataService = new DataService(spotifyRepo)
+const spotifyService = Factory.spotifyService
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +21,7 @@ router.get('/:artist', cacheMiddleware(), function(req, res, next) {
     const limit = req.query.limit || 10
     const id = req.params.artist
 
-    dataService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
+    spotifyService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
         if (err)
             return next(err)
 

@@ -5,6 +5,8 @@ const path = require('path')
  * Load all partials and helpers to hbs
  * Just a configurator for the hbs package
  *
+ * Should be moved out of model folder?
+ *
  * @param hbs
  * @constructor
  */

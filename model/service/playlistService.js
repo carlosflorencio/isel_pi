@@ -4,6 +4,12 @@ const mapper = require('./playlistMapperService')
 const crypto = require('crypto');
 const Playlist = require('../entity/Playlist')
 
+/**
+ * Playlist Data Service
+ *
+ * @param repo
+ * @constructor
+ */
 function DataService(repo) {
 
     /**

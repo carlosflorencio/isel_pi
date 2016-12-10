@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const spotifyRepo = require('../data/SpotifyRepository')
-const DataService = require('../model/service/spotifyService')
+const Factory = require('../model/service/serviceFactory')
 
-const dataService = new DataService(spotifyRepo)
+const spotifyService = Factory.spotifyService
 
 
 /**
@@ -17,12 +16,12 @@ router.get('/:id', function(req, res, next) {
 
     if(page == 1 && limit == 50) { // we only want 50 tracks
         // we save one request with this ahah
-        dataService.albumInfo(id, albumCallback(res, next))
+        spotifyService.albumInfo(id, albumCallback(res, next))
         return
     }
 
     // 2 requests in paralel
-    dataService.albumTracks(id, page, limit, albumCallback(res, next))
+    spotifyService.albumTracks(id, page, limit, albumCallback(res, next))
 });
 
 /**

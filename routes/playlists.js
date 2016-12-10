@@ -1,14 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('connect-ensure-login').ensureAuthenticated
+const Factory = require('../model/service/serviceFactory')
 
-const PlaylistDataService = require('../model/service/playlistService')
-const playlistService = new PlaylistDataService(require('../data/PlaylistsRepository'))
+const playlistService = Factory.playlistService
+const spotifyService = Factory.spotifyService
 
-const SpotifyDataService = require('../model/service/spotifyService')
-const spotifyService = new SpotifyDataService(require('../data/SpotifyRepository'))
-
-// all this routes need to be authenticated
+// All this routes need to be authenticated
 router.use(auth('/user/login'))
 
 /*

@@ -38,6 +38,7 @@ router.post('/login', function (req, res, next) {
         req.logIn(user, function (err) {
             if (err) return next(err)
 
+            req.flash('Welcome back ' + user.name + '!')
             return res.redirect('/');
         })
     })(req, res, next);
@@ -89,6 +90,7 @@ router.post('/register', function (req, res, next) {
             req.logIn(user, function (err) {
                 if (err) return next(err)
 
+                req.flash('Welcome ' + req.body.name + ', you are now registered!')
                 return res.redirect('/');
             })
         })

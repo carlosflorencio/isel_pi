@@ -32,6 +32,7 @@
                     <th>Name</th>
                     <th>Duration</th>
                     <th>Album</th>
+                    <th>Album</th>
                     <th class="text-center">Options</th>
                 </tr>
                 </thead>
@@ -47,6 +48,7 @@
                             {{#with this }}{{ getDuration }}{{/with}}
                         </td>
                         <td class="text-middle">{{ limit this.album.name 40 }}</td>
+                        <td class="text-middle">{{ limit this.album.name 40 }}</td>
                         <td class="text-center text-middle">
                             <a href="/playlists/{{ ../playlist.id }}/remove/{{ this.id }}" class="btn btn-danger btn-xs"
                                title="Delete">
@@ -56,7 +58,7 @@
                     </tr>
                 {{else}}
                     <tr>
-                        <td colspan="5" class="text-center">No tracks yet.. Add some..</td>
+                        <td colspan="6" class="text-center">No tracks yet.. Add some..</td>
                     </tr>
                 {{/each}}
                 </tbody>

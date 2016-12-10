@@ -5,6 +5,8 @@
  * Contains the json response string along with some
  * important response headers like cache controll (lifetime)
  *
+ * Should be moved out of model folder?
+ *
  * @param id unique path of the response
  * @param lifetime max lifetime of the json object
  * @param json json object

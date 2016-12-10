@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const spotifyRepo = require('../data/SpotifyRepository')
-const DataService = require('../model/service/spotifyService')
+const Factory = require('../model/service/serviceFactory')
 
-const dataService = new DataService(spotifyRepo)
+const spotifyService = Factory.spotifyService
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +33,7 @@ router.get('/search/:artist?', function(req, res, next) {
     if (!artist)
         return next(new Error("No artist provided!"))
 
-    dataService.searchArtist(artist, page, limit, (err, collection) => {
+    spotifyService.searchArtist(artist, page, limit, (err, collection) => {
         if (err) return next(err)
 
         res.render('pages/search', {
