@@ -209,7 +209,7 @@ function validatePlaylistName(req, res, next) {
         return res.redirect('back')
     }
 
-    if(req.playlistIdx !== -1) { // update?
+    if(typeof req.playlistIdx !== "undefined") { // update?
         // same name? let's go back just because we dont need to update anything
         if(req.user.playlists[req.playlistIdx].name == name) {
             return res.redirect('/playlists')
