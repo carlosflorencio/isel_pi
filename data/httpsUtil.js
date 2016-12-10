@@ -17,7 +17,6 @@ const util = {}
 util.httpsGetJson = function(uri, callback) {
     https.get(uri, (resp) => {
         let res = ''
-        resp.on('error', callback)
         resp.on('data', chunk => res += chunk.toString())
         resp.on('end', () => {
             const jsonResponse = new SpotifyJsonResponse(
@@ -27,11 +26,12 @@ util.httpsGetJson = function(uri, callback) {
             )
 
             if(jsonResponse.json.error){
-                return callback(jsonResponse.json.error)
+                return callback(new Error(jsonResponse.json.error))
             }
+
             callback(null, jsonResponse)
         })
-    })
+    }).on('error', callback)
 }
 
 

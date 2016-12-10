@@ -1,9 +1,9 @@
-const CacheService = require('../model/service/cacheService')
+const Factory = require('../model/service/serviceFactory')
 const path = require('path')
 const debug = require('debug')('cacheMiddlware');
 
 // Static for all routes, make it local for each router?
-const cache = new CacheService(path.join(__dirname, '../../storage/cache'))
+const cache = Factory.cacheService(path.join(__dirname, '../storage/cache'))
 
 /**
  * Cache middleware
