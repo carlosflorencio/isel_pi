@@ -3,6 +3,7 @@
 const request = require('superagent')
 const sprintf = require('sprintf')
 const config  = require('../config')
+const couchdb = require('./couchdbUtils')
 
 /**
  * Users Repository
@@ -14,6 +15,7 @@ const url = config.couchdb_url + "/users/"
 
 /**
  * Find the user by id
+ * Gets the doc db/id
  *
  * @param id
  * @param callback (err, user) if no user was found, user is false
@@ -45,7 +47,7 @@ user.findByEmail = function (email, callback) {
             },
             "limit": 1
         })
-        .end(searchCallback(callback))
+        .end(couchdb.searchCallback(callback))
 }
 
 /**
@@ -62,12 +64,12 @@ user.find = function (email, password, callback) {
             "password": password
         },
         "limit": 1
-    }).end(searchCallback(callback))
+    }).end(couchdb.searchCallback(callback))
 }
 
 /**
  * Create a user using the provided info
- *
+ * Creates a new doc
  * The json response contains ok, id, rev fields
  *
  * @param email
@@ -81,35 +83,7 @@ user.create = function (email, password, name, callback) {
         "password": password,
         "name": name
     })
-    .end((err, res) => {
-        if (err) return callback(err)
-
-        return callback(null, res.body)
-    })
-}
-
-/*
- |--------------------------------------------------------------------------
- | Utils
- |--------------------------------------------------------------------------
- */
-/**
- * Return the first document
- *
- * @param callback
- * @return {function(*=, *)}
- */
-function searchCallback(callback) {
-    return (err, res) => {
-        if (err) return callback(err)
-
-        if (res.body.docs.length == 1) { // the doc we want
-            return callback(null, res.body.docs[0])
-        }
-
-        // no results
-        return callback(null, false)
-    }
+    .end(couchdb.bodyCallback(callback))
 }
 
 module.exports = user

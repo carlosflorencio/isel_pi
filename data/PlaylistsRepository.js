@@ -3,6 +3,7 @@
 const request = require('superagent')
 const sprintf = require('sprintf')
 const config = require('../config')
+const couchdb = require('./couchdbUtils')
 
 /**
  * Playlists Repository
@@ -27,18 +28,33 @@ playlists.findByUserId = function (userId, cb) {
             },
             "limit": 100
         })
-        .end(bodyCallback(cb))
+        .end(couchdb.bodyCallback(cb))
 }
 
+/**
+ * Create a new playlist list for a user
+ * Creates a new doc
+ * The json response contains ok, id, rev fields
+ *
+ * @param user_id
+ * @param name
+ * @param cb
+ */
 playlists.create = function (user_id, name, cb) {
     request.post(url).send({
         "user_id" : user_id,
         "name": name,
         "tracks": []
-    }).end(bodyCallback(cb))
+    }).end(couchdb.bodyCallback(cb))
 }
 
-
+/**
+ * Find a playlist by name, useful to check duplicates
+ *
+ * @param user_id
+ * @param name
+ * @param cb
+ */
 playlists.findUserPlaylistByName = function (user_id, name, cb) {
     request
         .post(url + '_find')
@@ -49,9 +65,15 @@ playlists.findUserPlaylistByName = function (user_id, name, cb) {
             },
             "limit": 1
         })
-        .end(searchCallback(cb))
+        .end(couchdb.searchCallback(cb))
 }
 
+/**
+ * Playlist update
+ *
+ * @param playlist
+ * @param cb
+ */
 playlists.updatePlaylist = function (playlist, cb) {
     request
         .put(url + playlist.id)
@@ -61,47 +83,22 @@ playlists.updatePlaylist = function (playlist, cb) {
             "tracks": playlist.tracks,
             "_rev": playlist._rev
         })
-        .end(bodyCallback(cb))
+        .end(couchdb.bodyCallback(cb))
 }
 
+/**
+ * Deletes a playlist
+ * Deletes the doc
+ *
+ * @param id
+ * @param rev
+ * @param cb
+ */
 playlists.deletePlaylist = function (id, rev, cb) {
     request
         .delete(url + id)
         .query({ rev: rev })
-        .end(bodyCallback(cb))
-}
-
-
-/*
- |--------------------------------------------------------------------------
- | Utils
- |--------------------------------------------------------------------------
- */
-/**
- * Return the first document
- *
- * @param callback
- * @return {function(*=, *)}
- */
-function searchCallback(callback) {
-    return (err, res) => {
-        if (err) return callback(err)
-
-        if (res.body.docs.length == 1) { // the doc we want
-            return callback(null, res.body.docs[0])
-        }
-
-        // no results
-        return callback(null, false)
-    }
-}
-
-function bodyCallback(callback) {
-    return (err, res) => {
-        if (err) return callback(err)
-
-        return callback(null, res.body)
-    }
+        .end(couchdb.bodyCallback(cb))
 }
 
 module.exports = playlists
