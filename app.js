@@ -50,7 +50,9 @@ app.use(session({
     }),
     secret: 'spotie app secret', // make a more secure secret
     resave: true,
-    saveUninitialized: false
+    saveUninitialized: false,
+    name: "spotie", // cookie name
+    cookie: {maxAge: 24*60*60*1000 } //24 hours, ms
 }));
 app.use(passportWithStrategy.initialize())
 app.use(passportWithStrategy.session())

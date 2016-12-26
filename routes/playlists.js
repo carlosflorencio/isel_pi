@@ -6,6 +6,7 @@ const Factory = require('../model/serviceFactory')
 const playlistService = Factory.playlistService
 const spotifyService = Factory.spotifyService
 const userService = Factory.userService
+const inviteService = Factory.inviteService
 
 // All this routes need to be authenticated
 router.use(auth('/user/login'))
@@ -147,21 +148,44 @@ router.post('/add', validatePlaylist, function (req, res, next) {
 |--------------------------------------------------------------------------
 */
 router.get('/:playlist/share', validatePlaylist, function (req, res, next) {
-    res.render('playlist/share', {title: "Share Playlist", playlist: req.user.playlists[req.playlistIdx]})
-})
 
-router.post('/:playlist/share', validatePlaylist, validateShareUser, function (req, res, next) {
-    let playlist = req.user.playlists[req.playlistIdx]
-    let writable = req.body.write ? true : false
-
-    inviteService.sendInvitation(req.body.email, req.user, playlist, writable, (err, invite) => {
+    inviteService.getInvitesOfPlaylist(req.user.email, req.params.playlist, (err, invites) => {
         if(err) return next(err)
 
-        req.flash('Invitation to ' + invite.toEmail + " sent.")
-        res.redirect('/playlists')
+        res.render('playlist/share', {
+            title: "Share Playlist",
+            playlist: req.user.playlists[req.playlistIdx],
+            invites: invites
+        })
     })
-
 })
+
+router.post('/:playlist/share', validatePlaylist, validateShareUser, validateDuplicateInvitation, function (req, res, next) {
+    let writable = !!req.body.write // if write field exists, writable is true, otherwise is false
+
+    inviteService.sendInvitation(req.body.email, req.user, req.params.playlist, writable, (err, invite) => {
+        if(err) return next(err)
+
+        req.flash('Invitation to ' + req.body.email + " sent.")
+        res.redirect('/playlists/' + req.params.playlist + '/share')
+    })
+})
+
+/*
+|--------------------------------------------------------------------------
+| Playlist Share Delete
+|--------------------------------------------------------------------------
+*/
+router.get('/:playlist/share/:invite/delete', validatePlaylist, validateInvite, function (req, res, next) {
+
+    inviteService.deleteInvite(req.invite, (err, ok) => {
+        if(err) return next(err)
+
+        req.flash("Share revoked.")
+        res.redirect('/playlists/' + req.params.playlist + '/share')
+    })
+})
+
 
 /*
 |--------------------------------------------------------------------------
@@ -279,6 +303,53 @@ function validateShareUser(req, res, next) {
         }
 
         req.foundUser = user
+        next()
+    })
+}
+
+/**
+ * Validate if the invitation already exists in db
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+function validateDuplicateInvitation(req, res, next) {
+    inviteService.getInvitation(req.body.email, req.user.email, req.params.playlist, (err, invite) => {
+        if(err) return next(err)
+
+        if(!invite) {
+            return next()
+        }
+
+        req.flash('You already sent an invitation to that user about that playlist!', 'danger')
+        res.redirect('back')
+    })
+}
+
+/**
+ * Validate the invite ID to see if exists and belongs to the authenticated user
+ * Invite is added to req.invite
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+function validateInvite(req, res, next) {
+    inviteService.getInvitationById(req.params.invite, (err, invite) => {
+        if(err) return next(err)
+
+        if(!invite) {
+            req.flash('There is no invite with that id!', 'danger')
+            return res.redirect('back')
+        }
+
+        if(invite.fromEmail != req.user.email) {
+            req.flash('You can\'t delete an invitation that isn\'t yours!', 'danger')
+            return res.redirect('back')
+        }
+
+        req.invite = invite
         next()
     })
 }

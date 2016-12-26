@@ -16,6 +16,11 @@ const UserDataService = require('./service/userService')
 const userRepo = require('../data/UsersRepository')
 const userService = new UserDataService(userRepo)
 
+// Invite service
+const InviteDataService = require('./service/inviteService')
+const inviteRepo = require('../data/InvitesRepository')
+const inviteService = new InviteDataService(inviteRepo)
+
 /*
 |--------------------------------------------------------------------------
 | Exports
@@ -28,4 +33,5 @@ module.exports.cacheService = (dir, ext = 'json') => {
 module.exports.playlistService = playlistService
 module.exports.spotifyService = spotifyService
 module.exports.userService = userService
+module.exports.inviteService = inviteService
 

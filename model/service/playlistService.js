@@ -34,7 +34,6 @@ function DataService(repo) {
     this.createPlaylist = function (user_id, name, cb) {
         repo.create(user_id, name, (err, json) => {
             if(err) return cb(err)
-            console.log(json);
 
             let playlist = new Playlist(json.id, user_id, name, [])
             playlist._rev = json.rev // we need the _rev to update & delete

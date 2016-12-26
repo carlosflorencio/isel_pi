@@ -37,6 +37,13 @@ function handlebarsConfigurator(hbs) {
         return new hbs.handlebars.SafeString(str);
     });
 
+    /**
+     * Translate boolean values to Yes / No
+     */
+    hbs.registerHelper('bool', function (boolean) {
+        return boolean ? 'Yes' : 'No';
+    });
+
     /*
      |--------------------------------------------------------------------------
      | Handlerbars Pagination helpers

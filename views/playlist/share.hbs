@@ -1,24 +1,81 @@
 <div class="row">
     <div class="col-md-12">
         <div class="well">
-            <h3>Share <strong>{{playlist.name}}</strong> with other user</h3>
+            <h3>Share <strong>{{playlist.name}}</strong> with other users</h3>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <form action="/playlists/{{playlist.id}}/share" method="post">
-            <div class="form-group">
-                <label for="email">User email:</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Registered user email" required>
+
+    <div class="col-md-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list"></i> Users already with access
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="write"> <strong>Write Permission:</strong> The user can add tracks to the playlist
-                </label>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Can add Tracks</th>
+                        <th class="text-center">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each invites}}
+                    <tr>
+                        <td>{{ this.toEmail }}</td>
+                        <td class="text-center">
+                            {{#if this.accepted}}
+                                Accepted
+                            {{else}}
+                                Pending
+                            {{/if}}
+                        </td>
+                        <td class="text-center">{{bool this.writable }}</td>
+                        <td class="text-center">
+                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/ edit" class="btn btn-info btn-xs" title="Edit Permissions">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/delete" class="btn btn-danger btn-xs" title="Revoke">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="3" class="text-center">
+                           This playlist is not shared with anyone yet.
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-share"></i> Share with a new user
             </div>
-            <button type="submit" class="btn btn-success">Send invitation</button>
-        </form>
+            <div class="panel-body">
+                <form action="/playlists/{{playlist.id}}/share" method="post">
+                    <div class="form-group">
+                        <label for="email">User email:</label>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Registered user email" required>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="write"> <strong>Write Permission:</strong> The user can add tracks to the playlist
+                        </label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Send invitation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
