@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <h3>Share <strong>{{playlist.name}}</strong> with other user</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form action="/playlists/{{playlist.id}}/share" method="post">
+            <div class="form-group">
+                <label for="email">User email:</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Registered user email" required>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="write"> <strong>Write Permission:</strong> The user can add tracks to the playlist
+                </label>
+            </div>
+            <button type="submit" class="btn btn-success">Send invitation</button>
+        </form>
+    </div>
+</div>

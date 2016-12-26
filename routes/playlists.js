@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('connect-ensure-login').ensureAuthenticated
-const Factory = require('../model/service/serviceFactory')
+const Factory = require('../model/serviceFactory')
 
 const playlistService = Factory.playlistService
 const spotifyService = Factory.spotifyService
+const userService = Factory.userService
 
 // All this routes need to be authenticated
 router.use(auth('/user/login'))
@@ -139,6 +140,29 @@ router.post('/add', validatePlaylist, function (req, res, next) {
     })
 })
 
+
+/*
+|--------------------------------------------------------------------------
+| Playlist Share
+|--------------------------------------------------------------------------
+*/
+router.get('/:playlist/share', validatePlaylist, function (req, res, next) {
+    res.render('playlist/share', {title: "Share Playlist", playlist: req.user.playlists[req.playlistIdx]})
+})
+
+router.post('/:playlist/share', validatePlaylist, validateShareUser, function (req, res, next) {
+    let playlist = req.user.playlists[req.playlistIdx]
+    let writable = req.body.write ? true : false
+
+    inviteService.sendInvitation(req.body.email, req.user, playlist, writable, (err, invite) => {
+        if(err) return next(err)
+
+        req.flash('Invitation to ' + invite.toEmail + " sent.")
+        res.redirect('/playlists')
+    })
+
+})
+
 /*
 |--------------------------------------------------------------------------
 | Validation middlewares
@@ -222,6 +246,39 @@ function validatePlaylistName(req, res, next) {
             return res.redirect('back')
         }
 
+        next()
+    })
+}
+
+/**
+ * Validate email field in body to see if the user exists
+ * If exists, req.foundUser field is added
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
+function validateShareUser(req, res, next) {
+    if(!req.body.email) {
+        req.flash('An email is necessary!', 'danger')
+        return res.redirect('back')
+    }
+
+    if(req.body.email == req.user.email) {
+        req.flash('Nice try, share with someone else.', 'danger')
+        return res.redirect('back')
+    }
+
+    userService.findByEmail(req.body.email, (err, user) => {
+        if(err) return next(err)
+
+        if(!user) {
+            req.flash('That user is not registered in our database!', 'danger')
+            return res.redirect('back')
+        }
+
+        req.foundUser = user
         next()
     })
 }
