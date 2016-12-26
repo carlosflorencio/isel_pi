@@ -17,7 +17,7 @@ const jsonTrack = jsonTracks.items[0]
 const jsonArtist = JSON.parse(fs.readFileSync(path + 'ArtistPinkFloyd.json')).data
 const jsonArtists = JSON.parse(fs.readFileSync(path + 'SearchPinkFloyd.json')).data
 
-const mapperService = require('../model/service/spotifyMapperService')
+const mapperService = require('../model/mapper/spotifyMapperService')
 
 describe('Mapper Service', function() {
 

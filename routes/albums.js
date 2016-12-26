@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Factory = require('../model/service/serviceFactory')
+const Factory = require('../model/serviceFactory')
 
 const spotifyService = Factory.spotifyService
 

@@ -1,4 +1,4 @@
-const Factory = require('../model/service/serviceFactory')
+const Factory = require('../model/serviceFactory')
 const path = require('path')
 const debug = require('debug')('cacheMiddlware');
 

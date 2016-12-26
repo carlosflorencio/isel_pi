@@ -1,6 +1,6 @@
 "use strict";
 
-const mapper = require('./userMapperService')
+const mapper = require('./../mapper/userMapperService')
 const crypto = require('crypto');
 
 /**

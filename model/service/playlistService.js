@@ -1,7 +1,6 @@
 "use strict";
 
-const mapper = require('./playlistMapperService')
-const crypto = require('crypto');
+const mapper = require('./../mapper/playlistMapperService')
 const Playlist = require('../entity/Playlist')
 
 /**
