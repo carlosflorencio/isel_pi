@@ -9,8 +9,15 @@ const viewService = require('./model/service/viewService')
 const bodyParser = require('body-parser')
 const passportWithStrategy = require('./middleware/passportCustom')
 const userInfoMiddleware = require('./middleware/userInfoMiddleware')
+const globalLog = require('global-request-logger');
 
 const app = express()
+
+// Log all external requests, for debug purposes. Remove on production!
+globalLog.initialize();
+globalLog.on('success', function(request, response) {
+    console.log('\x1b[36m%s\x1b[0m', `OUT [${request.method}] ${request.host}:${request.port}${request.path}`);
+});
 
 /*
 |--------------------------------------------------------------------------

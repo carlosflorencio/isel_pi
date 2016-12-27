@@ -18,7 +18,7 @@
                     <tr>
                         <th>Email</th>
                         <th class="text-center">Status</th>
-                        <th class="text-center">Can add Tracks</th>
+                        <th class="text-center">Permissions</th>
                         <th class="text-center">Options</th>
                     </tr>
                 </thead>
@@ -33,12 +33,18 @@
                                 Pending
                             {{/if}}
                         </td>
-                        <td class="text-center">{{bool this.writable }}</td>
                         <td class="text-center">
-                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/ edit" class="btn btn-info btn-xs" title="Edit Permissions">
+                            {{#if this.writable}}
+                                Read, Write
+                            {{else}}
+                                Read
+                            {{/if}}
+                        </td>
+                        <td class="text-center">
+                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/edit" class="btn btn-info btn-xs" title="Edit Permissions">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/delete" class="btn btn-danger btn-xs" title="Revoke">
+                            <a href="/playlists/{{ ../playlist.id }}/share/{{ this.id }}/delete" class="btn btn-danger btn-xs" title="Revoke Access">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>

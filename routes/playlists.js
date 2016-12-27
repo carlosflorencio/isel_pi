@@ -186,6 +186,36 @@ router.get('/:playlist/share/:invite/delete', validatePlaylist, validateInvite, 
     })
 })
 
+/*
+|--------------------------------------------------------------------------
+| Playlist Share Edit Permissions
+|--------------------------------------------------------------------------
+*/
+router.get('/:playlist/share/:invite/edit', validatePlaylist, validateInvite, function (req, res, next) {
+
+    res.render('playlist/share-edit', {
+        title: "Edit Permissions",
+        playlist: req.user.playlists[req.playlistIdx],
+        invite: req.invite
+    })
+})
+
+router.post('/:playlist/share/:invite/edit', validatePlaylist, validateInvite, function (req, res, next) {
+    req.invite.writable = !!req.body.write
+
+    inviteService.updateInvite(req.invite, (err, invite) => {
+        if(err) return next(err)
+
+        console.log(invite);
+
+        req.flash("Permissions updated.")
+        res.redirect('/playlists/' + req.params.playlist + '/share')
+    })
+})
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -345,7 +375,7 @@ function validateInvite(req, res, next) {
         }
 
         if(invite.fromEmail != req.user.email) {
-            req.flash('You can\'t delete an invitation that isn\'t yours!', 'danger')
+            req.flash('That invitation isn\'t yours! :(', 'danger')
             return res.redirect('back')
         }
 

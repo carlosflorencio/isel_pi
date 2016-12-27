@@ -101,6 +101,7 @@ invites.getInvitesOfPlaylist = function (fromEmail, playlistID, cb) {
 
 /**
  * Delete Invitation
+ *
  * @param id
  * @param rev
  * @param cb
@@ -112,13 +113,25 @@ invites.deleteInvite = function (id, rev, cb) {
         .end(couchdb.bodyCallback(cb))
 }
 
-
-
-/*
- |--------------------------------------------------------------------------
- | Utils
- |--------------------------------------------------------------------------
+/**
+ * Update invitation
+ *
+ * @param invite
+ * @param cb
  */
+invites.updateInvite = function (invite, cb) {
+    request
+        .put(url + invite.id)
+        .send({
+            "accepted": invite.accepted,
+            "toUser": invite.toEmail,
+            "fromUser": invite.fromEmail,
+            "playlistId": invite.playlistId,
+            "write": invite.writable,
+            "_rev": invite._rev
+        })
+        .end(couchdb.bodyCallback(cb))
+}
 
 
 module.exports = invites

@@ -92,6 +92,23 @@ function DataService(repo) {
         })
     }
 
+    /**
+     * Updates an Invitation
+     *
+     * @param invite
+     * @param cb
+     */
+    this.updateInvite = function (invite, cb) {
+        repo.updateInvite(invite, (err, json) => {
+            if(err) return cb(err)
+
+            // we have to update the rev
+            invite._rev = json.rev
+
+            cb(null, invite)
+        })
+    }
+
 
 }
 
