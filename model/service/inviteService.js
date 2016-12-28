@@ -48,6 +48,37 @@ function DataService(repo) {
     }
 
     /**
+     * Gets a specific Invitation by user and playlist
+     *
+     * @param toEmail
+     * @param playlistId
+     * @param cb (err, Invite) Invite can be false if not found
+     */
+    this.getInvitationByPlaylistAndUser = function (toEmail, playlistId, cb) {
+        repo.getInvitationByPlaylistAndUser(toEmail, playlistId, (err, json) => {
+            if(err) return cb(err)
+
+            if(!json) return cb(null, false)
+
+            cb(null, mapper.mapInvite(json))
+        })
+    }
+
+    /**
+     * Get all invitations of an user
+     *
+     * @param userEmail
+     * @param cb (err, InviteArray)
+     */
+    this.getInvitations = function (userEmail, cb) {
+        repo.getInvitationsOfUser(userEmail, (err, json) => {
+            if(err) return cb(err)
+
+            cb(null, mapper.mapInvites(json))
+        })
+    }
+
+    /**
      * Gets a specific Invitation by ID
      *
      * @param id

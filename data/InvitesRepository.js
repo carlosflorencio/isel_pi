@@ -39,6 +39,7 @@ invites.sendInvitation = function (toEmail, fromEmail, playlistID, writable, cb)
 
 /**
  * Gets an specific invitation
+ * Usefull to check duplicates
  *
  * @param toEmail
  * @param fromEmail
@@ -60,6 +61,26 @@ invites.getInvitation = function (toEmail, fromEmail, playlistID, cb) {
 }
 
 /**
+ * Gets an specific invitation for a specific user and playlist
+ *
+ * @param toEmail
+ * @param playlistId
+ * @param cb
+ */
+invites.getInvitationByPlaylistAndUser = function (toEmail, playlistId, cb) {
+    request
+        .post(url + '_find')
+        .send({
+            "selector": {
+                "toUser": toEmail,
+                "playlistId": playlistId
+            },
+            "limit": 1
+        })
+        .end(couchdb.searchCallback(cb))
+}
+
+/**
  * Gets an Invitation by Id
  *
  * @param id
@@ -68,15 +89,25 @@ invites.getInvitation = function (toEmail, fromEmail, playlistID, cb) {
 invites.getInvitationById = function (id, cb) {
     request
         .get(url + id)
-        .end((err, res) => {
-            if (err) return cb(err)
+        .end(couchdb.bodyCallback(cb))
+}
 
-            if (res.body.error) { // no invite found
-                return cb(null, false)
-            }
-
-            return cb(null, res.body)
+/**
+ * Get all invitations of an user
+ *
+ * @param toEmail
+ * @param cb
+ */
+invites.getInvitationsOfUser = function (toEmail, cb) {
+    request
+        .post(url + '_find')
+        .send({
+            "selector": {
+                "toUser": toEmail
+            },
+            "limit": 100
         })
+        .end(couchdb.bodyCallback(cb))
 }
 
 /**

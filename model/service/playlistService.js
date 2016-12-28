@@ -13,6 +13,7 @@ function DataService(repo) {
 
     /**
      * Gets all playlists of the user
+     *
      * @param user_id
      * @param cb (err, playlists)
      */
@@ -26,7 +27,41 @@ function DataService(repo) {
     }
 
     /**
+     * Get multiple playlists by ID
+     *
+     * @param idsArray array of strings with the ids
+     * @param cb (err, PlaylistsArray)
+     */
+    this.getMultiplePlaylists = function (idsArray, cb) {
+        repo.getMultipleById(idsArray, (err, json) => {
+            if(err) return cb(err)
+
+            return cb(null, mapper.mapPlaylists(json))
+        })
+    }
+
+    /**
+     * Gets a playlist by its ID
+     *
+     * @param id
+     * @param cb (err, Playlist) Playlist can be false if not found
+     */
+    this.getPlaylistById = function (id, cb) {
+        repo.findById(id, (err, json) => {
+            if(err) return cb(err)
+
+            // no playlist found
+            if(!json) return cb(null, false)
+
+            return cb(null, mapper.mapPlaylist(json))
+        })
+    }
+
+    /**
      * Creates a new playlist
+     *
+     * The json response for create only returns ok, id & rev
+     *
      * @param user_id
      * @param name
      * @param cb (err, playlist)
@@ -44,6 +79,7 @@ function DataService(repo) {
 
     /**
      * Gets the playlist by its name of false if does not exist
+     *
      * @param user_id
      * @param name
      * @param cb (err, playlist) playlist=false if not found
@@ -62,14 +98,15 @@ function DataService(repo) {
      * Updates the playlist
      * All fields are updated!
      *
+     * The json response contains ok, id, rev fields
      * @param playlist
-     * @param cb
+     * @param cb(err, Playlist) Playlist is same with the _rev updated
      */
     this.updatePlaylist = function (playlist, cb) {
         repo.updatePlaylist(playlist, (err, json) => {
             if(err) return cb(err)
 
-            // we have to update the rev
+            // we need to updated the rev
             playlist._rev = json.rev
 
             return cb(null, playlist)
@@ -78,6 +115,7 @@ function DataService(repo) {
 
     /**
      * Deletes the playlist
+     *
      * @param plalist
      * @param cb (err, boolean)
      */

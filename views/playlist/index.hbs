@@ -12,7 +12,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-                {{ user.playlists.length }} Playlists
+                {{ playlists.length }} Playlists
 
                 <a href="/playlists/create" class="btn btn-success pull-right btn-xs">Crete new playlist</a>
             </div>
@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
 
-                {{#each user.playlists}}
+                {{#each playlists}}
                     <tr>
                         <td>
                             <a href="/playlists/details/{{ this.id }}">

@@ -1,11 +1,11 @@
 const passport = require('passport')
 const PassportStrategy = require('passport-local').Strategy
-const userRepo = require('../data/UsersRepository')
-const DataService = require('../model/service/userService')
+const Factory = require('../model/serviceFactory')
 
-const dataService = new DataService(userRepo)
-const PlaylistService = require('../model/service/playlistService')
-const playlist = new PlaylistService(require('../data/PlaylistsRepository'))
+const playlistService = Factory.playlistService
+const userService = Factory.userService
+const inviteService = Factory.inviteService
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ let localStrategy = new PassportStrategy({
     passwordField: 'password'
 }, (username, password, done) => {
 
-    dataService.find(username, password, (err, user) => {
+    userService.find(username, password, (err, user) => {
         if (err) return done(err)
         if (!user) return done(null, false)
 
@@ -34,7 +34,7 @@ passport.use(localStrategy)
 |--------------------------------------------------------------------------
 */
 passport.serializeUser((user, cb) => {
-    cb(null, user._id)
+    cb(null, user.id)
 })
 
 /*
@@ -43,16 +43,38 @@ passport.serializeUser((user, cb) => {
 |--------------------------------------------------------------------------
 */
 passport.deserializeUser((userId, cb) => {
-    dataService.findById(userId, (err, user) => {
+    userService.findById(userId, (err, user) => {
         if(err) return cb(err)
 
-        // Load all user playlists to the session
-        playlist.playlistsOfUser(userId, (err, playlists) => {
-            if(err) return cb(err)
+        // only occurs if the user is deleted from the db
+        if(!user) return cb(new Error("User not found!"))
 
-            user.playlists = playlists
-            cb(err, user)
-        })
+        cb(null, user)
+
+        // let count = 0
+        // const total = 2
+        //
+        // // Load all invites to the user obj present in all requests
+        // playlistService.playlistsOfUser(userId, (err, playlists) => {
+        //     if(err) return cb(err)
+        //
+        //     user.playlists = playlists
+        //     if(++count == total)
+        //         return cb(err, user)
+        // })
+        //
+        // // Load all invites to the user obj present in all requests
+        // inviteService.getInvitations(user.email, (err, invites) => {
+        //     if(err) return cb(err)
+        //
+        //     user.invites = invites
+        //     if(++count == total)
+        //         return cb(err, user)
+        // })
+
+        // Invites & Playlist are not really necessary in all requests,
+        // but usefull to show the count badges in the topbar
+        // for top performance we should remove or cache this
     })
 })
 

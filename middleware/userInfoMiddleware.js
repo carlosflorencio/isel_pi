@@ -1,10 +1,11 @@
 "use strict";
 
 /**
- * Pass user info to the response, if authenticated
  * Middleware
+ * Puts the user obj in the response, if authenticated
  *
- * Also add support for flash messages
+ * Also adds support for flash messages
+ * And redirect helpers
  *
  * @param req
  * @param res
@@ -24,5 +25,23 @@ module.exports = function (req, res, next) {
         delete req.session.message // the message is only valid for one request
     }
 
+    res.backWithError = function (message) {
+        return redirectWithMessage(req, res, 'back', message, 'danger')
+    }
+
+    res.redirectWithMessage = function (to, message, type = 'info') {
+        return redirectWithMessage(req, res, to, message, type)
+    }
+
     next()
+}
+
+/*
+|--------------------------------------------------------------------------
+| Helper
+|--------------------------------------------------------------------------
+*/
+function redirectWithMessage(req, res, to, message, type = 'danger') {
+    req.flash(message, type)
+    return res.redirect(to)
 }

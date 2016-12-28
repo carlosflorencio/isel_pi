@@ -29,6 +29,7 @@ const artists = require('./routes/artists')
 const albums = require('./routes/albums')
 const users = require('./routes/users')
 const playlists = require('./routes/playlists')
+const invites = require('./routes/invites')
 
 
 /*
@@ -76,6 +77,7 @@ app.use('/artists', artists)
 app.use('/albums', albums)
 app.use('/user', users)
 app.use('/playlists', playlists)
+app.use('/invites', invites)
 
 
 /*

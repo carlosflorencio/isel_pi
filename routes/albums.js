@@ -3,6 +3,7 @@ const router = express.Router();
 const Factory = require('../model/serviceFactory')
 
 const spotifyService = Factory.spotifyService
+const playlistService = Factory.playlistService
 
 
 /**
@@ -13,6 +14,14 @@ router.get('/:id', function(req, res, next) {
     const id = req.params.id
     const page = req.query.page || 1
     const limit = req.query.limit || 10
+
+    // if(req.user) {
+    //     playlistService.playlistsOfUser(req.user.id, (err, playlists) => {
+    //
+    //
+    //
+    //     })
+    // }
 
     if(page == 1 && limit == 50) { // we only want 50 tracks
         // we save one request with this ahah

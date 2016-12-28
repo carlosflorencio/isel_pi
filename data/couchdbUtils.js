@@ -31,12 +31,16 @@ module.exports.searchCallback = function(callback) {
  * Body callback
  * Gets the body of the couchdb document
  *
+ * If couchdb returns an error, the callback is called with
+ * callback(null, false), usefull for when a document does not exist
+ *
  * @param callback
- * @returns {function(*=, *)}
  */
 module.exports.bodyCallback = function (callback) {
     return (err, res) => {
         if (err) return callback(err)
+
+        if (res.body.error) return callback(null, false)
 
         return callback(null, res.body)
     }

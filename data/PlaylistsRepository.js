@@ -32,6 +32,17 @@ playlists.findByUserId = function (userId, cb) {
 }
 
 /**
+ * Get a playlist by its ID
+ *
+ * @param id
+ * @param cb
+ */
+playlists.findById = function (id, cb) {
+    request.get(url + id)
+        .end(couchdb.bodyCallback(cb))
+}
+
+/**
  * Create a new playlist list for a user
  * Creates a new doc
  * The json response contains ok, id, rev fields
@@ -66,6 +77,26 @@ playlists.findUserPlaylistByName = function (user_id, name, cb) {
             "limit": 1
         })
         .end(couchdb.searchCallback(cb))
+}
+
+/**
+ * Get multiple playlists by ID
+ *
+ * @param idsArray
+ * @param cb
+ */
+playlists.getMultipleById = function (idsArray, cb) {
+    request
+        .post(url + '_find')
+        .send({
+            "selector": {
+                "_id": {
+                    "$in": idsArray
+                }
+            },
+            "limit": 100
+        })
+        .end(couchdb.bodyCallback(cb))
 }
 
 /**

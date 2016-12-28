@@ -1,0 +1,47 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <h3>Playlists Invitations</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                {{ user.invites.length }} Invitations
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tracks</th>
+                    <th>Can add tracks</th>
+                    <th>From</th>
+                    <th class="text-center">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{#each user.invites}}
+                    <tr>
+                        <td>name</td>
+                        <td>tracks</td>
+                        <td>{{bool writable }}</td>
+                        <td>{{ fromEmail }}</td>
+                        <td>options</td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="4" class="text-center">You dont have any playlist yet, create one!</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

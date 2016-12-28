@@ -22,15 +22,7 @@ const url = config.couchdb_url + "/users/"
  */
 user.findById = function (id, callback) {
     request.get(url + id)
-        .end((err, res) => {
-            if (err) return callback(err)
-
-            if (res.body.error) { // no user
-                return callback(null, false)
-            }
-
-            return callback(null, res.body)
-        })
+        .end(couchdb.bodyCallback(callback))
 }
 
 /**

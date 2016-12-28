@@ -2,10 +2,8 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 const guest = require('connect-ensure-login').ensureNotAuthenticated
-const userRepo = require('../data/UsersRepository')
-const DataService = require('../model/service/userService')
-
-const dataService = new DataService(userRepo)
+const Factory = require('../model/serviceFactory')
+const userService = Factory.userService
 
 /*
 |--------------------------------------------------------------------------
@@ -30,16 +28,13 @@ router.post('/login', function (req, res, next) {
         if (err) return next(err)
 
         if (!user)  {
-            req.flash('Wrong credentials!', 'danger')
-            res.redirect('back')
-            return
+            return res.backWithError('Wrong credentials!')
         }
 
         req.logIn(user, function (err) {
             if (err) return next(err)
 
-            req.flash('Welcome back ' + user.name + '!')
-            return res.redirect('/');
+            return res.redirectWithMessage('/', 'Welcome back ' + user.name + '!')
         })
     })(req, res, next);
 })
@@ -68,30 +63,25 @@ router.get('/register', guest(), function (req, res, next) {
 router.post('/register', function (req, res, next) {
 
     if(!req.body.name || !req.body.email || !req.body.password) {
-        req.flash('You need to fill all the data!', 'danger')
-        res.redirect('back')
-        return
+        return res.backWithError('You need to fill all the data!')
     }
 
-    dataService.findByEmail(req.body.email, (err, user) => {
+    userService.findByEmail(req.body.email, (err, user) => {
         if(err) return next(err)
 
         if(user) {
-            req.flash('That email is already registered!', 'danger')
-            res.redirect('back')
-            return
+            return res.backWithError('That email is already registered!')
         }
 
         // create a new user
-        dataService.create(req.body.email,req.body.password, req.body.name, (err, user) => {
+        userService.create(req.body.email,req.body.password, req.body.name, (err, user) => {
             if(err) return next(err)
 
             // login the new user
             req.logIn(user, function (err) {
                 if (err) return next(err)
 
-                req.flash('Welcome ' + req.body.name + ', you are now registered!')
-                return res.redirect('/');
+                res.redirectWithMessage('/', 'Welcome ' + req.body.name + ', you are now registered!')
             })
         })
     })
