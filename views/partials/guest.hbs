@@ -1,4 +1,8 @@
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="/user/login">Login</a></li>
-    <li><a href="/user/register">Register</a></li>
+    <li {{{active '/user/login' currentPath }}}>
+        <a href="/user/login">Login</a>
+    </li>
+    <li {{{active '/user/register' currentPath }}}>
+        <a href="/user/register">Register</a>
+    </li>
 </ul>

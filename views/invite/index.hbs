@@ -12,31 +12,38 @@
 
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-                {{ user.invites.length }} Invitations
+                {{ invites.length }} Invitations
             </div>
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Name</th>
                     <th>Tracks</th>
-                    <th>Can add tracks</th>
+                    <th>Write Permission</th>
                     <th>From</th>
-                    <th class="text-center">Options</th>
+                    <th class="options-column">Options</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                {{#each user.invites}}
+                {{#each invites}}
                     <tr>
-                        <td>name</td>
-                        <td>tracks</td>
-                        <td>{{bool writable }}</td>
-                        <td>{{ fromEmail }}</td>
-                        <td>options</td>
+                        <td>{{ this.playlist.name }}</td>
+                        <td>{{ this.playlist.tracks.length }}</td>
+                        <td>{{bool this.writable }}</td>
+                        <td>{{ this.fromEmail }}</td>
+                        <td class="text-center">
+                            <a href="/invites/{{ this.id }}/accept" class="btn btn-success btn-xs" title="Accept">
+                                Accept
+                            </a>
+                            <a href="/invites/{{ this.id }}/reject" class="btn btn-danger btn-xs" title="Reject">
+                                Reject
+                            </a>
+                        </td>
                     </tr>
                 {{else}}
                     <tr>
-                        <td colspan="4" class="text-center">You dont have any playlist yet, create one!</td>
+                        <td colspan="5" class="text-center">You dont have pending invites..</td>
                     </tr>
                 {{/each}}
                 </tbody>

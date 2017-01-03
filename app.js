@@ -7,8 +7,8 @@ const session = require('express-session')
 const SessionFileStore = require('session-file-store')(session)
 const viewService = require('./model/service/viewService')
 const bodyParser = require('body-parser')
-const passportWithStrategy = require('./middleware/passportCustom')
-const userInfoMiddleware = require('./middleware/userInfoMiddleware')
+const passportWithStrategy = require('./routes/middleware/passportCustom')
+const userInfoMiddleware = require('./routes/middleware/userInfoMiddleware')
 const globalLog = require('global-request-logger');
 
 const app = express()

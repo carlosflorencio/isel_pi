@@ -8,23 +8,21 @@ const playlistService = Factory.playlistService
 const spotifyService = Factory.spotifyService
 const inviteService = Factory.inviteService
 
+const loadUserPlaylists = require('./middleware/loadUserPlaylists')
+
 // All this routes need to be authenticated
 router.use(auth('/user/login'))
-
 
 /*
 |--------------------------------------------------------------------------
 | Playlists list
 |--------------------------------------------------------------------------
 */
-router.get('/', function (req, res, next) {
-    playlistService.playlistsOfUser(req.user.id, (err, playlists) => {
-        if(err) return cb(err)
-
-        res.render('playlist/index', {
-            title: "Playlists",
-            playlists: playlists
-        })
+router.get('/', loadUserPlaylists, function (req, res, next) {
+    res.render('playlist/index', {
+        title: "Playlists",
+        playlists: req.playlists,
+        invitedPlaylists: req.invitedPlaylists
     })
 })
 
@@ -41,11 +39,11 @@ router.get('/details/:playlist', validate.playlistExists, validate.accessToPlayl
         return res.render('playlist/details', {title: playlist.name, playlist: playlist, tracks: []})
     }
 
-    spotifyService.getTracks(playlist.tracks, (err, tracks) => {
-        if(err) return next(err)
-
-        res.render('playlist/details', {title: playlist.name, playlist: playlist, tracks: tracks})
-    })
+    spotifyService.getTracks(playlist.tracks)
+        .then(tracks => {
+            res.render('playlist/details', {title: playlist.name, playlist: playlist, tracks: tracks})
+        })
+        .catch(next)
 })
 
 
@@ -61,11 +59,11 @@ router.get('/create', function (req, res, next) {
 router.post('/create', validate.playlistName, function (req, res, next) {
     const name = req.body.name
 
-    playlistService.createPlaylist(req.user.id, name, (err, playlist) => {
-        if(err) return next(err)
-
-        res.redirectWithMessage('/playlists', playlist.name + ' playlist created!')
-    })
+    playlistService.createPlaylist(req.user.id, name)
+        .then(playlist => {
+            res.redirectWithMessage('/playlists', playlist.name + ' playlist created!')
+        })
+        .catch(next)
 })
 
 
@@ -76,30 +74,27 @@ router.post('/create', validate.playlistName, function (req, res, next) {
 */
 router.get('/:playlist/delete', validate.playlistExists, validate.playlistOwner, function (req, res, next) {
     // delete all invitations of that playlist before deleting the playlist
-    inviteService.getInvitesOfPlaylist(req.user.email, req.params.playlist, (err, invites) => {
-        if(err) return next(err)
+    inviteService.getInvitesOfPlaylist(req.user.email, req.params.playlist)
+        .then(invites => {
+            let promises = []
 
-        let count = 0
-        const total = invites.length
-
-        invites.forEach(invite => { // we need the rev to delete from couchdb, no bulkDelete.. :(
-            inviteService.deleteInvite(invite, (err, ok) => { // ok should be good
-                if(err) return next(err)
-
-                if(++count >= total) { // all deleted, delete the playlist!
-                    next()
-                }
+            invites.forEach(invite => { // we need the rev to delete from couchdb, no bulkDelete.. :(
+                promises.push(inviteService.deleteInvite(invite))
             })
+
+            Promise.all(promises)
+                .then(values => {
+                    next() // we ignore the result from delete (booleans)
+                })
+                .catch(next)
         })
-
-        if(total == 0) next()
-    })
+        .catch(next)
 }, function(req, res, next) {
-    playlistService.deletePlaylist(req.playlist, (err, status) => {
-        if(err) return next(err)
-
-        res.redirectWithMessage('/playlists', 'The playlist was deleted with success!')
-    })
+    playlistService.deletePlaylist(req.playlist)
+        .then(status => {
+            res.redirectWithMessage('/playlists', 'The playlist was deleted with success!')
+        })
+        .catch(next)
 })
 
 
@@ -109,16 +104,15 @@ router.get('/:playlist/delete', validate.playlistExists, validate.playlistOwner,
 |--------------------------------------------------------------------------
 */
 router.get('/:playlist/share', validate.playlistExists, validate.playlistOwner, function (req, res, next) {
-
-    inviteService.getInvitesOfPlaylist(req.user.email, req.params.playlist, (err, invites) => {
-        if(err) return next(err)
-
-        res.render('playlist/share', {
-            title: "Share Playlist",
-            playlist: req.playlist,
-            invites: invites
+    inviteService.getInvitesOfPlaylist(req.user.email, req.params.playlist)
+        .then(invites => {
+            res.render('playlist/share', {
+                title: "Share Playlist",
+                playlist: req.playlist,
+                invites: invites
+            })
         })
-    })
+        .catch(next)
 })
 
 router.post('/:playlist/share',
@@ -126,15 +120,15 @@ router.post('/:playlist/share',
     validate.playlistOwner,
     validate.shareUser,
     validate.duplicateInvitation, function (req, res, next) {
-    let writable = !!req.body.write // if write field exists, writable is true, otherwise is false
+        let writable = !!req.body.write // if write field exists, writable is true, otherwise is false
 
-    inviteService.sendInvitation(req.body.email, req.user, req.params.playlist, writable, (err, invite) => {
-        if(err) return next(err)
-
-        req.flash('Invitation to ' + req.body.email + " sent.")
-        res.redirect('/playlists/' + req.params.playlist + '/share')
+        inviteService.sendInvitation(req.body.email, req.user.email, req.params.playlist, writable)
+            .then(invite => {
+                req.flash('Invitation to ' + req.body.email + " sent.")
+                res.redirect('/playlists/' + req.params.playlist + '/share')
+            })
+            .catch(next)
     })
-})
 
 
 /*
@@ -147,14 +141,14 @@ router.get('/:playlist/share/:invite/delete',
     validate.playlistOwner,
     validate.inviteExists,
     function (req, res, next) {
-        inviteService.deleteInvite(req.invite, (err, ok) => {
-            if (err) return next(err)
-
-            res.redirectWithMessage(
-                '/playlists/' + req.params.playlist + '/share',
-                "Share revoked."
-            )
-        })
+        inviteService.deleteInvite(req.invite)
+            .then(ok => {
+                res.redirectWithMessage(
+                    '/playlists/' + req.params.playlist + '/share',
+                    "Share revoked."
+                )
+            })
+            .catch(next)
     })
 
 
@@ -182,11 +176,11 @@ router.post('/:playlist/share/:invite/edit',
     function (req, res, next) {
         req.invite.writable = !!req.body.write
 
-        inviteService.updateInvite(req.invite, (err, invite) => {
-            if (err) return next(err)
-
-            res.redirectWithMessage('/playlists/' + req.params.playlist + '/share', "Permissions updated.")
-        })
+        inviteService.updateInvite(req.invite)
+            .then(invite => {
+                res.redirectWithMessage('/playlists/' + req.params.playlist + '/share', "Permissions updated.")
+            })
+            .catch(next)
     })
 
 
@@ -212,11 +206,11 @@ router.post('/:playlist/edit',
     function (req, res, next) {
         req.playlist.name = req.body.name // update the object
 
-        playlistService.updatePlaylist(req.playlist, (err, playlist) => {
-            if(err) return next(err)
-
-            res.redirectWithMessage('/playlists', playlist.name + ' edited with success!')
-        })
+        playlistService.updatePlaylist(req.playlist)
+            .then(playlist => {
+                res.redirectWithMessage('/playlists', playlist.name + ' edited with success!')
+            })
+            .catch(next)
 })
 
 /*
@@ -224,7 +218,7 @@ router.post('/:playlist/edit',
 | Remove playlist track
 |--------------------------------------------------------------------------
 */
-router.get('/:playlist/remove/:track',
+router.get('/:playlist/track/:track/remove',
     validate.playlistExists,
     validate.accessToPlaylist,
     validate.playlistWriteAccess,
@@ -232,11 +226,11 @@ router.get('/:playlist/remove/:track',
     function (req, res, next) {
         req.playlist.tracks.splice(req.trackIdx, 1) // remove the track from the playlist
 
-        playlistService.updatePlaylist(req.playlist, (err, plist) => {
-            if(err) return next(err)
-
-            res.redirectWithMessage('back', 'Track removed with success!')
-        })
+        playlistService.updatePlaylist(req.playlist)
+            .then(plist => {
+                res.redirectWithMessage('back', 'Track removed with success!')
+            })
+            .catch(next)
 })
 
 /*
@@ -244,7 +238,7 @@ router.get('/:playlist/remove/:track',
 | Playlist add track
 |--------------------------------------------------------------------------
 */
-router.post('/add',
+router.post('/add-track',
     validate.playlistExists,
     validate.accessToPlaylist,
     validate.playlistWriteAccess,
@@ -254,14 +248,13 @@ router.post('/add',
 
         req.playlist.tracks.push(trackId)
 
-        playlistService.updatePlaylist(req.playlist, (err, plist) => {
-            if(err) return next(err)
-
-            res.redirectWithMessage(
-                '/playlists/details/' + req.playlist.id,
-                'Track added with success!'
-            )
-        })
+        playlistService.updatePlaylist(req.playlist)
+            .then(plist => {
+                res.redirectWithMessage('back',
+                    'Track added with success!'
+                )
+            })
+            .catch(next)
 })
 
 

@@ -2,10 +2,10 @@
     <li>
         <p class="navbar-text">Hello {{user.name}}</p>
     </li>
-    <li>
+    <li {{{active '/playlists' currentPath }}}>
         <a href="/playlists">Playlists</a>
     </li>
-    <li>
+    <li {{{active '/invites' currentPath }}}>
         <a href="/invites">Invites</a>
     </li>
     <li>

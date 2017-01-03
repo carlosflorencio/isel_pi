@@ -15,17 +15,22 @@ function DataService(repo) {
      * Create a new Invitation of a shared playlist
      *
      * @param toEmail
-     * @param fromUser
+     * @param fromEmail
      * @param playlistId
      * @param writable
-     * @param cb (error, couchdbInsertResponseJson)
+     * @returns {Promise} Invite
      */
-    this.sendInvitation = function (toEmail, fromUser, playlistId, writable, cb) {
-        repo.sendInvitation(toEmail, fromUser.email, playlistId, writable, (err, json) => {
-            if(err) return cb(err)
+    this.sendInvitation = function (toEmail, fromEmail, playlistId, writable) {
+        return new Promise((resolve, fail) => {
+            repo.sendInvitation(toEmail, fromEmail, playlistId, writable, (err, json) => {
+                if(err) return fail(err)
 
-            // this json is the couchdb ok, id, rev fields
-            return cb(null, json)
+                // this json is the couchdb ok, id, rev fields
+                let invite = new Invite(json.id, false, toEmail, fromEmail, playlistId, writable)
+                invite._rev = json.rev
+
+                return resolve(invite)
+            })
         })
     }
 
@@ -35,15 +40,17 @@ function DataService(repo) {
      * @param toEmail
      * @param fromEmail
      * @param playlistId
-     * @param cb (err, Invite) Invite can be false if not found
+     * @returns {Promise} Invite, can be false if not found
      */
-    this.getInvitation = function (toEmail, fromEmail, playlistId, cb) {
-        repo.getInvitation(toEmail, fromEmail, playlistId, (err, json) => {
-            if(err) return cb(err)
+    this.getInvitation = function (toEmail, fromEmail, playlistId) {
+        return new Promise((resolve, fail) => {
+            repo.getInvitation(toEmail, fromEmail, playlistId, (err, json) => {
+                if(err) return fail(err)
 
-            if(!json) return cb(null, false)
+                if(!json) return resolve(false)
 
-            cb(null, mapper.mapInvite(json))
+                resolve(mapper.mapInvite(json))
+            })
         })
     }
 
@@ -52,15 +59,17 @@ function DataService(repo) {
      *
      * @param toEmail
      * @param playlistId
-     * @param cb (err, Invite) Invite can be false if not found
+     * @returns {Promise} Invite, can be false if not found
      */
-    this.getInvitationByPlaylistAndUser = function (toEmail, playlistId, cb) {
-        repo.getInvitationByPlaylistAndUser(toEmail, playlistId, (err, json) => {
-            if(err) return cb(err)
+    this.getInvitationByPlaylistAndUser = function (toEmail, playlistId) {
+        return new Promise((resolve, fail) => {
+            repo.getInvitationByPlaylistAndUser(toEmail, playlistId, (err, json) => {
+                if(err) return fail(err)
 
-            if(!json) return cb(null, false)
+                if(!json) return resolve(false)
 
-            cb(null, mapper.mapInvite(json))
+                resolve(mapper.mapInvite(json))
+            })
         })
     }
 
@@ -68,13 +77,31 @@ function DataService(repo) {
      * Get all invitations of an user
      *
      * @param userEmail
-     * @param cb (err, InviteArray)
+     * @returns {Promise} Invites, array
      */
-    this.getInvitations = function (userEmail, cb) {
-        repo.getInvitationsOfUser(userEmail, (err, json) => {
-            if(err) return cb(err)
+    this.getInvitations = function (userEmail) {
+        return new Promise((resolve, fail) => {
+            repo.getInvitationsOfUser(userEmail, (err, json) => {
+                if(err) return fail(err)
 
-            cb(null, mapper.mapInvites(json))
+                resolve(mapper.mapInvites(json))
+            })
+        })
+    }
+
+    /**
+     * Get all unaccepted invites of an user
+     *
+     * @param userEmail
+     * @returns {Promise}
+     */
+    this.getPendingInvitations = function (userEmail) {
+        return new Promise((resolve, fail) => {
+            repo.getPendingInvitationsOfUser(userEmail, (err, json) => {
+                if(err) return fail(err)
+
+                resolve(mapper.mapInvites(json))
+            })
         })
     }
 
@@ -82,15 +109,17 @@ function DataService(repo) {
      * Gets a specific Invitation by ID
      *
      * @param id
-     * @param cb
+     * @returns {Promise} Invite, can be false if not found
      */
-    this.getInvitationById = function (id, cb) {
-        repo.getInvitationById(id, (err, json) => {
-            if(err) return cb(err)
+    this.getInvitationById = function (id) {
+        return new Promise((resolve, fail) => {
+            repo.getInvitationById(id, (err, json) => {
+                if(err) return fail(err)
 
-            if(!json) return cb(null, false)
+                if(!json) return resolve(false)
 
-            cb(null, mapper.mapInvite(json))
+                resolve(mapper.mapInvite(json))
+            })
         })
     }
 
@@ -99,13 +128,15 @@ function DataService(repo) {
      *
      * @param fromEmail
      * @param playlistId
-     * @param cb (err, InvitesArray)
+     * @returns {Promise} Invites, array
      */
-    this.getInvitesOfPlaylist = function (fromEmail, playlistId, cb) {
-        repo.getInvitesOfPlaylist(fromEmail, playlistId, (err, json) => {
-            if(err) return cb(err)
+    this.getInvitesOfPlaylist = function (fromEmail, playlistId) {
+        return new Promise((resolve, fail) => {
+            repo.getInvitesOfPlaylist(fromEmail, playlistId, (err, json) => {
+                if(err) return fail(err)
 
-            cb(null, mapper.mapInvites(json))
+                resolve(mapper.mapInvites(json))
+            })
         })
     }
 
@@ -113,13 +144,15 @@ function DataService(repo) {
      * Deletes an Invitation
      *
      * @param invite
-     * @param cb
+     * @returns {Promise} ok, boolean
      */
-    this.deleteInvite = function (invite, cb) {
-        repo.deleteInvite(invite.id, invite._rev, (err, json) => {
-            if(err) return cb(err)
+    this.deleteInvite = function (invite) {
+        return new Promise((resolve, fail) => {
+            repo.deleteInvite(invite.id, invite._rev, (err, json) => {
+                if(err) return fail(err)
 
-            cb(null, json.ok)
+                resolve(json.ok)
+            })
         })
     }
 
@@ -127,16 +160,18 @@ function DataService(repo) {
      * Updates an Invitation
      *
      * @param invite
-     * @param cb
+     * @returns {Promise} Invite, the same but with rev updated
      */
-    this.updateInvite = function (invite, cb) {
-        repo.updateInvite(invite, (err, json) => {
-            if(err) return cb(err)
+    this.updateInvite = function (invite) {
+        return new Promise((resolve, fail) => {
+            repo.updateInvite(invite, (err, json) => {
+                if(err) return fail(err)
 
-            // we have to update the rev
-            invite._rev = json.rev
+                // we have to update the rev
+                invite._rev = json.rev
 
-            cb(null, invite)
+                resolve(invite)
+            })
         })
     }
 

@@ -64,6 +64,11 @@ body {
     list-style: none;
 }
 
+.options-column {
+    text-align: center;
+    width: 30%;
+}
+
 /* Page styles
    ========================================================================== */
 .search-item {
@@ -82,6 +87,15 @@ body {
 
 .text-middle {
     vertical-align: middle !important;
+}
+
+.tr-text-middle td {
+    vertical-align: middle !important;
+}
+
+/* all should have the same width */
+.add-track-select {
+    width: 230px !important;
 }
 
 /* Playlists

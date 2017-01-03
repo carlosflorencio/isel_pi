@@ -61,6 +61,17 @@ invites.getInvitation = function (toEmail, fromEmail, playlistID, cb) {
 }
 
 /**
+ * Get an invite by its ID
+ *
+ * @param id
+ * @param cb
+ */
+invites.getInvitationById = function (id, cb) {
+    request.get(url + id)
+        .end(couchdb.bodyCallback(cb))
+}
+
+/**
  * Gets an specific invitation for a specific user and playlist
  *
  * @param toEmail
@@ -80,17 +91,6 @@ invites.getInvitationByPlaylistAndUser = function (toEmail, playlistId, cb) {
         .end(couchdb.searchCallback(cb))
 }
 
-/**
- * Gets an Invitation by Id
- *
- * @param id
- * @param cb
- */
-invites.getInvitationById = function (id, cb) {
-    request
-        .get(url + id)
-        .end(couchdb.bodyCallback(cb))
-}
 
 /**
  * Get all invitations of an user
@@ -104,6 +104,25 @@ invites.getInvitationsOfUser = function (toEmail, cb) {
         .send({
             "selector": {
                 "toUser": toEmail
+            },
+            "limit": 100
+        })
+        .end(couchdb.bodyCallback(cb))
+}
+
+/**
+ * Get all unaccepted invitations of an user
+ *
+ * @param toEmail
+ * @param cb
+ */
+invites.getPendingInvitationsOfUser = function (toEmail, cb) {
+    request
+        .post(url + '_find')
+        .send({
+            "selector": {
+                "toUser": toEmail,
+                "accepted": false
             },
             "limit": 100
         })

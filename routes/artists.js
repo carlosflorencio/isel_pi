@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Factory = require('../model/serviceFactory')
-const cacheMiddleware = require('../middleware/cache')
+const cacheMiddleware = require('./middleware/cache')
 
 const spotifyService = Factory.spotifyService
 
@@ -21,16 +21,15 @@ router.get('/:artist', cacheMiddleware(), function(req, res, next) {
     const limit = req.query.limit || 10
     const id = req.params.artist
 
-    spotifyService.getArtistInfoWithAlbums(id, page, limit, (err, artist) => {
-        if (err)
-            return next(err)
-
-        res.locals.expire = artist.expire
-        res.render('pages/artist', {
-            title: artist.name,
-            artist: artist
+    spotifyService.getArtistInfoWithAlbums(id, page, limit)
+        .then(artist => {
+            res.locals.expire = artist.expire
+            res.render('pages/artist', {
+                title: artist.name,
+                artist: artist
+            })
         })
-    })
+        .catch(next)
 });
 
 

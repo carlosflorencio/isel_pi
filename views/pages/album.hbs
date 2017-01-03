@@ -33,24 +33,41 @@
             <div class="panel-heading">Tracks ({{ album.tracks.total }} total)</div>
 
             <ul class="list-group">
-                {{#each album.tracks.items}}
+                {{#each album.tracks.items as |track|}}
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-xs-2 album-item">
-                                {{#with this }}{{ getDuration }}{{/with}}
+                                {{#with track }}{{ getDuration }}{{/with}}
                             </div>
                             <div class="col-xs-4 album-item">
-                                {{ limit this.name 40 }}
+                                {{ limit track.name 40 }}
+                            </div>
+                            <div class="col-xs-2 album-item">
+                                <a href="{{ track.previewUrl }}" class="btn btn-primary btn-sm" target="_blank">
+                                    Preview
+                                </a>
                             </div>
                             <div class="col-xs-4 album-item text-right">
                                 {{#if ../user}}
-                                    <form action="/playlists/add" method="post" class="form-inline">
-                                        <input type="hidden" name="track" value="{{ this.id }}"/>
+                                    <form action="/playlists/add-track" method="post" class="form-inline">
+                                        <input type="hidden" name="track" value="{{ track.id }}"/>
                                         <div class="form-group">
-                                            <select name="playlist" class="form-control input-sm" required>
+                                            <select name="playlist" class="form-control input-sm add-track-select" required>
                                                 <option value="">Add to playlist</option>
-                                                {{#each ../user.playlists}}
-                                                    <option value="{{this.id}}">{{this.name}}</option>
+                                                {{!-- User Playlists --}}
+                                                {{#each ../playlists as |playlist|}}
+                                                    <option value="{{playlist.id}}">
+                                                        {{trackExists playlist track.id }}
+                                                        {{playlist.name}}
+                                                    </option>
+                                                {{/each}}
+
+                                                {{!-- User Invited Playlists --}}
+                                                {{#each ../invitedPlaylists as |playlist|}}
+                                                    <option value="{{playlist.id}}">
+                                                        {{trackExists playlist track.id }}
+                                                        [Shared] {{playlist.name}}
+                                                    </option>
                                                 {{/each}}
                                             </select>
                                         </div>
@@ -59,11 +76,6 @@
                                         </div>
                                     </form>
                                 {{/if}}
-                            </div>
-                            <div class="col-xs-2 album-item">
-                                <a href="{{ this.previewUrl }}" class="btn btn-primary btn-sm" target="_blank">
-                                    Preview
-                                </a>
                             </div>
                         </div>
                     </li>

@@ -13,20 +13,24 @@ function DataService(repo) {
      * Find a user by email
      *
      * @param email
-     * @param cb (err, User) User is false if not found
+     * @returns {Promise} User, is false if not found
      */
-    this.findByEmail = function (email, cb) {
-        repo.findByEmail(email, searchUserCallback(cb))
+    this.findByEmail = function (email) {
+        return new Promise((resolve, fail) => {
+            repo.findByEmail(email, searchUserCallback(resolve, fail))
+        })
     }
 
     /**
      * Find a user by id
      *
      * @param id
-     * @param cb (err, User) User is false if not found
+     * @returns {Promise} User, is false if not found
      */
-    this.findById = function (id, cb) {
-        repo.findById(id, searchUserCallback(cb))
+    this.findById = function (id) {
+        return new Promise((resolve, fail) => {
+            repo.findById(id, searchUserCallback(resolve, fail))
+        })
     }
 
     /**
@@ -35,10 +39,12 @@ function DataService(repo) {
      *
      * @param email
      * @param password
-     * @param cb (err, User) User is false if not found
+     * @returns {Promise} User, is false if not found
      */
-    this.find = function (email, password, cb) {
-        repo.find(email, hash(password), searchUserCallback(cb))
+    this.find = function (email, password) {
+        return new Promise((resolve, fail) => {
+            repo.find(email, hash(password), searchUserCallback(resolve, fail))
+        })
     }
 
     /**
@@ -48,19 +54,22 @@ function DataService(repo) {
      * @param email
      * @param password
      * @param name
-     * @param cb (err, User) User created
+     * @returns {Promise} User
      */
-    this.create = function (email, password, name, cb) {
-        const pw = hash(password)
-        repo.create(email, pw, name, (err, json) => {
-            if(err) return cb(err)
+    this.create = function (email, password, name) {
+        return new Promise((resolve, fail) => {
+            const pw = hash(password)
 
-            json.email = email // recreate a new user entity to return
-            json.password = pw
-            json.name = name
-            json._id = json.id
-            json._rev = json.rev
-            cb(null, mapper.mapUser(json))
+            repo.create(email, pw, name, (err, json) => {
+                if(err) return fail(err)
+
+                json.email = email // recreate a new user entity to return
+                json.password = pw
+                json.name = name
+                json._id = json.id
+                json._rev = json.rev
+                resolve(mapper.mapUser(json))
+            })
         })
     }
 }
@@ -84,16 +93,17 @@ function hash(password) {
 /**
  * Parses a user document response
  *
- * @param cb
+ * @param resolve
+ * @param fail
  * @return {function(*=, *=)}
  */
-function searchUserCallback(cb) {
+function searchUserCallback(resolve, fail) {
     return (err, json) => {
-        if(err) return cb(err)
+        if(err) return fail(err)
 
-        if(!json) return cb(null, false)
+        if(!json) return resolve(false)
 
-        cb(null, mapper.mapUser(json))
+        resolve(mapper.mapUser(json))
     }
 }
 

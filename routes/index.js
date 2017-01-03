@@ -33,15 +33,15 @@ router.get('/search/:artist?', function(req, res, next) {
     if (!artist)
         return next(new Error("No artist provided!"))
 
-    spotifyService.searchArtist(artist, page, limit, (err, collection) => {
-        if (err) return next(err)
-
-        res.render('pages/search', {
-            title: collection.total + " Results for " + artist,
-            query: artist,
-            collection: collection
+    spotifyService.searchArtist(artist, page, limit)
+        .then(collection => {
+            res.render('pages/search', {
+                title: collection.total + " Results for " + artist,
+                query: artist,
+                collection: collection
+            })
         })
-    })
+        .catch(next)
 });
 
 

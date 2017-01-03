@@ -15,17 +15,18 @@ function DataService(repo) {
      * @param name
      * @param page
      * @param limit
-     * @param cb (err, Collection)
+     * @returns {Promise} Collection of Artists
      */
-    this.searchArtist = function (name, page, limit, cb) {
-        repo.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
-            if (err)
-                return cb(err)
+    this.searchArtist = function (name, page, limit) {
+        return new Promise((resolve, fail) => {
+            repo.searchArtist(name, getOffset(page, limit), limit, (err, spotifyJsonResponse) => {
+                if (err) return fail(err)
 
-            const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
-            collection.expire = spotifyJsonResponse.lifetime
+                const collection = mapper.mapArtistsToCollection(spotifyJsonResponse.json)
+                collection.expire = spotifyJsonResponse.lifetime
 
-            cb(null, collection)
+                resolve(collection)
+            })
         })
     }
 
@@ -36,18 +37,18 @@ function DataService(repo) {
      * @param id
      * @param page
      * @param limit
-     * @param cb (err, Artist)
+     * @returns {Promise} Artist
      */
-    this.getArtistInfoWithAlbums = function (id, page, limit, cb) {
-        repo.getArtist(id, getOffset(page, limit), limit, (err, arrayResponses) => {
-            if (err) {
-                return cb(err)
-            }
+    this.getArtistInfoWithAlbums = function (id, page, limit) {
+        return new Promise((resolve, fail) => {
+            repo.getArtist(id, getOffset(page, limit), limit, (err, arrayResponses) => {
+                if (err) return fail(err)
 
-            const artist = mapper.mapArtistAndAlbums(arrayResponses[0].json, arrayResponses[1].json)
-            artist.expire = Math.min(arrayResponses[0].lifetime, arrayResponses[1].lifetime)
+                const artist = mapper.mapArtistAndAlbums(arrayResponses[0].json, arrayResponses[1].json)
+                artist.expire = Math.min(arrayResponses[0].lifetime, arrayResponses[1].lifetime)
 
-            cb(null, artist)
+                resolve(artist)
+            })
         })
     }
 
@@ -55,17 +56,18 @@ function DataService(repo) {
      * Get an album info with 50 tracks
      *
      * @param id
-     * @param cb (err, Album)
+     * @returns {Promise} Album
      */
-    this.albumInfo = function (id, cb) {
-        repo.getAlbumInfo(id, (err, spotifyJsonResponse) => {
-            if (err)
-                return cb(err)
+    this.albumInfo = function (id) {
+        return new Promise((resolve, fail) => {
+            repo.getAlbumInfo(id, (err, spotifyJsonResponse) => {
+                if (err) return fail(err)
 
-            const album = mapper.mapAlbum(spotifyJsonResponse.json)
-            album.expire = spotifyJsonResponse.lifetime
+                const album = mapper.mapAlbum(spotifyJsonResponse.json)
+                album.expire = spotifyJsonResponse.lifetime
 
-            cb(null, album)
+                resolve(album)
+            })
         })
     }
 
@@ -76,18 +78,19 @@ function DataService(repo) {
      * @param id
      * @param page
      * @param limit
-     * @param cb (err, Album)
+     * @returns {Promise} Album
      */
-    this.albumTracks = function (id, page, limit, cb) {
-        repo.getAlbumTracksParalelWithAlbumInfo(id, getOffset(page, limit), limit, (err, arrayResponses) => {
-            if (err)
-                return cb(err)
+    this.albumTracks = function (id, page, limit) {
+        return new Promise((resolve, fail) => {
+            repo.getAlbumTracksParalelWithAlbumInfo(id, getOffset(page, limit), limit, (err, arrayResponses) => {
+                if (err) return fail(err)
 
-            const album = mapper.mapAlbum(arrayResponses[0].json)
-            album.tracks = mapper.mapTracksToCollection(arrayResponses[1].json)
-            album.expire = Math.min(arrayResponses[0].lifetime, arrayResponses[1].lifetime)
+                const album = mapper.mapAlbum(arrayResponses[0].json)
+                album.tracks = mapper.mapTracksToCollection(arrayResponses[1].json)
+                album.expire = Math.min(arrayResponses[0].lifetime, arrayResponses[1].lifetime)
 
-            cb(null, album)
+                resolve(album)
+            })
         })
     }
 
@@ -95,16 +98,18 @@ function DataService(repo) {
      * Get tracks from an array of ids
      *
      * @param idsArray
-     * @param cb
+     * @returns {Promise} Tracks Array
      */
-    this.getTracks = function (idsArray, cb) {
-        repo.getTracks(idsArray, (err, spotifyJsonResponse) => {
-            if (err) return cb(err)
+    this.getTracks = function (idsArray) {
+        return new Promise((resolve, fail) => {
+            repo.getMultipleTracks(idsArray, (err, spotifyJsonResponse) => {
+                if (err) return fail(err)
 
-            const tracks = spotifyJsonResponse.json.tracks.map(t => mapper.mapTrack(t))
-            tracks.expire = spotifyJsonResponse.lifetime
+                const tracks = spotifyJsonResponse.json.tracks.map(t => mapper.mapTrack(t))
+                tracks.expire = spotifyJsonResponse.lifetime
 
-            cb(null, tracks)
+                resolve(tracks)
+            })
         })
     }
 }

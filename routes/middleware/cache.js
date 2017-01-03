@@ -1,14 +1,15 @@
-const Factory = require('../model/serviceFactory')
+const Factory = require('../../model/serviceFactory')
 const path = require('path')
 const debug = require('debug')('cacheMiddlware');
 
 // Static for all routes, make it local for each router?
-const cache = Factory.cacheService(path.join(__dirname, '../storage/cache'))
+const cache = Factory.cacheService(path.join(__dirname, '../../storage/cache'))
 
 /**
  * Cache middleware
  * Caches the response for a period of time
  * Add this middlware before your controller middleware
+ * If user is authenticated, we dont use the cache
  *
  * Uses the path of the request as key
  * Also has support for page & limit query string values

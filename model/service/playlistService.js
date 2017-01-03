@@ -15,14 +15,16 @@ function DataService(repo) {
      * Gets all playlists of the user
      *
      * @param user_id
-     * @param cb (err, playlists)
+     * @returns {Promise} Playlists, array
      */
-    this.playlistsOfUser = function (user_id, cb) {
-        repo.findByUserId(user_id, (err, json) => {
-            if(err) return cb(err)
-            let playlists = mapper.mapPlaylists(json)
+    this.playlistsOfUser = function (user_id) {
+        return new Promise((resolve, fail) => {
+            repo.findByUserId(user_id, (err, json) => {
+                if(err) return fail(err)
+                let playlists = mapper.mapPlaylists(json)
 
-            return cb(null, playlists)
+                return resolve(playlists)
+            })
         })
     }
 
@@ -30,13 +32,17 @@ function DataService(repo) {
      * Get multiple playlists by ID
      *
      * @param idsArray array of strings with the ids
-     * @param cb (err, PlaylistsArray)
+     * @returns {Promise} Playlists, array
      */
-    this.getMultiplePlaylists = function (idsArray, cb) {
-        repo.getMultipleById(idsArray, (err, json) => {
-            if(err) return cb(err)
+    this.getMultiplePlaylists = function (idsArray) {
+        return new Promise((resolve, fail) => {
+            if(idsArray.length == 0) return resolve([])
 
-            return cb(null, mapper.mapPlaylists(json))
+            repo.getMultipleById(idsArray, (err, json) => {
+                if(err) return fail(err)
+
+                return resolve(mapper.mapPlaylists(json))
+            })
         })
     }
 
@@ -44,16 +50,18 @@ function DataService(repo) {
      * Gets a playlist by its ID
      *
      * @param id
-     * @param cb (err, Playlist) Playlist can be false if not found
+     * @returns {Promise} Playlist, can be false if not found
      */
-    this.getPlaylistById = function (id, cb) {
-        repo.findById(id, (err, json) => {
-            if(err) return cb(err)
+    this.getPlaylistById = function (id) {
+        return new Promise((resolve, fail) => {
+            repo.findById(id, (err, json) => {
+                if(err) return fail(err)
 
-            // no playlist found
-            if(!json) return cb(null, false)
+                // no playlist found
+                if(!json) return resolve(false)
 
-            return cb(null, mapper.mapPlaylist(json))
+                return resolve(mapper.mapPlaylist(json))
+            })
         })
     }
 
@@ -64,16 +72,18 @@ function DataService(repo) {
      *
      * @param user_id
      * @param name
-     * @param cb (err, playlist)
+     * @returns {Promise} Playlist
      */
-    this.createPlaylist = function (user_id, name, cb) {
-        repo.create(user_id, name, (err, json) => {
-            if(err) return cb(err)
+    this.createPlaylist = function (user_id, name) {
+        return new Promise((resolve, fail) => {
+            repo.create(user_id, name, (err, json) => {
+                if(err) return fail(err)
 
-            let playlist = new Playlist(json.id, user_id, name, [])
-            playlist._rev = json.rev // we need the _rev to update & delete
+                let playlist = new Playlist(json.id, user_id, name, [])
+                playlist._rev = json.rev // we need the _rev to update & delete
 
-            return cb(null, playlist)
+                return resolve(playlist)
+            })
         })
     }
 
@@ -82,15 +92,17 @@ function DataService(repo) {
      *
      * @param user_id
      * @param name
-     * @param cb (err, playlist) playlist=false if not found
+     * @returns {Promise} Playlist, can be false if not found
      */
-    this.findUserPlaylistByName = function (user_id, name, cb) {
-        repo.findUserPlaylistByName(user_id, name, (err, json) => {
-            if(err) return cb(err)
+    this.findUserPlaylistByName = function (user_id, name) {
+        return new Promise((resolve, fail) => {
+            repo.findUserPlaylistByName(user_id, name, (err, json) => {
+                if(err) return fail(err)
 
-            if(!json) return cb(null, false)
+                if(!json) return resolve(false)
 
-            return cb(null, mapper.mapPlaylist(json))
+                return resolve(mapper.mapPlaylist(json))
+            })
         })
     }
 
@@ -100,34 +112,36 @@ function DataService(repo) {
      *
      * The json response contains ok, id, rev fields
      * @param playlist
-     * @param cb(err, Playlist) Playlist is same with the _rev updated
+     * @returns {Promise} Playlist, is same but with the _rev updated
      */
-    this.updatePlaylist = function (playlist, cb) {
-        repo.updatePlaylist(playlist, (err, json) => {
-            if(err) return cb(err)
+    this.updatePlaylist = function (playlist) {
+        return new Promise((resolve, fail) => {
+            repo.updatePlaylist(playlist, (err, json) => {
+                if(err) return fail(err)
 
-            // we need to updated the rev
-            playlist._rev = json.rev
+                // we need to updated the rev
+                playlist._rev = json.rev
 
-            return cb(null, playlist)
+                return resolve(playlist)
+            })
         })
     }
 
     /**
      * Deletes the playlist
      *
-     * @param plalist
-     * @param cb (err, boolean)
+     * @param playlist
+     * @returns {Promise} ok, boolean
      */
-    this.deletePlaylist = function (plalist, cb) {
-        repo.deletePlaylist(plalist.id, plalist._rev, (err, json) => {
-            if(err) return cb(err)
+    this.deletePlaylist = function (playlist) {
+        return new Promise((resolve, fail) => {
+            repo.deletePlaylist(playlist.id, playlist._rev, (err, json) => {
+                if(err) return fail(err)
 
-            return cb(null, json.ok)
+                return resolve(json.ok)
+            })
         })
     }
-
-
 }
 
 

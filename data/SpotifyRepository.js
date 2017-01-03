@@ -104,7 +104,7 @@ spotify.getAlbumTracksParalelWithAlbumInfo = function (id, offset, limit, cb) {
  * @param idsArray
  * @param cb
  */
-spotify.getTracks = function (idsArray, cb) {
+spotify.getMultipleTracks = function (idsArray, cb) {
     const uri = sprintf(api.tracks, encodeURIComponent(idsArray.join(",")))
 
     httpsUtil.httpsGetJson(uri, cb)

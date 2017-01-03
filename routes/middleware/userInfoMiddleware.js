@@ -33,6 +33,8 @@ module.exports = function (req, res, next) {
         return redirectWithMessage(req, res, to, message, type)
     }
 
+    res.locals.currentPath = req.path // usefull to mark active page in the navbar
+
     next()
 }
 
