@@ -31,10 +31,10 @@ function handlebarsConfigurator(hbs) {
     hbs.registerHelper('limit', function (str, limit) {
         if (str.length > limit) {
             let nstr = str.substring(0, limit)
-            return new hbs.handlebars.SafeString(nstr + '...');
+            return nstr + '...'
         }
 
-        return new hbs.handlebars.SafeString(str);
+        return str
     });
 
     /**
@@ -110,11 +110,44 @@ function handlebarsConfigurator(hbs) {
      * {{{active '/user/register' currentPath }}}
      */
     hbs.registerHelper('active', function (shouldPath, activePath) {
-        console.log(shouldPath, activePath);
         if(shouldPath == activePath)
             return 'class="active"'
 
         return ''
+    })
+
+    /**
+     * Append content to a named section
+     * usage:
+     *
+     * {{#append 'scripts'}}
+     *   <script src="js/script.js"></script>
+     * {{/append}}
+     *
+     */
+    hbs.registerHelper('append', function (name, options) {
+        if(!this._sections)
+            this._sections = {}
+
+        if(this._sections[name])
+            this._sections[name] += options.fn(this) // append if there is already content
+        else
+            this._sections[name] = options.fn(this) // save the content of the block
+
+        return null
+    })
+
+    /**
+     * Display the content of the section
+     * usage:
+     *
+     * {{section 'scripts' }}
+     */
+    hbs.registerHelper('section', function (name) {
+        if(this._sections)
+            return new hbs.handlebars.SafeString(this._sections[name])
+
+        return null
     })
 
     /*
@@ -128,14 +161,14 @@ function handlebarsConfigurator(hbs) {
         let link = disabledLink
         if (!collection.isFirst())
             link = createPageLink(path, query, 1, collection.limit)
-        return new hbs.handlebars.SafeString(link);
+        return link;
     });
 
     hbs.registerHelper('lastpage', function (path, query, collection) {
         let link = disabledLink
         if (!collection.isLast())
             link = createPageLink(path, query, collection.getTotalPages(), collection.limit)
-        return new hbs.handlebars.SafeString(link);
+        return link;
     });
 
     hbs.registerHelper('nextpage', function (path, query, collection) {
@@ -143,7 +176,7 @@ function handlebarsConfigurator(hbs) {
         if (collection.hasNext())
             link = createPageLink(path, query, collection.getNextPageNumber(), collection.limit)
 
-        return new hbs.handlebars.SafeString(link);
+        return link;
     });
 
     hbs.registerHelper('previouspage', function (path, query, collection) {
@@ -151,7 +184,7 @@ function handlebarsConfigurator(hbs) {
         if (collection.hasPrevious())
             link = createPageLink(path, query, collection.getPreviousPageNumber(), collection.limit)
 
-        return new hbs.handlebars.SafeString(link);
+        return link;
     });
 
     function createPageLink(path, query, page, limit) {
