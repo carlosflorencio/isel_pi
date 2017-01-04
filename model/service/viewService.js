@@ -144,7 +144,7 @@ function handlebarsConfigurator(hbs) {
      * {{section 'scripts' }}
      */
     hbs.registerHelper('section', function (name) {
-        if(this._sections)
+        if(this._sections && this._sections[name])
             return new hbs.handlebars.SafeString(this._sections[name])
 
         return null
