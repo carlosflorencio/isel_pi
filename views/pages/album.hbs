@@ -49,7 +49,8 @@
                             </div>
                             <div class="col-xs-4 album-item text-right">
                                 {{#if ../user}}
-                                    <form action="/playlists/add-track" method="post" class="form-inline">
+                                    <form action="/playlists/add-track" method="post" class="form-inline"
+                                          onsubmit="return addTrackToPlaylist('{{ track.id }}')">
                                         <input type="hidden" name="track" value="{{ track.id }}"/>
                                         <div class="form-group">
                                             <select name="playlist" class="form-control input-sm add-track-select" required>
@@ -89,3 +90,8 @@
 <!-- Pagination -->
 {{>paginate path='/albums/' query=album.id collection=album.tracks }}
 <!-- /Pagination -->
+
+
+{{#append 'scripts'}}
+    <script src="/js/album.js"></script>
+{{/append}}

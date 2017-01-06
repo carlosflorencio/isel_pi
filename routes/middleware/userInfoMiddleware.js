@@ -6,6 +6,7 @@
  *
  * Also adds support for flash messages
  * And redirect helpers
+ * And ajax helpers
  *
  * @param req
  * @param res
@@ -31,6 +32,14 @@ module.exports = function (req, res, next) {
 
     res.redirectWithMessage = function (to, message, type = 'info') {
         return redirectWithMessage(req, res, to, message, type)
+    }
+
+    res.ajaxError = function (message, code = 400) { // helper to format error json response
+        return res.status(code).json({error: message})
+    }
+
+    res.ajaxResponse = function (response) { // helper to format json response
+        return res.json({data: response})
     }
 
     res.locals.currentPath = req.path // usefull to mark active page in the navbar

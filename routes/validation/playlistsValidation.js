@@ -33,7 +33,6 @@ module.exports.playlistExists = function (req, res, next) {
                 return res.backWithError('No playlist found with that id!')
             }
 
-            console.log(playlist);
             req.playlist = playlist
             next()
         })
