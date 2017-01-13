@@ -76,7 +76,6 @@ router.post('/register', function (req, res, next) {
             // create a new user
             userService.create(req.body.email, req.body.password, req.body.name)
                 .then(user => {
-                    if (err) return next(err)
 
                     // login the new user
                     req.logIn(user, function (err) {
