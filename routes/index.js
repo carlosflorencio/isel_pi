@@ -10,8 +10,7 @@ const spotifyService = Factory.spotifyService
 |--------------------------------------------------------------------------
 */
 router.get('/', function(req, res, next) {
-    res.send("ola!")
-    // res.render('pages/home', { title: 'Home' });
+    res.render('pages/home', { title: 'Home' });
 });
 
 /*
