@@ -62,29 +62,30 @@ router.get('/register', guest(), function (req, res, next) {
  */
 router.post('/register', function (req, res, next) {
 
-    if(!req.body.name || !req.body.email || !req.body.password) {
+    if (!req.body.name || !req.body.email || !req.body.password) {
         return res.backWithError('You need to fill all the data!')
     }
 
-    userService.findByEmail(req.body.email, (err, user) => {
-        if(err) return next(err)
+    userService.findByEmail(req.body.email)
+        .then(existingUser => {
+            if (existingUser) {
+                return res.backWithError('That email is already registered!')
+            }
 
-        if(user) {
-            return res.backWithError('That email is already registered!')
-        }
+            // create a new user
+            userService.create(req.body.email, req.body.password, req.body.name)
+                .then(user => {
+                    if (err) return next(err)
 
-        // create a new user
-        userService.create(req.body.email,req.body.password, req.body.name, (err, user) => {
-            if(err) return next(err)
+                    // login the new user
+                    req.logIn(user, function (err) {
+                        if (err) return next(err)
 
-            // login the new user
-            req.logIn(user, function (err) {
-                if (err) return next(err)
-
-                res.redirectWithMessage('/', 'Welcome ' + req.body.name + ', you are now registered!')
-            })
+                        res.redirectWithMessage('/', 'Welcome ' + req.body.name + ', you are now registered!')
+                    })
+                }).catch(next)
         })
-    })
+        .catch(next)
 })
 
 
