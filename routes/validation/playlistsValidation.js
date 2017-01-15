@@ -199,6 +199,8 @@ module.exports.playlistName = function (req, res, next) {
     if (typeof req.playlist !== "undefined") { // if present is an update!
         // same name? let's go back just because we dont need to update anything
         if (req.playlist.name == name) {
+            if(req.xhr) return res.ajaxError('The name is the same!')
+
             return res.redirect('/playlists')
         }
     }

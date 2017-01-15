@@ -42,11 +42,11 @@ function Spotie() {
     |--------------------------------------------------------------------------
     */
     this.notifySuccess = function (message) {
-        return alertify.success(message);
+        return alertify.success(message)
     }
 
     this.notifyInfo = function (msg) {
-        return alertify.message(msg);
+        return alertify.message(msg)
     }
 
     this.notifyError = function (message) {
@@ -54,7 +54,21 @@ function Spotie() {
         if(message instanceof Error)
             m = message.message // get the error message
 
-        return alertify.error(m);
+        return alertify.error(m)
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prompt
+    |--------------------------------------------------------------------------
+    */
+    this.prompt = function (title, message, defaultValue, okCallback, cancelCallback) {
+        alertify.prompt(
+            title,
+            message,
+            defaultValue,
+            (evt, value) => okCallback(value),
+            cancelCallback)
     }
 }
 
@@ -76,7 +90,7 @@ function fetchResponse(response) {
     if (!response.ok) {
         return response.json()
             .then(json => { // server always sends an error property when something is wrong
-                throw new Error(json.error);
+                throw new Error(json.error)
             })
     }
 

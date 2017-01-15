@@ -186,35 +186,7 @@ router.post('/:playlist/share/:invite/edit',
 
 
 
-
-
-// to Ajax
-
-/*
-|--------------------------------------------------------------------------
-| Edit playlist
-|--------------------------------------------------------------------------
-*/
-router.get('/:playlist/edit', validate.playlistExists, validate.playlistOwner, function (req, res, next) {
-    res.render('playlist/edit', {title: "Edit Playlist", playlist: req.playlist})
-})
-
-router.post('/:playlist/edit',
-    validate.playlistExists,
-    validate.playlistOwner,
-    validate.playlistName,
-    function (req, res, next) {
-        req.playlist.name = req.body.name // update the object
-
-        playlistService.updatePlaylist(req.playlist)
-            .then(playlist => {
-                res.redirectWithMessage('/playlists', playlist.name + ' edited with success!')
-            })
-            .catch(next)
-})
-
-
-
+// The rest of the playlists functionalities are in the ajax routes
 
 
 module.exports = router;

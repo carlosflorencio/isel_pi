@@ -53,6 +53,15 @@ function DOMHelper() {
             }
         }
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove closest tr (remove table rows)
+    |--------------------------------------------------------------------------
+    */
+    this.removeRow = function (element) {
+        element.closest('tr').remove()
+    }
 }
 
 const Html = new DOMHelper()

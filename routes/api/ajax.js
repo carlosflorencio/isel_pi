@@ -53,4 +53,25 @@ router.delete('/playlist/:playlist/track/:track/remove',
     })
 
 
+/*
+|--------------------------------------------------------------------------
+| Edit playlist name
+|--------------------------------------------------------------------------
+*/
+router.put('/:playlist/edit',
+    validateAjax.needsLogin,
+    validatePlaylist.playlistExists,
+    validatePlaylist.playlistOwner,
+    validatePlaylist.playlistName,
+    function (req, res, next) {
+        req.playlist.name = req.body.name // update the object
+
+        playlistService.updatePlaylist(req.playlist)
+            .then(playlist => {
+                res.ajaxResponse(playlist.name + ' edited with success!')
+            })
+            .catch(next)
+    })
+
+
 module.exports = router

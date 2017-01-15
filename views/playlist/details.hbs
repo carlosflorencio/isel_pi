@@ -7,9 +7,6 @@
                 </div>
                 <div class="col-md-6 text-right">
                     {{#ifOwner playlist authUser=user }}
-                        <a href="/playlists/{{ playlist.id }}/edit" class="btn btn-warning btn-sm delete-playlist"
-                           title="Edit">Edit
-                        </a>
                         <a href="/playlists/{{ playlist.id }}/share" class="btn btn-info btn-sm delete-playlist" title="Share">
                             Share
                         </a>
@@ -60,11 +57,11 @@
                         </td>
                         <td class="text-center">
                             {{#ifCanWrite ../playlist authUser=../user }}
-                                <a href="/playlists/{{ ../playlist.id }}/track/{{ track.id }}/remove"
-                                   class="btn btn-danger btn-xs"
-                                   title="Delete">
+                                <button onclick="onClickDelete(this, '{{ ../playlist.id }}','{{ track.id }}')"
+                                        class="btn btn-danger btn-xs"
+                                        title="Delete">
                                     <i class="fa fa-trash"></i> Delete
-                                </a>
+                                </button>
                             {{else}}
                                 No Write Access
                             {{/ifCanWrite}}
@@ -83,3 +80,8 @@
 
     </div>
 </div>
+
+
+{{#append 'scripts'}}
+    <script src="/js/pages/playlist-details.js"></script>
+{{/append}}
