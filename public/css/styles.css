@@ -96,6 +96,8 @@ body {
 /* all should have the same width */
 .add-track-select {
     width: 230px !important;
+    display: inline-block;
+    padding-top: 2px;
 }
 
 /* Playlists

@@ -1,6 +1,5 @@
 const Factory = require('../../model/serviceFactory')
 
-
 /*
  |--------------------------------------------------------------------------
  | Validation middlewares for the Ajax routes

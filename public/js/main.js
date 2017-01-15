@@ -1,5 +1,6 @@
 "use strict";
 
+
 /*
 |--------------------------------------------------------------------------
 | Global app object
@@ -12,42 +13,48 @@ function Spotie() {
     /**
      * Fetch path
      *
-     * @param path
-     * @returns Promise (json)
-     */
-    this.fetch = function (path) {
-        return fetch(API_PATH + path, {
-            credentials: 'same-origin', // send cookies
-            headers: {'X-Requested-With': 'XMLHttpRequest'} // express needs to know, to response with json
-        }).then(fetchResponse)
-    }
-
-    /**
-     * Fetch, send body object as json
+     * Also can send a body with the request
      *
-     * @param method
      * @param path
+     * @param method
      * @param body
-     * @returns {*}
+     * @returns Promise (json) the server will always respond with json
      */
-    this.fetchSendJson = function(method, path, body) {
-        return fetch(this.api + path, {
-            method: method.toUpperCase(),
-            body: JSON.stringify(body),
+    this.fetch = function (path, method = 'GET', body = null) {
+        let options = {
+            method: method,
+            credentials: 'same-origin', // send cookies
             headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            credentials: 'same-origin'
-        }).then(fetchResponse)
+                'Content-Type': 'application/json', // when sending the body, should be json
+                'X-Requested-With': 'XMLHttpRequest' // express needs to know, to see this as an ajax request
+            }
+        }
+
+        if(body)
+            options.body = JSON.stringify(body)
+
+        return fetch(API_PATH + path, options).then(fetchResponse)
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications
+    |--------------------------------------------------------------------------
+    */
     this.notifySuccess = function (message) {
         return alertify.success(message);
     }
 
+    this.notifyInfo = function (msg) {
+        return alertify.message(msg);
+    }
+
     this.notifyError = function (message) {
-        return alertify.error(message);
+        let m = message
+        if(message instanceof Error)
+            m = message.message // get the error message
+
+        return alertify.error(m);
     }
 }
 
@@ -68,17 +75,11 @@ const spotie = new Spotie() // global object
 function fetchResponse(response) {
     if (!response.ok) {
         return response.json()
-            .then(function (json) {
+            .then(json => { // server always sends an error property when something is wrong
                 throw new Error(json.error);
             })
     }
 
 
     return response.json()
-}
-
-function stringToHtml(str) {
-    const div = document.createElement('div')
-    div.innerHTML = str
-    return div.firstChild
 }

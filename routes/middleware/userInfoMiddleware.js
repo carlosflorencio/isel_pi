@@ -27,6 +27,9 @@ module.exports = function (req, res, next) {
     }
 
     res.backWithError = function (message) {
+        if(req.xhr) // validation middlewares ajax response
+            return res.ajaxError(message)
+
         return redirectWithMessage(req, res, 'back', message, 'danger')
     }
 

@@ -213,49 +213,8 @@ router.post('/:playlist/edit',
             .catch(next)
 })
 
-/*
-|--------------------------------------------------------------------------
-| Remove playlist track
-|--------------------------------------------------------------------------
-*/
-router.get('/:playlist/track/:track/remove',
-    validate.playlistExists,
-    validate.accessToPlaylist,
-    validate.playlistWriteAccess,
-    validate.trackExistsInPlaylist,
-    function (req, res, next) {
-        req.playlist.tracks.splice(req.trackIdx, 1) // remove the track from the playlist
 
-        playlistService.updatePlaylist(req.playlist)
-            .then(plist => {
-                res.redirectWithMessage('back', 'Track removed with success!')
-            })
-            .catch(next)
-})
 
-/*
-|--------------------------------------------------------------------------
-| Playlist add track
-|--------------------------------------------------------------------------
-*/
-router.post('/add-track',
-    validate.playlistExists,
-    validate.accessToPlaylist,
-    validate.playlistWriteAccess,
-    validate.trackNotExistsInPlaylist,
-    function (req, res, next) {
-        const trackId = req.body.track
-
-        req.playlist.tracks.push(trackId)
-
-        playlistService.updatePlaylist(req.playlist)
-            .then(plist => {
-                res.redirectWithMessage('back',
-                    'Track added with success!'
-                )
-            })
-            .catch(next)
-})
 
 
 module.exports = router;
