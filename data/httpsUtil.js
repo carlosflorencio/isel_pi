@@ -26,7 +26,7 @@ util.httpsGetJson = function(uri, callback) {
             )
 
             if(jsonResponse.json.error){
-                return callback(new Error(jsonResponse.json.error))
+                return callback(new Error(jsonResponse.json.error.message))
             }
 
             callback(null, jsonResponse)
