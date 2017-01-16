@@ -44,16 +44,6 @@ function DOMHelper() {
         return element.options[element.selectedIndex];
     }
 
-    this.selectMarkOptionChecked = function (element, optionValue) {
-        for(let option of element.options) {
-            if(optionValue == option.value) {
-                option.innerHTML = "✓ " + option.innerHTML
-                option.setAttribute('added', 'true')
-                return option
-            }
-        }
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Remove closest tr (remove table rows)
